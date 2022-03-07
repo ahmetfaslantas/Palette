@@ -112,7 +112,7 @@ router.get("/:id/assignment", authVerify, async (req, res) => {
     const user = await SelectedType.find({ _id: res.locals.userId, courses: req.params.id });
 
     if (!user) {
-        return res.status(400).send({ error: "This course does not exist" });
+        return res.status(400).send({ error: "This user does not exist" });
     }
 
     const course = await Course.findById(req.params.id);
@@ -130,7 +130,7 @@ router.get("/:id/announcement", authVerify, async (req, res) => {
     const user = await SelectedType.find({ _id: res.locals.userId, courses: req.params.id });
 
     if (!user) {
-        return res.status(400).send({ error: "This course does not exist" });
+        return res.status(400).send({ error: "This user does not exist" });
     }
 
     const course = await Course.findById(req.params.id);
@@ -148,7 +148,7 @@ router.get("/:id/student", authVerify, async (req, res) => {
     const user = await SelectedType.find({_id: res.locals.userId, courses: req.params.id});
 
     if (!user) {
-        return res.status(400).send({ error: "This course does not exist" });
+        return res.status(400).send({ error: "This user does not exist" });
     }
 
     const course = await Course.findById(req.params.id);
