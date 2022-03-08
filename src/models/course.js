@@ -25,8 +25,7 @@ const courseSchema = new Schema({
     }],
     students: [{
         type: Schema.Types.ObjectId,
-        ref: "Student",
-        unique: true
+        ref: "Student"
     }],
     instructors: [{
         type: Schema.Types.ObjectId,
