@@ -23,6 +23,6 @@ exports.authVerify = async (req, res, next) => {
 
         next();
     } catch (error) {
-        return res.status(400).send({ error: "Unauthorized" });
+        return res.status(400).redirect("/login");
     }
 };
