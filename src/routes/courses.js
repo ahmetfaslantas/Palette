@@ -79,19 +79,19 @@ router.post("/:id/student", [authVerify, instructorVerify, courseExistsVerify], 
     res.status(200).send({ message: "Student added" });
 });
 
-router.get("/:id/assignment", [authVerify, userEnrolledVerify, courseExistsVerify], async (req, res) => {
+router.get("/:id/assignment", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
     let course = res.locals.course;
 
     res.send(course.assignments);
 });
 
-router.get("/:id/announcement", [authVerify, userEnrolledVerify, courseExistsVerify], async (req, res) => {
+router.get("/:id/announcement", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
     let course = res.locals.course;
 
     res.send(course.announcements);
 });
 
-router.get("/:id/student", [authVerify, userEnrolledVerify, courseExistsVerify], async (req, res) => {
+router.get("/:id/student", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
     let course = res.locals.course;
 
     const students = await Student.find({ _id: { $in: course.students } }, "-passHash");
