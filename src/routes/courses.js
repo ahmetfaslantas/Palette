@@ -137,4 +137,28 @@ router.delete("/:id/announcement", [authVerify, instructorVerify, courseExistsVe
     res.status(200).send({ message: "Announcement removed" });
 });
 
+router.get("/:id/assignment/:assignmentId", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
+    let course = res.locals.course;
+
+    if (!course.assignments.find(assignment => assignment._id.toString() === req.params.assignmentId)) {
+        return res.status(400).send({ error: "Assignment not found" });
+    }
+
+    const assignment = course.assignments.find(assignment => assignment._id.toString() === req.params.assignmentId);
+
+    res.send(assignment);
+});
+
+router.get("/:id/announcement/:announcementId", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
+    let course = res.locals.course;
+
+    if (!course.announcements.find(announcement => announcement._id.toString() === req.params.announcementId)) {
+        return res.status(400).send({ error: "Announcement not found" });
+    }
+
+    const announcement = course.announcements.find(announcement => announcement._id.toString() === req.params.announcementId);
+
+    res.send(announcement);
+});
+
 module.exports = router;
