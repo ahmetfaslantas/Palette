@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -15,11 +16,10 @@ mongoose.connect(process.env.DB, { useNewUrlParser: true })
     .then(() => console.log("Connected to DB"))
     .catch(err => console.log(err));
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+app.use(cors({
+    credentials: true,
+    origin: "http://localhost:8081"
+}));
 
 app.use(bodyParser.json());
 app.use(cookieParser());
