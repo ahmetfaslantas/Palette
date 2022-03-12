@@ -1,23 +1,23 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./Login.css";
 import logo from "../../../public/logo192.png";
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      type: "student",
-    };
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [type, setType] = useState("student");
+  const navigate = useNavigate();
 
-    this.onSubmit = this.onSubmit.bind(this);
-    this.emailChange = this.emailChange.bind(this);
-    this.passwordChange = this.passwordChange.bind(this);
-    this.typeChange = this.typeChange.bind(this);
-  }
+  useEffect(() => {
+    console.log("useEffect");
+    if (Cookies.get("token")) {
+      navigate("/");
+    }
+  }, [navigate]);
 
-  async onSubmit(e) {
+  const onSubmit = async (e) => {
     e.preventDefault();
     let result = await fetch("http://localhost:4000/api/auth/login", {
       method: "POST",
@@ -25,91 +25,82 @@ class Login extends Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        type: this.state.type,
+        email: email,
+        password: password,
+        type: type,
       }),
       credentials: "include",
       redirect: "follow",
     });
-    
+
     let json = await result.json();
-    
-    if (json.redirect) window.location.href = json.redirect;
-  }
 
-  emailChange(e) {
-    this.setState({
-      email: e.target.value,
-    });
-  }
+    if (json.redirect) navigate(json.redirect);
+  };
 
-  passwordChange(e) {
-    this.setState({
-      password: e.target.value,
-    });
-  }
+  const emailChange = (e) => {
+    setEmail(e.target.value);
+  };
 
-  typeChange(e) {
-    this.setState({
-      type: e.target.value,
-    });
-  }
+  const passwordChange = (e) => {
+    setPassword(e.target.value);
+  };
 
-  render() {
-    return (
-      <div className="main">
-        <div className="card">
-          <img src={logo} alt="logo" className="logo" />
-          <form onSubmit={this.onSubmit}>
-            <label className="operationlabel">
-              <p>Login</p>
+  const typeChange = (e) => {
+    setType(e.target.value);
+  };
+
+  return (
+    <div className="main">
+      <div className="card">
+        <img src={logo} alt="logo" className="logo" />
+        <form onSubmit={onSubmit}>
+          <label className="operationlabel">
+            <p>Login</p>
+          </label>
+          <input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={emailChange}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={passwordChange}
+          />
+          <div className="type">
+            <label>
+              <input
+                type="radio"
+                name="type"
+                className="typeinput"
+                value="student"
+                checked={type === "student"}
+                onChange={typeChange}
+              />
+              <div className="typecard">Student</div>
             </label>
-            <input
-              type="text"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.emailChange}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.passwordChange}
-            />
-            <div className="type">
-              <label>
-                <input
-                  type="radio"
-                  name="type"
-                  className="typeinput"
-                  value="student"
-                  checked={this.state.type === "student"}
-                  onChange={this.typeChange}
-                  defaultChecked
-                />
-                <div className="typecard">Student</div>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="type"
-                  className="typeinput"
-                  value="instructor"
-                  checked={this.state.type === "instructor"}
-                  onChange={this.typeChange}
-                />
-                <div className="typecard">Instructor</div>
-              </label>
-            </div>
-            <button className="submit" type="submit">
-              Login
-            </button>
-          </form>
-        </div>
+            <label>
+              <input
+                type="radio"
+                name="type"
+                className="typeinput"
+                value="instructor"
+                checked={type === "instructor"}
+                onChange={typeChange}
+              />
+              <div className="typecard">Instructor</div>
+            </label>
+          </div>
+          <button className="submit" type="submit">
+            Login
+          </button>
+        </form>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Login;

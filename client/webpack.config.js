@@ -50,7 +50,7 @@ module.exports = {
         maxEntrypointSize: 512000,
         maxAssetSize: 512000
     },
-    mode: "production",
+    mode: "development",
     devServer: {
         historyApiFallback: true,
     }
