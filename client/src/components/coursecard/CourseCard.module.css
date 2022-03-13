@@ -1,0 +1,39 @@
+.coursecard {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 8px;
+  margin: 7px;
+}
+
+.coursecardheader {
+  width: 200px;
+  height: 100px;
+  background-color: coral;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.coursename {
+  padding-left: 10px;
+  font-weight: bold;
+}
+
+.buttoncontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-content: space-between;
+}
+
+.icon {
+  width: 20px;
+  padding-bottom: 8px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.icon:hover {
+  cursor: pointer;
+}
