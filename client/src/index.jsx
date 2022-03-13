@@ -6,12 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/auth/login/Login.jsx';
 import Signup from './pages/auth/signup/Signup.jsx';
+import Dashboard from './pages/dashboard/Dashboard.jsx';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<App />} />
+        <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
         <Route path="*" element={<div>404</div>} />

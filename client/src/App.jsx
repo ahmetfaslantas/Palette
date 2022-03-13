@@ -10,6 +10,8 @@ function App() {
   useEffect(() => {
     if (!Cookies.get("token")) {
       navigate("/login");
+    } else {
+      navigate("/dashboard");
     }
   }, [navigate]);
 

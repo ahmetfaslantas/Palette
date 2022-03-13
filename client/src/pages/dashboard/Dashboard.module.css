@@ -1,0 +1,5 @@
+.coursecontainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 214px);
+  gap: 4px;
+}
