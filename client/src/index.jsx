@@ -4,7 +4,8 @@ import './index.css';
 import App from './App.jsx';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './pages/login/Login.jsx';
+import Login from './pages/auth/login/Login.jsx';
+import Signup from './pages/auth/signup/Signup.jsx';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -12,6 +13,8 @@ ReactDOM.render(
       <Routes>
         <Route exact path="/" element={<App />} />
         <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup" element={<Signup />} />
+        <Route path="*" element={<div>404</div>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

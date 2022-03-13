@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import "./Login.css";
-import logo from "../../../public/logo192.png";
+import style from "../Auth.module.css";
+import logo from "../../../../public/logo192.png";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -11,7 +11,6 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("useEffect");
     if (Cookies.get("token")) {
       navigate("/");
     }
@@ -50,12 +49,16 @@ function Login() {
     setType(e.target.value);
   };
 
+  const signup = (e) => {
+    navigate("/signup");
+  };
+
   return (
-    <div className="main">
-      <div className="card">
-        <img src={logo} alt="logo" className="logo" />
+    <div className={style.main}>
+      <div className={style.card}>
+        <img src={logo} alt="logo" className={style.logo} />
         <form onSubmit={onSubmit}>
-          <label className="operationlabel">
+          <label className={style.operationlabel}>
             <p>Login</p>
           </label>
           <input
@@ -70,33 +73,36 @@ function Login() {
             value={password}
             onChange={passwordChange}
           />
-          <div className="type">
+          <div className={style.type}>
             <label>
               <input
                 type="radio"
                 name="type"
-                className="typeinput"
+                className={style.typeinput}
                 value="student"
                 checked={type === "student"}
                 onChange={typeChange}
               />
-              <div className="typecard">Student</div>
+              <div className={style.typecard}>Student</div>
             </label>
             <label>
               <input
                 type="radio"
                 name="type"
-                className="typeinput"
+                className={style.typeinput}
                 value="instructor"
                 checked={type === "instructor"}
                 onChange={typeChange}
               />
-              <div className="typecard">Instructor</div>
+              <div className={style.typecard}>Instructor</div>
             </label>
           </div>
-          <button className="submit" type="submit">
+          <button className={style.submit} type="submit">
             Login
           </button>
+          <a className={style.newaccount} onClick={signup}>
+            Don't have an account? Sign up!
+          </a>
         </form>
       </div>
     </div>

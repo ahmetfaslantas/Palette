@@ -25,7 +25,7 @@ router.post("/signup", async (req, res) => {
 
     await SelectedType.create({ name, email, passHash });
 
-    res.redirect("/");
+    res.send({ message: "User created", redirect: "/" });
 });
 
 router.post("/login", async (req, res) => {
