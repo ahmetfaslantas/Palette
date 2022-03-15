@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseCard from "../../components/coursecard/CourseCard.jsx";
-import Navbar from "../../components/Navbar/Navbar.jsx";
+import Navbar from "../../components/navbar/Navbar.jsx";
 import Cookies from "js-cookie";
 import style from "./Dashboard.module.css";
 
