@@ -9,24 +9,27 @@ function Dashboard() {
   const [courses, setCourses] = useState([]);
   let navigate = useNavigate();
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!Cookies.get("token")) {
       navigate("/login");
     }
 
-    let result = await fetch("http://localhost:4000/api/course", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      redirect: "follow",
-    });
-
-    let json = await result.json();
-
-    setCourses(json);
-  }, []);
+    async function getCourses() {
+      let result = await fetch("http://localhost:4000/api/course", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        redirect: "follow",
+      });
+  
+      let json = await result.json();
+  
+      setCourses(json);
+    }
+    getCourses();
+  }, [navigate]);
 
   return (
     <div className={style.main}>

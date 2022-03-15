@@ -18,5 +18,11 @@
 
 .icon:hover {
   cursor: pointer;
-  filter: brightness(0.7);
+  transform: scale(1.2);
+}
+
+.navbaritem:last-child {
+  transform: rotate(180deg);
+  margin-top: auto;
+  margin-bottom: 10px;
 }
