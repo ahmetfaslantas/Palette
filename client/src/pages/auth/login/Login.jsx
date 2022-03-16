@@ -49,7 +49,7 @@ function Login() {
     setType(e.target.value);
   };
 
-  const signup = (e) => {
+  const signup = () => {
     navigate("/signup");
   };
 
@@ -101,7 +101,7 @@ function Login() {
             Login
           </button>
           <a className={style.newaccount} onClick={signup}>
-            Don't have an account? Sign up!
+            Don&apos;t have an account? Sign up!
           </a>
         </form>
       </div>

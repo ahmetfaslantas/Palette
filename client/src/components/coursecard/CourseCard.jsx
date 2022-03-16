@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import style from "./CourseCard.module.css";
 import AnnouncementLogo from "../../assets/announcement.svg";
 import AssignmentLogo from "../../assets/assignment.svg";
@@ -40,5 +41,12 @@ function CourseCard(props) {
     </li>
   );
 }
+
+CourseCard.propTypes = {
+  course: {
+    name: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
+  },
+};
 
 export default CourseCard;

@@ -59,7 +59,7 @@ function Signup() {
     setType(e.target.value);
   };
 
-  const login = (e) => {
+  const login = () => {
     navigate("/login");
   };
 

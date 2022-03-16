@@ -4,8 +4,8 @@
   "description": "A simple LMS built with the MERN stack.",
   "main": "src/index.js",
   "scripts": {
-    "lint": "eslint src/**/*.js client/src/**/*.jsx",
-    "lint:fix": "eslint src/**/*.js client/src/**/*.jsx --fix",
+    "lint": "eslint . --ext .js,.jsx",
+    "lint:fix": "eslint . --ext .js,.jsx --fix",
     "start": "node src/index.js",
     "start-watch": "nodemon src/index.js",
     "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\"",
