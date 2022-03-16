@@ -1,9 +1,15 @@
 const bcrypt = require("bcrypt");
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 const { Student, Instructor } = require("../models/user");
 
 const router = express.Router();
+
+router.use(cors({
+    credentials: true,
+    origin: "http://localhost:8081"
+}));
 
 router.post("/signup", async (req, res) => {
     const { name, email, password, type } = req.body;
@@ -19,7 +25,7 @@ router.post("/signup", async (req, res) => {
 
     await SelectedType.create({ name, email, passHash });
 
-    res.redirect("/");
+    res.send({ message: "User created", redirect: "/" });
 });
 
 router.post("/login", async (req, res) => {
@@ -43,8 +49,7 @@ router.post("/login", async (req, res) => {
         expiresIn: "1h"
     });
 
-    res.cookie("token", token, { httpOnly: true });
-    res.redirect("/");
+    res.cookie("token", token).send({ message: "Logged in", redirect: "/" });
 });
 
 module.exports = router;
