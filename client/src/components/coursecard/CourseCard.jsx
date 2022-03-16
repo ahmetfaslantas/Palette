@@ -8,10 +8,19 @@ import { useNavigate } from "react-router-dom";
 function CourseCard(props) {
   let navigate = useNavigate();
 
+  const getSemester = () => {
+    let date = new Date(props.course.creationDate);
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    return `${year}-${month > 8 ? 1 : 2}`;
+  };
+
   return (
     <li className={style.coursecard}>
       <div className={style.coursecardheader}></div>
       <p className={style.coursename}>{props.course.name}</p>
+      <p className={style.coursesemester}>{getSemester()}</p>
       <div className={style.buttoncontainer}>
         <img
           src={AnnouncementLogo}
@@ -45,6 +54,7 @@ function CourseCard(props) {
 CourseCard.propTypes = {
   course: {
     name: PropTypes.string.isRequired,
+    creationDate: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
   },
 };

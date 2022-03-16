@@ -17,7 +17,14 @@
 
 .coursename {
   padding-left: 10px;
+  margin-bottom: 0px;
   font-weight: bold;
+}
+
+.coursesemester {
+  margin-top: 0px;
+  padding-left: 10px;
+  font-size: 12px;
 }
 
 .buttoncontainer {
