@@ -16,9 +16,28 @@ function CourseCard(props) {
     return `${year}-${month > 8 ? 1 : 2}`;
   };
 
+  const generateCourseColor = () => {
+    let h = randomInt(0, 360);
+    let s = randomInt(42, 98);
+    let l = randomInt(40, 90);
+    let color = `hsl(${h}, ${s}%, ${l}%)`;
+    localStorage.setItem(`color:${props.course._id}`, color);
+    return color;
+  };
+
+  const randomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  const cardColorStyle = {
+    backgroundColor:
+      localStorage.getItem(`color:${props.course._id}`) ||
+      generateCourseColor(),
+  };
+
   return (
     <li className={style.coursecard}>
-      <div className={style.coursecardheader}></div>
+      <div className={style.coursecardheader} style={cardColorStyle}></div>
       <p className={style.coursename}>{props.course.name}</p>
       <p className={style.coursesemester}>{getSemester()}</p>
       <div className={style.buttoncontainer}>
@@ -52,11 +71,11 @@ function CourseCard(props) {
 }
 
 CourseCard.propTypes = {
-  course: {
+  course: PropTypes.shape({
     name: PropTypes.string.isRequired,
     creationDate: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
-  },
+  }),
 };
 
 export default CourseCard;
