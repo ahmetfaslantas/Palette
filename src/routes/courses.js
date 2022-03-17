@@ -16,7 +16,7 @@ router.get("/", authVerify, async (req, res) => {
         ids.push(user.courses[i]._id);
     }
 
-    const courses = await Course.find({ _id: { $in: ids } });
+    const courses = await Course.find({ _id: { $in: ids } }, ["-announcements", "-assignments", "-students", "-instructors", "-__v"]);
 
     res.send(courses);
 });
