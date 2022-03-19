@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/auth/login/Login.jsx";
 import Signup from "./pages/auth/signup/Signup.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
+import Assignments from "./pages/assignments/Assignments.jsx";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.render(
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
+        <Route path="/course/:id/assignments" element={<Assignments />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
     </BrowserRouter>
