@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  server:
+    container_name: palette_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: palette_backend
+    ports:
+      - "4000:4000"
+    volumes:
+      - files-volume:/files
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    env_file:
+      - .env
+  
+  mongo:
+    container_name: mongoDB
+    image: mongo
+    volumes:
+      - db-volume:/data/db
+      - db-volume:/data/configdb
+    ports:
+      - "27017:27017"
+  
+  client:
+    container_name: palette_frontend
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: palette_frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - server
+    links:
+      - server
+
+volumes:
+  db-volume:
+  files-volume:
