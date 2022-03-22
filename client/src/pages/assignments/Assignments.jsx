@@ -34,22 +34,25 @@ function Assignments() {
     <div className={style.main}>
       <Navbar />
 
-      {assignments.length === 0 ? (
-        <div className={style.noassignments}>
-          <img
-            className={style.noassignmentslogo}
-            src={AssignmentLogo}
-            alt="No Assignments"
-          />
-          <p>No assignments yet!</p>
-        </div>
-      ) : (
-        <ul className={style.assignmentcontainer}>
-          {assignments.map((assignment) => (
-            <Assignment assignment={assignment} key={assignment._id} />
-          ))}
-        </ul>
-      )}
+      <div className={style.page}>
+        <h1 className={style.title}>Assignments</h1>
+        {assignments.length === 0 ? (
+          <div className={style.noassignments}>
+            <img
+              className={style.noassignmentslogo}
+              src={AssignmentLogo}
+              alt="No Assignments"
+            />
+            <p>No assignments yet!</p>
+          </div>
+        ) : (
+          <ul className={style.assignmentcontainer}>
+            {assignments.map((assignment) => (
+              <Assignment assignment={assignment} key={assignment._id} />
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,10 +1,21 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import AssignmentLogo from "../../assets/assignment.svg";
 import style from "./Assignment.module.css";
 
 function Assignment(props) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { assignment } = props;
+  const course = location.pathname.split("/")[2];
+
   return (
-    <li className={style.assignmententry}>
+    <li
+      className={style.assignmententry}
+      onClick={() => {
+        navigate(`/course/${course}/assignment/${assignment._id}`);
+      }}
+    >
       <div className={style.assignmentcontainer}>
         <img
           className={style.assignmentlogo}
@@ -12,11 +23,11 @@ function Assignment(props) {
           alt="Assignment"
         />
         <div className={style.assignmentdetails}>
-          <p className={style.name}>{props.assignment.name}</p>
-          <p className={style.description}>{props.assignment.description}</p>
+          <p className={style.name}>{assignment.name}</p>
+          <p className={style.description}>{assignment.description}</p>
           <p className={style.duedate}>
             Due:{" "}
-            {new Date(props.assignment.dueDate).toLocaleDateString("en-US", {
+            {new Date(assignment.dueDate).toLocaleDateString("en-US", {
               weekday: "long",
               year: "numeric",
               month: "long",
