@@ -8,6 +8,7 @@ import Login from "./pages/auth/login/Login.jsx";
 import Signup from "./pages/auth/signup/Signup.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
 import Assignments from "./pages/assignments/Assignments.jsx";
+import NotFound from "./pages/notfound/NotFound.jsx";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,7 +19,7 @@ ReactDOM.render(
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
         <Route path="/course/:id/assignments" element={<Assignments />} />
-        <Route path="*" element={<div>404</div>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
