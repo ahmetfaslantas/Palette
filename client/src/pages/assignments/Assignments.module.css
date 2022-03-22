@@ -1,32 +1,26 @@
 .main {
-    display: flex;
-    margin: 0px;
+  display: flex;
+  margin: 0px;
 }
 
 .page {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-.title {
-    font-size: xx-large;
-    font-weight: bold;
-    margin-left: 40px;
-  }
-
 .noassignments {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-    width: 95vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  width: 95vw;
 }
 
 .noassignmentslogo {
-    width: 70px;
+  width: 70px;
 }
 
 .assignmentcontainer {
-    list-style: none;
+  list-style: none;
 }

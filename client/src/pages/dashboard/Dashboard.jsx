@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseCard from "../../components/coursecard/CourseCard.jsx";
 import Navbar from "../../components/navbar/Navbar.jsx";
+import Title from "../../components/title/Title.jsx";
 import Cookies from "js-cookie";
 import style from "./Dashboard.module.css";
 
@@ -35,7 +36,7 @@ function Dashboard() {
     <div className={style.main}>
       <Navbar />
       <div className={style.page}>
-        <h1 className={style.title}>Dashboard</h1>
+        <Title title="Dashboard" />
         <ul className={style.coursecontainer}>
           {courses.map((course) => (
             <CourseCard course={course} key={course._id} />

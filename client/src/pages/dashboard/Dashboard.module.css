@@ -3,12 +3,6 @@
   flex-direction: row;
 }
 
-.title {
-  font-size: xx-large;
-  font-weight: bold;
-  margin-left: 40px;
-}
-
 .coursecontainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, 214px);
