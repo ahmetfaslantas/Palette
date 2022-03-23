@@ -1,20 +1,27 @@
 .main {
-    display: flex;
+  display: flex;
+  margin: 0px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  margin-left: 35px;
 }
 
 .noassignments {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  width: 95vw;
 }
 
 .noassignmentslogo {
-    width: 70px;
+  width: 70px;
 }
 
 .assignmentcontainer {
-    list-style: none;
+  list-style: none;
 }

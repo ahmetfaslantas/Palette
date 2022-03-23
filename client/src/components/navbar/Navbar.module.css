@@ -2,11 +2,11 @@
   display: flex;
   list-style-type: none;
   flex-direction: column;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
+  margin-top: 0;
+  height: 97.9vh;
   background-color: #394b58;
   padding: 10px;
+  position: fixed;
 }
 
 .icon {
@@ -24,5 +24,4 @@
 .navbaritem:last-child {
   transform: rotate(180deg);
   margin-top: auto;
-  margin-bottom: 10px;
 }

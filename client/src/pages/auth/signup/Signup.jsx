@@ -122,7 +122,7 @@ function Signup() {
           <button className={style.submit} type="submit">
             Sign Up
           </button>
-          <a className={style.newaccount} onClick={login}>
+          <a className={style.alternative} onClick={login}>
             Already have an account? Login!
           </a>
         </form>

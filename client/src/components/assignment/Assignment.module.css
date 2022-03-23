@@ -1,34 +1,46 @@
 .assignmententry {
-    display: flex;
+  display: flex;
+  border-left: 0.1px solid #d3d3d3;
+  border-right: 0.1px solid #d3d3d3;
+  border-top: 0.1px solid #d3d3d3;
+  padding: 3px;
+}
+
+.assignmententry:last-child {
+  border-bottom: 0.1px solid #d3d3d3;
+}
+
+.assignmententry:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
 }
 
 .assignmentlogo {
-    width: 25px;
-    height: auto;
-    margin: 5px;
+  width: 25px;
+  height: auto;
+  margin: 5px;
 }
 
 .assignmentcontainer {
-    display: flex;
-    border: 0.1px solid #d3d3d3;
-    width: 90vw;
+  display: flex;
+  width: 90vw;
 }
 
 .assignmentdetails {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .name {
-    margin: 0px;
-    font-weight: bold;
+  margin: 0px;
+  font-weight: bold;
 }
 
 .description {
-    margin: 0px;
+  margin: 0px;
 }
 
 .duedate {
-    margin: 0px;
-    font-size: small;
+  margin: 0px;
+  font-size: small;
 }

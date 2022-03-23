@@ -100,7 +100,7 @@ function Login() {
           <button className={style.submit} type="submit">
             Login
           </button>
-          <a className={style.newaccount} onClick={signup}>
+          <a className={style.alternative} onClick={signup}>
             Don&apos;t have an account? Sign up!
           </a>
         </form>
