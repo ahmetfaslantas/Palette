@@ -1,8 +1,5 @@
 .assignmententry {
   display: flex;
-}
-
-.assignmententry {
   border-left: 0.1px solid #d3d3d3;
   border-right: 0.1px solid #d3d3d3;
   border-top: 0.1px solid #d3d3d3;
