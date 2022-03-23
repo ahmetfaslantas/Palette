@@ -105,10 +105,10 @@ label {
   margin-bottom: -20px;
 }
 
-.newaccount {
+.alternative {
   text-decoration: underline;
 }
 
-.newaccount:hover {
+.alternative:hover {
   cursor: pointer;
 }
