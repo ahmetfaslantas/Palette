@@ -2,6 +2,10 @@
   "name": "palette",
   "version": "1.0.0",
   "description": "A simple LMS built with the MERN stack.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmetfaslantas/palette.git"
+  },
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint . --ext .js,.jsx",
@@ -14,7 +18,10 @@
   "keywords": [
     "LMS"
   ],
-  "author": "Ahmet Faruk ASLANTAŞ",
+  "author": {
+    "name": "Ahmet Faruk ASLANTAŞ",
+    "url": "https://github.com/ahmetfaslantas/"
+  },
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",

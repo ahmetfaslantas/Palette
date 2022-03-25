@@ -1,6 +1,16 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "description": "The frontend for the LMS Palette",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmetfaslantas/palette.git"
+  },
+  "author": {
+    "name": "Ahmet Faruk ASLANTAŞ",
+    "url": "https://github.com/ahmetfaslantas/"
+  },
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
