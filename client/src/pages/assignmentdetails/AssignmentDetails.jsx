@@ -20,7 +20,10 @@ function AssignmentDetails() {
 
   const { courseId, assignmentId } = useParams();
   const onDrop = useCallback((acceptedFiles) => {
-    setSubmissionFiles(submissionFiles => [...submissionFiles, ...acceptedFiles]);
+    setSubmissionFiles((submissionFiles) => [
+      ...submissionFiles,
+      ...acceptedFiles,
+    ]);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -48,6 +51,26 @@ function AssignmentDetails() {
     getAssignment();
   }, []);
 
+  const submitAssignment = async () => {
+    const formData = new FormData();
+    submissionFiles.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    await fetch(
+      `http://localhost:4000/api/course/${courseId}/assignment/${assignmentId}/submit/`,
+      {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        credentials: "include",
+        redirect: "follow",
+      }
+    );
+  };
+
   return (
     <div className={style.main}>
       <Navbar />
@@ -60,17 +83,28 @@ function AssignmentDetails() {
               {assignment.maxPoints} Possible Points
             </p>
             <button
+              style={
+                submissionFiles.length > 0
+                  ? { backgroundColor: "#5f9cc2" }
+                  : { backgroundColor: "lightgrey" }
+              }
               className={style.submit}
-              onClick={() => {
-                // TODO: submit assignment
-              }}
+              onClick={submitAssignment}
             >
               Submit
             </button>
           </div>
           <div className={style.assignmentbody}>
             <p className={style.description}>{assignment.description}</p>
-            <p className={style.duedate}>Due Date: {assignment.dueDate}</p>
+            <p className={style.duedate}>Due Date: {
+              new Date(assignment.dueDate).toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              })
+            }</p>
           </div>
 
           <div className={style.upload}>
@@ -83,12 +117,21 @@ function AssignmentDetails() {
                 <p>Drag &apos;n&apos; drop some files here.</p>
               )}
             </div>
-          </div>
-          <div>
-            {submissionFiles.map((file) => (
-              <SubmissionFile file={file.name} key={file.name} />
-            ))}
-
+            {submissionFiles.length > 0 && (
+              <ul className={style.filelist}>
+                {submissionFiles.map((file) => (
+                  <SubmissionFile
+                    file={file.name}
+                    onDelete={() => {
+                      setSubmissionFiles((submissionFiles) =>
+                        submissionFiles.filter((f) => f.name !== file.name)
+                      );
+                    }}
+                    key={file.name}
+                  />
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>

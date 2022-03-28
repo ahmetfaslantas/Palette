@@ -37,6 +37,7 @@
 
 .upload {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex: 0.5;
@@ -58,6 +59,18 @@
   cursor: pointer;
 }
 
+.filelist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-color: rgb(95, 156, 194);
+  width: 475px;
+  height: fit-content;
+  border-radius: 8px;
+}
+
 .submit {
   color: white;
   background-color: lightskyblue;
@@ -70,6 +83,5 @@
 }
 
 .submit:hover {
-  background-color: rgb(95, 156, 194);
   cursor: pointer;
 }
