@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import style from "./NotFound.module.css";
-import Palette from "../../assets/palette.svg";
+import Palette from "@assets/palette.svg";
 
 function NotFound() {
   const navigate = useNavigate();

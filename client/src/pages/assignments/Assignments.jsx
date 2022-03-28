@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Navbar from "../../components/navbar/Navbar.jsx";
-import Title from "../../components/title/Title.jsx";
-import Assignment from "../../components/assignment/Assignment.jsx";
-import AssignmentLogo from "../../assets/assignment.svg";
+import Navbar from "@components/navbar/Navbar.jsx";
+import Title from "@components/title/Title.jsx";
+import Assignment from "@components/assignment/Assignment.jsx";
+import AssignmentLogo from "@assets/assignment.svg";
 import style from "./Assignments.module.css";
 
 function Assignments() {

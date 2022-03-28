@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import style from "./CourseCard.module.css";
-import AnnouncementLogo from "../../assets/announcement.svg";
-import AssignmentLogo from "../../assets/assignment.svg";
-import FileLogo from "../../assets/file.svg";
+import AnnouncementLogo from "@assets/announcement.svg";
+import AssignmentLogo from "@assets/assignment.svg";
+import FileLogo from "@assets/file.svg";
 import { useNavigate } from "react-router-dom";
 
 function CourseCard(props) {

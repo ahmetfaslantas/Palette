@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import style from "./SubmissionFile.module.css";
-import Delete from "../../assets/delete.svg";
+import Delete from "@assets/delete.svg";
 
 function SubmissionFile(props) {
   const { file, onDelete } = props;

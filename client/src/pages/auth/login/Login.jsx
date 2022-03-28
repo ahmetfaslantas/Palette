@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import style from "../Auth.module.css";
-import logo from "../../../../public/logo192.png";
+import Palette from "@assets/palette.svg";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -56,7 +56,7 @@ function Login() {
   return (
     <div className={style.main}>
       <div className={style.card}>
-        <img src={logo} alt="logo" className={style.logo} />
+        <img src={Palette} alt="logo" className={style.logo} />
         <form onSubmit={onSubmit}>
           <label className={style.operationlabel}>
             <p>Login</p>

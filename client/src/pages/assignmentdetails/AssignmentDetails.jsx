@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
-import Navbar from "../../components/navbar/Navbar.jsx";
-import SubmissionFile from "../../components/submissionfile/SubmissionFile.jsx";
-import Title from "../../components/title/Title.jsx";
-import FileUpload from "../../assets/fileupload.svg";
+import Navbar from "@components/navbar/Navbar.jsx";
+import SubmissionFile from "@components/submissionfile/SubmissionFile.jsx";
+import Title from "@components/title/Title.jsx";
+import FileUpload from "@assets/fileupload.svg";
 import style from "./AssignmentDetails.module.css";
 
 function AssignmentDetails() {

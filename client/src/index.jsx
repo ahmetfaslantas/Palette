@@ -4,12 +4,12 @@ import "./index.css";
 import App from "./App.jsx";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/auth/login/Login.jsx";
-import Signup from "./pages/auth/signup/Signup.jsx";
-import Dashboard from "./pages/dashboard/Dashboard.jsx";
-import Assignments from "./pages/assignments/Assignments.jsx";
-import NotFound from "./pages/notfound/NotFound.jsx";
-import AssignmentDetails from "./pages/assignmentdetails/AssignmentDetails.jsx";
+import Login from "@pages/auth/login/Login.jsx";
+import Signup from "@pages/auth/signup/Signup.jsx";
+import Dashboard from "@pages/dashboard/Dashboard.jsx";
+import Assignments from "@pages/assignments/Assignments.jsx";
+import NotFound from "@pages/notfound/NotFound.jsx";
+import AssignmentDetails from "@pages/assignmentdetails/AssignmentDetails.jsx";
 
 ReactDOM.render(
   <React.StrictMode>

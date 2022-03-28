@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import AssignmentLogo from "../../assets/assignment.svg";
+import AssignmentLogo from "@assets/assignment.svg";
 import style from "./Assignment.module.css";
 
 function Assignment(props) {

@@ -1,10 +1,10 @@
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import style from "./Navbar.module.css";
-import PaletteLogo from "../../assets/palette.svg";
-import DashboardLogo from "../../assets/dashboard.svg";
-import CoursesLogo from "../../assets/courses.svg";
-import LogoutLogo from "../../assets/logout.svg";
+import PaletteLogo from "@assets/palette.svg";
+import DashboardLogo from "@assets/dashboard.svg";
+import CoursesLogo from "@assets/courses.svg";
+import LogoutLogo from "@assets/logout.svg";
 
 function Navbar() {
   let navigate = useNavigate();
