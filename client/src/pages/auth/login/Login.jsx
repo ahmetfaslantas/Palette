@@ -18,7 +18,7 @@ function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    let result = await fetch("http://localhost:4000/api/auth/login", {
+    let result = await fetch(`${process.env.API_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

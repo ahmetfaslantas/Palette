@@ -19,7 +19,7 @@ function Signup() {
       return;
     }
 
-    let result = await fetch("http://localhost:4000/api/auth/signup", {
+    let result = await fetch(`${process.env.API_URL}/api/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

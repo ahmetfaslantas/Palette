@@ -13,7 +13,7 @@ function Assignments() {
   useEffect(() => {
     async function getCourse() {
       let result = await fetch(
-        `http://localhost:4000/api/course/${courseId}/assignment`,
+        `${process.env.API_URL}/api/course/${courseId}/assignment`,
         {
           method: "GET",
           headers: {

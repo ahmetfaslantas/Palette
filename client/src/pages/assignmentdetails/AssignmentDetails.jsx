@@ -33,7 +33,7 @@ function AssignmentDetails() {
   useEffect(() => {
     async function getAssignment() {
       let result = await fetch(
-        `http://localhost:4000/api/course/${courseId}/assignment/${assignmentId}/`,
+        `${process.env.API_URL}/api/course/${courseId}/assignment/${assignmentId}/`,
         {
           method: "GET",
           headers: {
@@ -58,7 +58,7 @@ function AssignmentDetails() {
     });
 
     await fetch(
-      `http://localhost:4000/api/course/${courseId}/assignment/${assignmentId}/submit/`,
+      `${process.env.API_URL}/api/course/${courseId}/assignment/${assignmentId}/submit/`,
       {
         method: "POST",
         body: formData,

@@ -16,7 +16,7 @@ function Dashboard() {
     }
 
     async function getCourses() {
-      let result = await fetch("http://localhost:4000/api/course", {
+      let result = await fetch(`${process.env.API_URL}/api/course`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
