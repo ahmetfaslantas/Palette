@@ -1,0 +1,87 @@
+.main {
+  display: flex;
+  margin: 0px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  margin-left: 35px;
+}
+
+.page > * {
+  margin-left: 35px;
+}
+
+.assignment {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+}
+
+.assignmentheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.5em;
+  flex: auto;
+}
+
+.maxpoints {
+  font-size: 1.5em;
+  flex: 0.5;
+}
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 0.5;
+}
+
+.files {
+  width: 500px;
+  height: 250px;
+  border: 1px;
+  border-style: dashed;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: rgb(95, 156, 194);
+}
+
+.files:hover {
+  cursor: pointer;
+}
+
+.filelist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  border-color: rgb(95, 156, 194);
+  width: 475px;
+  height: fit-content;
+  border-radius: 8px;
+}
+
+.submit {
+  color: white;
+  background-color: lightskyblue;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: skyblue;
+  border-style: solid;
+  width: 90px;
+  height: 30px;
+}
+
+.submit:hover {
+  cursor: pointer;
+}

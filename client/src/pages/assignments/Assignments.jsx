@@ -8,12 +8,12 @@ import style from "./Assignments.module.css";
 
 function Assignments() {
   const [assignments, setAssignments] = useState([]);
-  const { id } = useParams();
+  const { courseId } = useParams();
 
   useEffect(() => {
     async function getCourse() {
       let result = await fetch(
-        `http://localhost:4000/api/course/${id}/assignment`,
+        `http://localhost:4000/api/course/${courseId}/assignment`,
         {
           method: "GET",
           headers: {
