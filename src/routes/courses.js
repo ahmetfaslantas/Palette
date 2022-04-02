@@ -1,5 +1,4 @@
 const express = require("express");
-const multer = require("multer");
 const fs = require("fs");
 const { authVerify } = require("../middleware/authverify");
 const { courseExistsVerify, instructorVerify, studentExistsVerify, userEnrolledVerify } = require("../middleware/courseverify");
@@ -7,23 +6,6 @@ const { Student, Instructor } = require("../models/user");
 const { Course } = require("../models/course");
 
 const router = express.Router();
-
-const upload = multer(
-    {
-        storage: multer.diskStorage({
-            destination: (req, file, cb) => {
-                let path = `./uploads/students/${req.res.locals.userId}/courses/${req.res.locals.course._id}/`;
-                if (!fs.existsSync(path)) {
-                    fs.mkdirSync(path, { recursive: true });
-                }
-                cb(null, path);
-            },
-            filename: (req, file, cb) => {
-                cb(null, file.originalname);
-            }
-        })
-    }
-);
 
 router.get("/", authVerify, async (req, res) => {
     const SelectedType = res.locals.role === "student" ? Student : Instructor;
@@ -35,7 +17,7 @@ router.get("/", authVerify, async (req, res) => {
         ids.push(user.courses[i]._id);
     }
 
-    const courses = await Course.find({ _id: { $in: ids } }, ["-announcements", "-assignments", "-students", "-instructors", "-__v"]);
+    const courses = await Course.find({ _id: { $in: ids } }, ["-announcements", "-assignments", "-students", "-instructors", "-submissions", "-__v"]);
 
     res.send(courses);
 });
@@ -101,7 +83,18 @@ router.post("/:id/student", [authVerify, instructorVerify, courseExistsVerify], 
 router.get("/:id/assignment", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
     let course = res.locals.course;
 
-    res.send(course.assignments);
+    let assignments = [];
+    course.assignments.forEach(assignment => {
+        assignments.push({
+            name: assignment.name,
+            description: assignment.description,
+            dueDate: assignment.dueDate,
+            files: assignment.files,
+            submissions: assignment.submissions.filter(submission => submission.studentId.toString() === res.locals.userId.toString())
+        });
+    });
+
+    res.send(assignments);
 });
 
 router.get("/:id/announcement", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
@@ -180,7 +173,24 @@ router.get("/:id/announcement/:announcementId", [authVerify, courseExistsVerify,
     res.send(announcement);
 });
 
-router.post("/:id/assignment/:assignmentId/submit", [authVerify, courseExistsVerify, userEnrolledVerify, upload.array("files")], async (req, res) => {
+router.post("/:id/assignment/:assignmentId/submit", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
+    const { files } = req.body;
+    files.forEach(file => {
+        if (!fs.existsSync(`./uploads/students/${res.locals.userId}/${file}`)) {
+            return res.status(400).send({ error: "File not found" });
+        }
+    });
+
+    let course = res.locals.course;
+    let assignment = course.assignments.find(assignment => assignment._id.toString() === req.params.assignmentId);
+    
+    assignment.submissions.push({ 
+        studentId: res.locals.userId,
+        files: files
+    });
+
+    await course.save();
+
     res.status(200).send({ message: "Assignment submitted" });
 });
 
