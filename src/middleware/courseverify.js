@@ -42,7 +42,7 @@ exports.userEnrolledVerify = async (req, res, next) => {
         return res.status(400).send({ error: "This user does not exist" });
     }
 
-    res.locals.user = user;
+    res.locals.user = user[0];
 
     next();
 };

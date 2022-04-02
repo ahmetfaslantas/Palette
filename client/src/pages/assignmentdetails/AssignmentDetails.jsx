@@ -62,9 +62,6 @@ function AssignmentDetails() {
       {
         method: "POST",
         body: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         credentials: "include",
         redirect: "follow",
       }
