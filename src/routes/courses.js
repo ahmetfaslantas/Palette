@@ -1,10 +1,29 @@
 const express = require("express");
+const multer = require("multer");
+const fs = require("fs");
 const { authVerify } = require("../middleware/authverify");
 const { courseExistsVerify, instructorVerify, studentExistsVerify, userEnrolledVerify } = require("../middleware/courseverify");
 const { Student, Instructor } = require("../models/user");
 const { Course } = require("../models/course");
 
 const router = express.Router();
+
+const upload = multer(
+    {
+        storage: multer.diskStorage({
+            destination: (req, file, cb) => {
+                let path = `./uploads/students/${req.res.locals.userId}/courses/${req.res.locals.course._id}/`;
+                if (!fs.existsSync(path)) {
+                    fs.mkdirSync(path, { recursive: true });
+                }
+                cb(null, path);
+            },
+            filename: (req, file, cb) => {
+                cb(null, file.originalname);
+            }
+        })
+    }
+);
 
 router.get("/", authVerify, async (req, res) => {
     const SelectedType = res.locals.role === "student" ? Student : Instructor;
@@ -107,7 +126,7 @@ router.delete("/:id/student", [authVerify, instructorVerify, courseExistsVerify,
     student.courses = student.courses.filter(id => id.toString() !== req.params.id);
     await course.save();
     await student.save();
-    
+
     res.status(200).send({ message: "Student removed" });
 });
 
@@ -126,7 +145,7 @@ router.delete("/:id/assignment", [authVerify, instructorVerify, courseExistsVeri
 
 router.delete("/:id/announcement", [authVerify, instructorVerify, courseExistsVerify], async (req, res) => {
     let course = res.locals.course;
-    
+
     if (!course.announcements.find(announcement => announcement._id.toString() === req.body.announcementId)) {
         return res.status(400).send({ error: "Announcement not found" });
     }
@@ -159,6 +178,10 @@ router.get("/:id/announcement/:announcementId", [authVerify, courseExistsVerify,
     const announcement = course.announcements.find(announcement => announcement._id.toString() === req.params.announcementId);
 
     res.send(announcement);
+});
+
+router.post("/:id/assignment/:assignmentId/submit", [authVerify, courseExistsVerify, userEnrolledVerify, upload.array("files")], async (req, res) => {
+    res.status(200).send({ message: "Assignment submitted" });
 });
 
 module.exports = router;
