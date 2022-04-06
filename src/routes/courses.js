@@ -176,7 +176,7 @@ router.get("/:id/announcement/:announcementId", [authVerify, courseExistsVerify,
 router.post("/:id/assignment/:assignmentId/submit", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
     const { files } = req.body;
     files.forEach(file => {
-        if (!fs.existsSync(`./uploads/students/${res.locals.userId}/${file}`)) {
+        if (!fs.existsSync(`${process.env.UPLOAD_ROOT}/uploads/students/${res.locals.userId}/${file}`)) {
             return res.status(400).send({ error: "File not found" });
         }
     });
