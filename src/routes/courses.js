@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require("fs");
 const { authVerify } = require("../middleware/authverify");
 const { courseExistsVerify, instructorVerify, studentExistsVerify, userEnrolledVerify } = require("../middleware/courseverify");
 const { Student, Instructor } = require("../models/user");
@@ -16,7 +17,7 @@ router.get("/", authVerify, async (req, res) => {
         ids.push(user.courses[i]._id);
     }
 
-    const courses = await Course.find({ _id: { $in: ids } }, ["-announcements", "-assignments", "-students", "-instructors", "-__v"]);
+    const courses = await Course.find({ _id: { $in: ids } }, ["-announcements", "-assignments", "-students", "-instructors", "-submissions", "-__v"]);
 
     res.send(courses);
 });
@@ -82,7 +83,19 @@ router.post("/:id/student", [authVerify, instructorVerify, courseExistsVerify], 
 router.get("/:id/assignment", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
     let course = res.locals.course;
 
-    res.send(course.assignments);
+    let assignments = [];
+    course.assignments.forEach(assignment => {
+        assignments.push({
+            _id: assignment._id,
+            name: assignment.name,
+            description: assignment.description,
+            dueDate: assignment.dueDate,
+            files: assignment.files,
+            submissions: assignment.submissions.filter(submission => submission.studentId.toString() === res.locals.userId.toString())
+        });
+    });
+
+    res.send(assignments);
 });
 
 router.get("/:id/announcement", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
@@ -107,7 +120,7 @@ router.delete("/:id/student", [authVerify, instructorVerify, courseExistsVerify,
     student.courses = student.courses.filter(id => id.toString() !== req.params.id);
     await course.save();
     await student.save();
-    
+
     res.status(200).send({ message: "Student removed" });
 });
 
@@ -126,7 +139,7 @@ router.delete("/:id/assignment", [authVerify, instructorVerify, courseExistsVeri
 
 router.delete("/:id/announcement", [authVerify, instructorVerify, courseExistsVerify], async (req, res) => {
     let course = res.locals.course;
-    
+
     if (!course.announcements.find(announcement => announcement._id.toString() === req.body.announcementId)) {
         return res.status(400).send({ error: "Announcement not found" });
     }
@@ -159,6 +172,28 @@ router.get("/:id/announcement/:announcementId", [authVerify, courseExistsVerify,
     const announcement = course.announcements.find(announcement => announcement._id.toString() === req.params.announcementId);
 
     res.send(announcement);
+});
+
+router.post("/:id/assignment/:assignmentId/submit", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
+    const { files } = req.body;
+    
+    files.forEach(file => {
+        if (!fs.existsSync(`${process.env.UPLOAD_ROOT}/uploads/students/${res.locals.userId}/${file}`)) {
+            return res.status(400).send({ error: "File not found" });
+        }
+    });
+
+    let course = res.locals.course;
+    let assignment = course.assignments.find(assignment => assignment._id.toString() === req.params.assignmentId);
+    
+    assignment.submissions.push({ 
+        studentId: res.locals.userId,
+        files: files
+    });
+
+    await course.save();
+
+    res.status(200).send({ message: "Assignment submitted" });
 });
 
 module.exports = router;
