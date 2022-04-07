@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import Navbar from "@components/navbar/Navbar.jsx";
 import SubmissionFile from "@components/submissionfile/SubmissionFile.jsx";
@@ -8,6 +8,8 @@ import FileUpload from "@assets/fileupload.svg";
 import style from "./AssignmentDetails.module.css";
 
 function AssignmentDetails() {
+  const navigate = useNavigate();
+
   const [assignment, setAssignment] = useState({
     name: "",
     description: "",
@@ -57,15 +59,43 @@ function AssignmentDetails() {
       formData.append("files", file);
     });
 
-    await fetch(
-      `${process.env.API_URL}/api/course/${courseId}/assignment/${assignmentId}/submit/`,
+    const uploadRes = await fetch(`${process.env.API_URL}/api/files/upload`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+      redirect: "follow",
+    });
+
+    if (uploadRes.status !== 200) {
+      // TODO: Setup snackbars for errors.
+      console.log("Error uploading files");
+      return;
+    }
+
+    const uploadJson = await uploadRes.json();
+
+    const submitRes = await fetch(
+      `${process.env.API_URL}/api/course/${courseId}/assignment/${assignmentId}/submit`,
       {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
         credentials: "include",
         redirect: "follow",
+        body: JSON.stringify({
+          files: uploadJson.files,
+        }),
       }
     );
+
+    if (submitRes.status !== 200) {
+      // TODO: Setup snackbars for errors.
+      console.log("Error submitting assignment");
+      return;
+    }
+
+    navigate(0);
   };
 
   return (
@@ -93,15 +123,16 @@ function AssignmentDetails() {
           </div>
           <div className={style.assignmentbody}>
             <p className={style.description}>{assignment.description}</p>
-            <p className={style.duedate}>Due Date: {
-              new Date(assignment.dueDate).toLocaleDateString("en-US", {
+            <p className={style.duedate}>
+              Due Date:{" "}
+              {new Date(assignment.dueDate).toLocaleDateString("en-US", {
                 month: "long",
                 day: "numeric",
                 year: "numeric",
                 hour: "numeric",
                 minute: "numeric",
-              })
-            }</p>
+              })}
+            </p>
           </div>
 
           <div className={style.upload}>

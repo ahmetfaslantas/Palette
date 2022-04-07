@@ -27,13 +27,17 @@ const upload = multer({
                 name = `${filename}_${edition}.${extension}`;
                 edition++;
             }
+            if (req.res.locals.fileNames === undefined) {
+                req.res.locals.fileNames = [];
+            }
+            req.res.locals.fileNames.push(name);
             cb(null, name);
         }
     })
 });
 
 router.post("/upload", [authVerify, upload.array("files")], async (req, res) => {
-    res.status(200).send({ message: "File(s) uploaded" });
+    res.status(200).send({ message: "File(s) uploaded", files: res.locals.fileNames });
 });
 
 module.exports = router;

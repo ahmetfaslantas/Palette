@@ -86,6 +86,7 @@ router.get("/:id/assignment", [authVerify, courseExistsVerify, userEnrolledVerif
     let assignments = [];
     course.assignments.forEach(assignment => {
         assignments.push({
+            _id: assignment._id,
             name: assignment.name,
             description: assignment.description,
             dueDate: assignment.dueDate,
@@ -175,6 +176,7 @@ router.get("/:id/announcement/:announcementId", [authVerify, courseExistsVerify,
 
 router.post("/:id/assignment/:assignmentId/submit", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
     const { files } = req.body;
+    
     files.forEach(file => {
         if (!fs.existsSync(`${process.env.UPLOAD_ROOT}/uploads/students/${res.locals.userId}/${file}`)) {
             return res.status(400).send({ error: "File not found" });
