@@ -112,6 +112,14 @@ router.get("/:id/student", [authVerify, courseExistsVerify, userEnrolledVerify],
     res.send(students);
 });
 
+router.delete("/:id", [authVerify, instructorVerify, courseExistsVerify], async (req, res) => {
+    let course = res.locals.course;
+
+    await course.remove();
+
+    res.status(200).send({ message: "Course deleted" });
+});
+
 router.delete("/:id/student", [authVerify, instructorVerify, courseExistsVerify, studentExistsVerify], async (req, res) => {
     let course = res.locals.course;
     let student = res.locals.student;

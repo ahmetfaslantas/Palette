@@ -25,7 +25,7 @@ router.post("/signup", async (req, res) => {
 
     await SelectedType.create({ name, email, passHash });
 
-    res.send({ message: "User created", redirect: "/" });
+    res.status(200).send({ message: "User created", redirect: "/" });
 });
 
 router.post("/login", async (req, res) => {
@@ -42,14 +42,14 @@ router.post("/login", async (req, res) => {
     const passMatch = bcrypt.compareSync(password, user.passHash);
 
     if (!passMatch) {
-        return res.json({ error: "Password incorrect" });
+        return res.status(400).json({ error: "Password incorrect" });
     }
 
     const token = jwt.sign({ id: user._id, role: type === "student" ? "student" : "instructor" }, process.env.SECRET, {
         expiresIn: "1h"
     });
 
-    res.cookie("token", token).send({ message: "Logged in", redirect: "/" });
+    res.status(200).cookie("token", token).send({ message: "Logged in", redirect: "/" });
 });
 
 module.exports = router;
