@@ -3,7 +3,7 @@ const { Course } = require("../models/course");
 
 exports.instructorVerify = (req, res, next) => {
     if (res.locals.role === "student") {
-        return res.status(400).send({ error: "Students cannot remove assignments" });
+        return res.status(401).send({ error: "Students cannot remove assignments" });
     } else {
         next();
     }
