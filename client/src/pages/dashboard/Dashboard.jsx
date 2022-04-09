@@ -8,10 +8,11 @@ import style from "./Dashboard.module.css";
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
+  const [type, setType] = useState("");
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (!Cookies.get("token")) {
+    if (!Cookies.get("token") || !Cookies.get("type")) {
       navigate("/login");
     }
 
@@ -24,19 +25,32 @@ function Dashboard() {
         credentials: "include",
         redirect: "follow",
       });
-  
+
       let json = await result.json();
-  
+
       setCourses(json);
     }
     getCourses();
+    setType(Cookies.get("type"));
   }, [navigate]);
 
   return (
     <div className={style.main}>
       <Navbar />
       <div className={style.page}>
-        <Title title="Dashboard" />
+        <div className={style.controls}>
+          <Title title="Dashboard" />
+          {type === "instructor" && (
+            <button
+              className={style.addcourse}
+              onClick={() => {
+                navigate("/newcourse");
+              }}
+            >
+              Add Course
+            </button>
+          )}
+        </div>
         <ul className={style.coursecontainer}>
           {courses.map((course) => (
             <CourseCard course={course} key={course._id} />

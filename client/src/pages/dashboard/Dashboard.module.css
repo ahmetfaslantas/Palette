@@ -13,3 +13,26 @@
 .page {
   margin-left: 35px;
 }
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.addcourse {
+  color: white;
+  background-color: lightskyblue;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: skyblue;
+  border-style: solid;
+  width: 90px;
+  height: 30px;
+}
+
+.addcourse:hover {
+  cursor: pointer;
+}

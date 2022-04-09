@@ -10,6 +10,7 @@ function Navbar() {
   let navigate = useNavigate();
 
   const logout = () => {
+    Cookies.remove("type");
     Cookies.remove("token");
     navigate("/login");
   };
