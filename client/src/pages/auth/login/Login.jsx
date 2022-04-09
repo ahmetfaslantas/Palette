@@ -65,7 +65,7 @@ function Login() {
                 className={style.typeinput}
                 value="student"
                 checked={type === "student"}
-                onChange={(e) => setType(e)}
+                onChange={(e) => setType(e.target.value)}
               />
               <div className={style.typecard}>Student</div>
             </label>
@@ -76,7 +76,7 @@ function Login() {
                 className={style.typeinput}
                 value="instructor"
                 checked={type === "instructor"}
-                onChange={(e) => setType(e)}
+                onChange={(e) => setType(e.target.value)}
               />
               <div className={style.typecard}>Instructor</div>
             </label>
