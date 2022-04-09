@@ -37,22 +37,6 @@ function Login() {
     if (json.redirect) navigate(json.redirect);
   };
 
-  const emailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const passwordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const typeChange = (e) => {
-    setType(e.target.value);
-  };
-
-  const signup = () => {
-    navigate("/signup");
-  };
-
   return (
     <div className={style.main}>
       <div className={style.card}>
@@ -65,13 +49,13 @@ function Login() {
             type="text"
             placeholder="Email"
             value={email}
-            onChange={emailChange}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
-            onChange={passwordChange}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <div className={style.type}>
             <label>
@@ -81,7 +65,7 @@ function Login() {
                 className={style.typeinput}
                 value="student"
                 checked={type === "student"}
-                onChange={typeChange}
+                onChange={(e) => setType(e)}
               />
               <div className={style.typecard}>Student</div>
             </label>
@@ -92,7 +76,7 @@ function Login() {
                 className={style.typeinput}
                 value="instructor"
                 checked={type === "instructor"}
-                onChange={typeChange}
+                onChange={(e) => setType(e)}
               />
               <div className={style.typecard}>Instructor</div>
             </label>
@@ -100,7 +84,12 @@ function Login() {
           <button className={style.submit} type="submit">
             Login
           </button>
-          <a className={style.alternative} onClick={signup}>
+          <a
+            className={style.alternative}
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
             Don&apos;t have an account? Sign up!
           </a>
         </form>
