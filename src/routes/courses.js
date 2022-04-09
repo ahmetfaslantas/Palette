@@ -1,5 +1,4 @@
 const express = require("express");
-const fs = require("fs");
 const { authVerify } = require("../middleware/authverify");
 const { courseExistsVerify, instructorVerify, studentExistsVerify, userEnrolledVerify } = require("../middleware/courseverify");
 const { Student, Instructor } = require("../models/user");
@@ -30,26 +29,12 @@ router.post("/newcourse", [authVerify, instructorVerify], async (req, res) => {
     res.status(200).send({ message: "Course created" });
 });
 
-router.post("/:id/announcement", [authVerify, instructorVerify, courseExistsVerify], async (req, res) => {
-    const { title, content, files } = req.body;
-
+router.delete("/:id", [authVerify, instructorVerify, courseExistsVerify], async (req, res) => {
     let course = res.locals.course;
 
-    course.announcements.push({ title: title, content: content, files: files });
-    await course.save();
+    await course.remove();
 
-    res.status(200).send({ message: "Announcement created" });
-});
-
-router.post("/:id/assignment", [authVerify, instructorVerify, courseExistsVerify], async (req, res) => {
-    const { name, description, dueDate, files } = req.body;
-
-    let course = res.locals.course;
-
-    course.assignments.push({ name: name, description: description, dueDate: dueDate, files: files });
-    await course.save();
-
-    res.status(200).send({ message: "Assignment created" });
+    res.status(200).send({ message: "Course deleted" });
 });
 
 router.post("/:id/student", [authVerify, instructorVerify, courseExistsVerify], async (req, res) => {
@@ -75,44 +60,12 @@ router.post("/:id/student", [authVerify, instructorVerify, courseExistsVerify], 
     res.status(200).send({ message: "Student added" });
 });
 
-router.get("/:id/assignment", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
-    let course = res.locals.course;
-
-    let assignments = [];
-    course.assignments.forEach(assignment => {
-        assignments.push({
-            _id: assignment._id,
-            name: assignment.name,
-            description: assignment.description,
-            dueDate: assignment.dueDate,
-            files: assignment.files,
-            submissions: assignment.submissions.filter(submission => submission.studentId.toString() === res.locals.userId.toString())
-        });
-    });
-
-    res.send(assignments);
-});
-
-router.get("/:id/announcement", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
-    let course = res.locals.course;
-
-    res.send(course.announcements);
-});
-
 router.get("/:id/student", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
     let course = res.locals.course;
 
     const students = await Student.find({ _id: { $in: course.students } }, "-passHash");
 
     res.send(students);
-});
-
-router.delete("/:id", [authVerify, instructorVerify, courseExistsVerify], async (req, res) => {
-    let course = res.locals.course;
-
-    await course.remove();
-
-    res.status(200).send({ message: "Course deleted" });
 });
 
 router.delete("/:id/student", [authVerify, instructorVerify, courseExistsVerify, studentExistsVerify], async (req, res) => {
@@ -125,78 +78,6 @@ router.delete("/:id/student", [authVerify, instructorVerify, courseExistsVerify,
     await student.save();
 
     res.status(200).send({ message: "Student removed" });
-});
-
-router.delete("/:id/assignment", [authVerify, instructorVerify, courseExistsVerify], async (req, res) => {
-    let course = res.locals.course;
-
-    if (!course.assignments.find(assignment => assignment._id.toString() === req.body.assignmentId)) {
-        return res.status(400).send({ error: "Assignment not found" });
-    }
-
-    course.assignments = course.assignments.filter(assignment => assignment._id.toString() !== req.body.assignmentId);
-    await course.save();
-
-    res.status(200).send({ message: "Assignment removed" });
-});
-
-router.delete("/:id/announcement", [authVerify, instructorVerify, courseExistsVerify], async (req, res) => {
-    let course = res.locals.course;
-
-    if (!course.announcements.find(announcement => announcement._id.toString() === req.body.announcementId)) {
-        return res.status(400).send({ error: "Announcement not found" });
-    }
-
-    course.announcements = course.announcements.filter(announcement => announcement._id.toString() !== req.body.announcementId);
-    await course.save();
-
-    res.status(200).send({ message: "Announcement removed" });
-});
-
-router.get("/:id/assignment/:assignmentId", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
-    let course = res.locals.course;
-
-    if (!course.assignments.find(assignment => assignment._id.toString() === req.params.assignmentId)) {
-        return res.status(400).send({ error: "Assignment not found" });
-    }
-
-    const assignment = course.assignments.find(assignment => assignment._id.toString() === req.params.assignmentId);
-
-    res.send(assignment);
-});
-
-router.get("/:id/announcement/:announcementId", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
-    let course = res.locals.course;
-
-    if (!course.announcements.find(announcement => announcement._id.toString() === req.params.announcementId)) {
-        return res.status(400).send({ error: "Announcement not found" });
-    }
-
-    const announcement = course.announcements.find(announcement => announcement._id.toString() === req.params.announcementId);
-
-    res.send(announcement);
-});
-
-router.post("/:id/assignment/:assignmentId/submit", [authVerify, courseExistsVerify, userEnrolledVerify], async (req, res) => {
-    const { files } = req.body;
-    
-    files.forEach(file => {
-        if (!fs.existsSync(`${process.env.UPLOAD_ROOT}/uploads/students/${res.locals.userId}/${file}`)) {
-            return res.status(400).send({ error: "File not found" });
-        }
-    });
-
-    let course = res.locals.course;
-    let assignment = course.assignments.find(assignment => assignment._id.toString() === req.params.assignmentId);
-    
-    assignment.submissions.push({ 
-        studentId: res.locals.userId,
-        files: files
-    });
-
-    await course.save();
-
-    res.status(200).send({ message: "Assignment submitted" });
 });
 
 module.exports = router;

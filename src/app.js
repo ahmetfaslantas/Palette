@@ -6,6 +6,8 @@ const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/auth");
 const courseRoutes = require("./routes/courses");
+const assignmentRoutes = require("./routes/assignments");
+const announcementRoutes = require("./routes/announcements");
 const filesRoutes = require("./routes/files");
 
 const app = express();
@@ -24,6 +26,8 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/course", courseRoutes);
+app.use("/api/course", assignmentRoutes);
+app.use("/api/course", announcementRoutes);
 app.use("/api/files", filesRoutes);
 
 module.exports = app;
