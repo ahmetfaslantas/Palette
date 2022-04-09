@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
         expiresIn: "1h"
     });
 
-    res.status(200).cookie("token", token).send({ message: "Logged in", redirect: "/" });
+    res.status(200).cookie("token", token).cookie("type", type === "student" ? "student" : "instructor").send({ message: "Logged in", redirect: "/" });
 });
 
 module.exports = router;
