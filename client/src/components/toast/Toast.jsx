@@ -1,18 +1,17 @@
-import PropTypes from "prop-types";
 import React, { useImperativeHandle, useState } from "react";
 import style from "./Toast.module.css";
 
 const Toast = React.forwardRef(function Toast(props, ref) {
   const [isActive, setIsActive] = useState(false);
-
-  const { message, duration } = props;
+  const [message, setMessage] = useState("");
 
   useImperativeHandle(ref, () => ({
-    show: () => {
+    show: (message) => {
+      setMessage(message);
       setIsActive(true);
       setTimeout(() => {
         setIsActive(false);
-      }, duration);
+      }, 2900);
     },
   }));
 
@@ -26,14 +25,5 @@ const Toast = React.forwardRef(function Toast(props, ref) {
     </div>
   );
 });
-
-Toast.propTypes = {
-  message: PropTypes.string.isRequired,
-  duration: PropTypes.number,
-};
-
-Toast.defaultProps = {
-  duration: 3000,
-};
 
 export default Toast;
