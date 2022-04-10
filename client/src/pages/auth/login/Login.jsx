@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import style from "../Auth.module.css";
 import Palette from "@assets/palette.svg";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [type, setType] = useState("student");
+  const email = useRef();
+  const password = useRef();
+  const isInstructor = useRef();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,9 +24,9 @@ function Login() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: email,
-        password: password,
-        type: type,
+        email: email.current.value,
+        password: password.current.value,
+        type: isInstructor.current.checked ? "instructor" : "student",
       }),
       credentials: "include",
       redirect: "follow",
@@ -48,14 +48,12 @@ function Login() {
           <input
             type="text"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            ref={email}
           />
           <input
             type="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            ref={password}
           />
           <div className={style.type}>
             <label>
@@ -63,9 +61,8 @@ function Login() {
                 type="radio"
                 name="type"
                 className={style.typeinput}
+                defaultChecked={true}
                 value="student"
-                checked={type === "student"}
-                onChange={(e) => setType(e.target.value)}
               />
               <div className={style.typecard}>Student</div>
             </label>
@@ -75,8 +72,7 @@ function Login() {
                 name="type"
                 className={style.typeinput}
                 value="instructor"
-                checked={type === "instructor"}
-                onChange={(e) => setType(e.target.value)}
+                ref={isInstructor}
               />
               <div className={style.typecard}>Instructor</div>
             </label>
