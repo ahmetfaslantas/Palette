@@ -4,19 +4,21 @@ const Schema = mongoose.Schema;
 const announcementSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
     },
     content: {
         type: String,
-        required: true
+        required: true,
     },
     date: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
-    files: [{
-        type: String
-    }]
+    files: [
+        {
+            type: String,
+        },
+    ],
 });
 
 module.exports = { announcementSchema };

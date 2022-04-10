@@ -6,22 +6,26 @@ const { submissionSchema } = require("./submission");
 const assignmentSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     dueDate: {
         type: Date,
-        required: true
+        required: true,
     },
-    files: [{
-        type: String
-    }],
-    submissions: [{
-        type: submissionSchema
-    }]
+    files: [
+        {
+            type: String,
+        },
+    ],
+    submissions: [
+        {
+            type: submissionSchema,
+        },
+    ],
 });
 
 module.exports = { assignmentSchema };

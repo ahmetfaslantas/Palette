@@ -9,7 +9,7 @@ describe("Announcements operations", () => {
     let token = "";
     let courseId = "";
     let announcementId = "";
-    
+
     beforeAll(async () => {
         await Course.deleteMany({});
         await Instructor.deleteMany({});
@@ -18,22 +18,23 @@ describe("Announcements operations", () => {
             email: "test",
             password: "test",
             name: "Test Instructor",
-            type: "instructor"
+            type: "instructor",
         });
 
         const loginResponse = await request(app).post("/api/auth/login").send({
             email: "test",
             password: "test",
-            type: "instructor"
+            type: "instructor",
         });
 
         token = loginResponse.headers["set-cookie"];
 
-        await request(app).post("/api/course/newcourse")
+        await request(app)
+            .post("/api/course/newcourse")
             .set("Cookie", token)
             .send({
                 name: "Test Course",
-                description: "Test Description"
+                description: "Test Description",
             });
 
         const courseIdResponse = await request(app)
@@ -51,7 +52,7 @@ describe("Announcements operations", () => {
             .send({
                 title: "Test Announcement",
                 content: "Test Content",
-                files: []
+                files: [],
             });
 
         expect(response.status).toBe(200);

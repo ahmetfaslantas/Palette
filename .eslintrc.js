@@ -25,6 +25,13 @@ module.exports = {
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "max-len": [
+            "error",
+            {
+                "code": 85
+            }
+        ],
+        "no-console": "error"
     }
 };

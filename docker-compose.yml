@@ -11,6 +11,7 @@ services:
       - "4000:4000"
     volumes:
       - files-volume:/files
+      - api-logs:/logs
     depends_on:
       - mongo
     links:
@@ -43,3 +44,4 @@ services:
 volumes:
   db-volume:
   files-volume:
+  api-logs:

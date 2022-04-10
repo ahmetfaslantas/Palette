@@ -3,7 +3,9 @@ const { Course } = require("../models/course");
 
 exports.instructorVerify = (req, res, next) => {
     if (res.locals.role === "student") {
-        return res.status(401).send({ error: "Students cannot remove assignments" });
+        return res
+            .status(401)
+            .send({ error: "Students cannot remove assignments" });
     } else {
         next();
     }
@@ -36,7 +38,10 @@ exports.studentExistsVerify = async (req, res, next) => {
 exports.userEnrolledVerify = async (req, res, next) => {
     const SelectedType = res.locals.role === "student" ? Student : Instructor;
 
-    const user = await SelectedType.find({ _id: res.locals.userId, courses: req.params.id });
+    const user = await SelectedType.find({
+        _id: res.locals.userId,
+        courses: req.params.id,
+    });
 
     if (!user) {
         return res.status(400).send({ error: "This user does not exist" });

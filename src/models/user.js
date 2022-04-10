@@ -4,25 +4,27 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     email: {
         type: String,
-        required: true
+        required: true,
     },
     passHash: {
         type: String,
-        required: true
+        required: true,
     },
     bio: {
         type: String,
         required: true,
-        default: "No bio yet."
+        default: "No bio yet.",
     },
-    courses: [{
-        type: Schema.Types.ObjectId,
-        ref: "Course"
-    }]
+    courses: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Course",
+        },
+    ],
 });
 
 const Student = mongoose.model("Student", userSchema);

@@ -19,49 +19,55 @@ describe("Course operations", () => {
             email: "test",
             password: "test",
             name: "Test Instructor",
-            type: "instructor"
+            type: "instructor",
         });
 
         await request(app).post("/api/auth/signup").send({
             email: "test2",
             password: "test2",
             name: "Test Student",
-            type: "student"
+            type: "student",
         });
 
-        const instructorLoginResponse = await request(app).post("/api/auth/login").send({
-            email: "test",
-            password: "test",
-            type: "instructor"
-        });
+        const instructorLoginResponse = await request(app)
+            .post("/api/auth/login")
+            .send({
+                email: "test",
+                password: "test",
+                type: "instructor",
+            });
 
-        const studentLoginResponse = await request(app).post("/api/auth/login").send({
-            email: "test2",
-            password: "test2",
-            type: "student"
-        });
+        const studentLoginResponse = await request(app)
+            .post("/api/auth/login")
+            .send({
+                email: "test2",
+                password: "test2",
+                type: "student",
+            });
 
         instructorToken = instructorLoginResponse.headers["set-cookie"];
         studentToken = studentLoginResponse.headers["set-cookie"];
     });
 
     it("Should create a new course (instructor)", async () => {
-        const response = await request(app).post("/api/course/newcourse")
+        const response = await request(app)
+            .post("/api/course/newcourse")
             .set("Cookie", instructorToken)
             .send({
                 name: "Test Course",
-                description: "Test Description"
+                description: "Test Description",
             });
 
         expect(response.status).toBe(200);
     });
 
     it("Should not create a new course (student)", async () => {
-        const response = await request(app).post("/api/course/newcourse")
+        const response = await request(app)
+            .post("/api/course/newcourse")
             .set("Cookie", studentToken)
             .send({
                 name: "Test Course",
-                description: "Test Description"
+                description: "Test Description",
             });
 
         expect(response.status).toBe(401);
@@ -92,18 +98,18 @@ describe("Course operations", () => {
             .post(`/api/course/${courseId}/student`)
             .set("Cookie", instructorToken)
             .send({
-                email: "test2"
+                email: "test2",
             });
 
         expect(response.status).toBe(200);
     });
 
-    it("Should not be able to add student to a non-existent course (instructor)", async () => {
+    it("Should not be able to add student to a non-existent course", async () => {
         const response = await request(app)
             .post("/api/course/624ff896dec980f6960e8e81/student")
             .set("Cookie", instructorToken)
             .send({
-                email: "test2"
+                email: "test2",
             });
 
         expect(response.status).toBe(400);
@@ -114,7 +120,7 @@ describe("Course operations", () => {
             .post(`/api/course/${courseId}/student`)
             .set("Cookie", studentToken)
             .send({
-                email: "test2"
+                email: "test2",
             });
 
         expect(response.status).toBe(401);

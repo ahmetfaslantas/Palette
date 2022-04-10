@@ -10,16 +10,23 @@ const assignmentRoutes = require("./routes/assignments");
 const announcementRoutes = require("./routes/announcements");
 const filesRoutes = require("./routes/files");
 
+const logger = require("./logger");
+
 const app = express();
 
-mongoose.connect(process.env.DB, { useNewUrlParser: true })
-    .then(() => console.log("Connected to DB"))
-    .catch(err => console.log(err));
+logger.info(`Connecting to database at ${process.env.DB}`);
 
-app.use(cors({
-    credentials: true,
-    origin: "http://localhost:8081"
-}));
+mongoose
+    .connect(process.env.DB, { useNewUrlParser: true })
+    .then(() => logger.info("Connected to MongoDB"))
+    .catch((err) => logger.error(err));
+
+app.use(
+    cors({
+        credentials: true,
+        origin: "http://localhost:8081",
+    })
+);
 
 app.use(bodyParser.json());
 app.use(cookieParser());

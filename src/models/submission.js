@@ -5,23 +5,25 @@ const submissionSchema = new Schema({
     studentId: {
         type: Schema.Types.ObjectId,
         ref: "Student",
-        required: true
+        required: true,
     },
     submissionDate: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
-    files: [{
-        type: String
-    }],
+    files: [
+        {
+            type: String,
+        },
+    ],
     grade: {
         type: Number,
-        default: 0
+        default: 0,
     },
     comments: {
         type: String,
-        default: ""
-    }
+        default: "",
+    },
 });
 
 module.exports = { submissionSchema };

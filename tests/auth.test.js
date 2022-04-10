@@ -5,7 +5,6 @@ const app = require("../src/app");
 const { Student, Instructor } = require("../src/models/user");
 
 describe("Sign up", () => {
-
     beforeAll(async () => {
         await Student.deleteMany({});
         await Instructor.deleteMany({});
@@ -16,7 +15,7 @@ describe("Sign up", () => {
             email: "test",
             password: "test",
             type: "instuctor",
-            name: "John Doe"
+            name: "John Doe",
         });
 
         expect(response.status).toBe(200);
@@ -27,7 +26,7 @@ describe("Sign up", () => {
             email: "test",
             password: "test",
             type: "instuctor",
-            name: "John Doe"
+            name: "John Doe",
         });
 
         expect(response.status).toBe(400);
@@ -36,7 +35,7 @@ describe("Sign up", () => {
     it("Login should return a token", async () => {
         const response = await request(app).post("/api/auth/login").send({
             email: "test",
-            password: "test"
+            password: "test",
         });
 
         expect(response.status).toBe(200);
@@ -46,7 +45,7 @@ describe("Sign up", () => {
     it("Login should return an error if the user is not found", async () => {
         const response = await request(app).post("/api/auth/login").send({
             email: "test2",
-            password: "test"
+            password: "test",
         });
 
         expect(response.status).toBe(400);
@@ -55,7 +54,7 @@ describe("Sign up", () => {
     it("Login should return an error if the password is incorrect", async () => {
         const response = await request(app).post("/api/auth/login").send({
             email: "test",
-            password: "test2"
+            password: "test2",
         });
 
         expect(response.status).toBe(400);
@@ -66,7 +65,7 @@ describe("Sign up", () => {
             email: "student",
             password: "student",
             type: "student",
-            name: "John Doe the Student"
+            name: "John Doe the Student",
         });
 
         expect(response.status).toBe(200);
@@ -76,7 +75,7 @@ describe("Sign up", () => {
         const response = await request(app).post("/api/auth/login").send({
             email: "student",
             password: "student",
-            type: "instuctor"
+            type: "instuctor",
         });
 
         expect(response.status).toBe(400);
