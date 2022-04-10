@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Title from "@components/title/Title.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
+import Toast from "@components/toast/Toast.jsx";
 import style from "./AddCourse.module.css";
 
 function AddCourse() {
-  const [courseName, setCourseName] = useState("");
-  const [courseDescription, setCourseDescription] = useState("");
+  const courseName = useRef();
+  const courseDescription = useRef();
+  const toast = useRef();
 
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    if (courseName === "" || courseDescription === "") {
-      // TODO: use snackbar to show errors
+    if (courseName.current.value === "" || courseDescription.current.value === "") {
+      toast.current.show("Please fill all fields!");
       return;
     }
 
@@ -24,8 +26,8 @@ function AddCourse() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: courseName,
-        description: courseDescription,
+        name: courseName.current.value,
+        description: courseDescription.current.value,
       }),
       credentials: "include",
       redirect: "follow",
@@ -46,20 +48,19 @@ function AddCourse() {
           <input
             type="text"
             placeholder="Course Name"
-            value={courseName}
-            onChange={(e) => setCourseName(e.target.value)}
+            ref={courseName}
           />
           <input
             type="text"
             placeholder="Course Description"
-            value={courseDescription}
-            onChange={(e) => setCourseDescription(e.target.value)}
+            ref={courseDescription}
           />
           <button className={style.submit} type="submit">
             Create Course
           </button>
         </form>
       </div>
+      <Toast ref={toast} />
     </div>
   );
 }

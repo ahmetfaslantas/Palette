@@ -1,13 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import Navbar from "@components/navbar/Navbar.jsx";
 import SubmissionFile from "@components/submissionfile/SubmissionFile.jsx";
 import Title from "@components/title/Title.jsx";
+import Toast from "@components/toast/Toast.jsx";
 import FileUpload from "@assets/fileupload.svg";
 import style from "./AssignmentDetails.module.css";
 
 function AssignmentDetails() {
+  const toast = useRef();
   const navigate = useNavigate();
 
   const [assignment, setAssignment] = useState({
@@ -67,8 +69,7 @@ function AssignmentDetails() {
     });
 
     if (uploadRes.status !== 200) {
-      // TODO: Setup snackbars for errors.
-      console.log("Error uploading files");
+      toast.current.show("Error uploading files!");
       return;
     }
 
@@ -90,8 +91,7 @@ function AssignmentDetails() {
     );
 
     if (submitRes.status !== 200) {
-      // TODO: Setup snackbars for errors.
-      console.log("Error submitting assignment");
+      toast.current.show("Error submitting assignment!");
       return;
     }
 
@@ -163,6 +163,7 @@ function AssignmentDetails() {
           </div>
         </div>
       </div>
+      <Toast ref={toast} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import Toast from "@components/toast/Toast.jsx";
 import style from "../Auth.module.css";
 import Palette from "@assets/palette.svg";
 
@@ -8,6 +9,7 @@ function Login() {
   const email = useRef();
   const password = useRef();
   const isInstructor = useRef();
+  const toast = useRef();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +20,12 @@ function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    if (email.current.value === "" || password.current.value === "") {
+      toast.current.show("Please fill all fields!");
+      return;
+    }
+
     let result = await fetch(`${process.env.API_URL}/api/auth/login`, {
       method: "POST",
       headers: {
@@ -31,6 +39,11 @@ function Login() {
       credentials: "include",
       redirect: "follow",
     });
+
+    if (result.status !== 200) {
+      toast.current.show("Invalid email or password!");
+      return;
+    }
 
     let json = await result.json();
 
@@ -90,6 +103,7 @@ function Login() {
           </a>
         </form>
       </div>
+      <Toast ref={toast} />
     </div>
   );
 }
