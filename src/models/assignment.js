@@ -12,6 +12,10 @@ const assignmentSchema = new Schema({
         type: String,
         required: true,
     },
+    maxPoints: {
+        type: Number,
+        required: true,
+    },
     dueDate: {
         type: Date,
         required: true,

@@ -18,6 +18,12 @@ function AssignmentDetails() {
     files: [],
     dueDate: "",
     maxPoints: 0,
+    submission: {
+      files: [],
+      grade: 0,
+      comments: "",
+      submissionDate: "",
+    },
   });
 
   const [submissionFiles, setSubmissionFiles] = useState([]);
@@ -48,6 +54,8 @@ function AssignmentDetails() {
         }
       );
       let json = await result.json();
+
+      console.log(json);
 
       setAssignment(json);
     }

@@ -14,7 +14,7 @@ router.post(
     "/:id/assignment",
     [authVerify, instructorVerify, courseExistsVerify],
     async (req, res) => {
-        const { name, description, dueDate, files } = req.body;
+        const { name, description, dueDate, files, maxPoints } = req.body;
 
         logger.info(
             `Creating new assignment ${name} for course ${req.params.id}`
@@ -27,6 +27,7 @@ router.post(
             description: description,
             dueDate: dueDate,
             files: files,
+            maxPoints: maxPoints,
         });
         await course.save();
 
@@ -47,12 +48,6 @@ router.get(
                 name: assignment.name,
                 description: assignment.description,
                 dueDate: assignment.dueDate,
-                files: assignment.files,
-                submissions: assignment.submissions.filter(
-                    (submission) =>
-                        submission.studentId.toString() ===
-                        res.locals.userId.toString()
-                ),
             });
         });
 
@@ -104,10 +99,22 @@ router.get(
             return res.status(400).send({ error: "Assignment not found" });
         }
 
-        const assignment = course.assignments.find(
+        let assignment = course.assignments.find(
             (assignment) =>
                 assignment._id.toString() === req.params.assignmentId
         );
+
+        assignment = {
+            _id: assignment._id,
+            name: assignment.name,
+            description: assignment.description,
+            dueDate: assignment.dueDate,
+            files: assignment.files,
+            maxPoints: assignment.maxPoints,
+            submission: assignment.submissions.filter(
+                (submission) => submission.userId.toString() === req.user._id
+            ),
+        };
 
         res.send(assignment);
     }
@@ -123,6 +130,10 @@ router.post(
         );
 
         const { files } = req.body;
+
+        if (!files) {
+            return res.status(400).send({ error: "No files provided" });
+        }
 
         files.forEach((file) => {
             if (
