@@ -13,7 +13,7 @@
     "start": "node src/index.js",
     "start-watch": "nodemon src/index.js",
     "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\"",
-    "clean": "rm -rf node_modules client/node_modules client/build coverage logs",
+    "clean": "rm -rf node_modules client/node_modules client/build coverage logs files",
     "test": "jest ./tests/ --forceExit --coverage --runInBand"
   },
   "keywords": [

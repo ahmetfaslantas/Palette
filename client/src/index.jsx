@@ -11,6 +11,7 @@ import Assignments from "@pages/assignments/Assignments.jsx";
 import NotFound from "@pages/notfound/NotFound.jsx";
 import AssignmentDetails from "@pages/assignmentdetails/AssignmentDetails.jsx";
 import AddCourse from "@pages/addcourse/AddCourse.jsx";
+import AddAssignment from "@pages/addassignment/AddAssignment.jsx";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,6 +24,7 @@ ReactDOM.render(
         <Route exact path="/newcourse" element={<AddCourse />} />
         <Route path="/course/:courseId/assignments" element={<Assignments />} />
         <Route path="/course/:courseId/assignment/:assignmentId" element={<AssignmentDetails />} />
+        <Route path="/course/:courseId/assignments/new" element={<AddAssignment />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

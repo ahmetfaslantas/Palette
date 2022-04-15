@@ -25,3 +25,26 @@
 .assignmentcontainer {
   list-style: none;
 }
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.addassignment {
+  color: white;
+  background-color: lightskyblue;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: skyblue;
+  border-style: solid;
+  width: 130px;
+  height: 30px;
+}
+
+.addassignment:hover {
+  cursor: pointer;
+}

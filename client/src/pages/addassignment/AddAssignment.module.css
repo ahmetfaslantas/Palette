@@ -17,7 +17,7 @@
     margin: 7px;
 }
 
-.courseform {
+.assignmentform {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,6 +28,42 @@
     margin: 5px;
     font-size: xx-large;
     font-weight: bold;
+}
+
+.upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 0.5;
+}
+
+.files {
+    width: 500px;
+    height: 250px;
+    border: 1px;
+    border-style: dashed;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-color: rgb(95, 156, 194);
+}
+
+.files:hover {
+    cursor: pointer;
+}
+
+.filelist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-style: solid;
+    border-color: rgb(95, 156, 194);
+    width: 475px;
+    height: fit-content;
+    border-radius: 8px;
 }
 
 .submit {

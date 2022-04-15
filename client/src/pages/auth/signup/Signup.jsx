@@ -60,20 +60,36 @@ function Signup() {
     <div className={style.main}>
       <div className={style.card}>
         <img src={Palette} alt="logo" className={style.logo} />
-        <form onSubmit={onSubmit}>
-          <label className={style.operationlabel}>
+        <form onSubmit={onSubmit} className={style.authform}>
+          <label className={style.operationlabel + " " + style.title}>
             <p>Sign Up</p>
           </label>
-          <input type="text" placeholder="Name" ref={name} />
-          <input type="text" placeholder="Email" ref={email} />
-          <input type="password" placeholder="Password" ref={password} />
+          <input
+            type="text"
+            placeholder="Name"
+            ref={name}
+            className={style.textbox}
+          />
+          <input
+            type="text"
+            placeholder="Email"
+            ref={email}
+            className={style.textbox}
+          />
+          <input 
+            type="password"
+            placeholder="Password"
+            ref={password}
+            className={style.textbox}
+          />
           <input
             type="password"
             placeholder="Repeat Password"
             ref={passwordRepeat}
+            className={style.textbox}
           />
           <div className={style.type}>
-            <label>
+            <label className={style.title}>
               <input
                 type="radio"
                 name="type"
@@ -82,7 +98,7 @@ function Signup() {
               />
               <div className={style.typecard}>Student</div>
             </label>
-            <label>
+            <label className={style.title}>
               <input
                 type="radio"
                 name="type"

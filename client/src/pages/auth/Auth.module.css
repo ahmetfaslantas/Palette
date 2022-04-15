@@ -41,7 +41,7 @@
   cursor: pointer;
 }
 
-input {
+.textbox {
   width: 200px;
   height: 30px;
   box-sizing: border-box;
@@ -50,14 +50,14 @@ input {
   margin: 7px;
 }
 
-form {
+.authform {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-label {
+.title {
   margin: 5px;
   font-size: xx-large;
   font-weight: bold;
