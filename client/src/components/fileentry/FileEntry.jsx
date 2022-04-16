@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import style from "./SubmissionFile.module.css";
+import style from "./FileEntry.module.css";
 import Delete from "@assets/delete.svg";
 
-function SubmissionFile(props) {
+function FileEntry(props) {
   const { file, onDelete } = props;
 
   return (
@@ -13,9 +13,9 @@ function SubmissionFile(props) {
   );
 }
 
-SubmissionFile.propTypes = {
+FileEntry.propTypes = {
   file: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
-export default SubmissionFile;
+export default FileEntry;

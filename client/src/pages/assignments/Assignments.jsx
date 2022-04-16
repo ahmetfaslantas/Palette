@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@components/navbar/Navbar.jsx";
 import Title from "@components/title/Title.jsx";
 import Assignment from "@components/assignment/Assignment.jsx";
 import AssignmentLogo from "@assets/assignment.svg";
 import style from "./Assignments.module.css";
+import Cookies from "js-cookie";
 
 function Assignments() {
   const [assignments, setAssignments] = useState([]);
+  const [type, setType] = useState("");
+
   const { courseId } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getCourse() {
@@ -29,6 +34,7 @@ function Assignments() {
     }
 
     getCourse();
+    setType(Cookies.get("type"));
   }, []);
 
   return (
@@ -36,7 +42,20 @@ function Assignments() {
       <Navbar />
 
       <div className={style.page}>
-        <Title title="Assignments" />
+        <div className={style.controls}>
+          <Title title="Assignments" />
+          {type === "instructor" && (
+            <button
+              className={style.addassignment}
+              onClick={() => {
+                navigate(`/course/${courseId}/assignments/new`);
+              }}
+            >
+              Add Assignment
+            </button>
+          )}
+        </div>
+          
         {assignments.length === 0 ? (
           <div className={style.noassignments}>
             <img

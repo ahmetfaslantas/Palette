@@ -103,7 +103,7 @@ describe("Assignment operations", () => {
         fs.writeFileSync("./test.txt", "Test File");
 
         const response = await request(app)
-            .post("/api/files/upload")
+            .post("/api/files/user/upload")
             .set("Cookie", token)
             .attach("files", "./test.txt");
 
@@ -120,7 +120,7 @@ describe("Assignment operations", () => {
         fs.writeFileSync("./test.txt", "Test File");
 
         const response = await request(app)
-            .post("/api/files/upload")
+            .post("/api/files/user/upload")
             .set("Cookie", token)
             .attach("files", "./test.txt");
 

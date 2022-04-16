@@ -54,22 +54,24 @@ function Login() {
     <div className={style.main}>
       <div className={style.card}>
         <img src={Palette} alt="logo" className={style.logo} />
-        <form onSubmit={onSubmit}>
-          <label className={style.operationlabel}>
+        <form onSubmit={onSubmit} className={style.authform}>
+          <label className={style.operationlabel + " " + style.title}>
             <p>Login</p>
           </label>
           <input
+            className={style.textbox}
             type="text"
             placeholder="Email"
             ref={email}
           />
           <input
+            className={style.textbox}
             type="password"
             placeholder="Password"
             ref={password}
           />
           <div className={style.type}>
-            <label>
+            <label className={style.title}>
               <input
                 type="radio"
                 name="type"
@@ -79,7 +81,7 @@ function Login() {
               />
               <div className={style.typecard}>Student</div>
             </label>
-            <label>
+            <label className={style.title}>
               <input
                 type="radio"
                 name="type"

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import Navbar from "@components/navbar/Navbar.jsx";
-import SubmissionFile from "@components/submissionfile/SubmissionFile.jsx";
+import FileEntry from "@components/fileentry/FileEntry.jsx";
 import Title from "@components/title/Title.jsx";
 import Toast from "@components/toast/Toast.jsx";
 import FileUpload from "@assets/fileupload.svg";
@@ -18,6 +18,12 @@ function AssignmentDetails() {
     files: [],
     dueDate: "",
     maxPoints: 0,
+    submission: {
+      files: [],
+      grade: 0,
+      comments: "",
+      submissionDate: "",
+    },
   });
 
   const [submissionFiles, setSubmissionFiles] = useState([]);
@@ -49,6 +55,8 @@ function AssignmentDetails() {
       );
       let json = await result.json();
 
+      console.log(json);
+
       setAssignment(json);
     }
 
@@ -61,7 +69,7 @@ function AssignmentDetails() {
       formData.append("files", file);
     });
 
-    const uploadRes = await fetch(`${process.env.API_URL}/api/files/upload`, {
+    const uploadRes = await fetch(`${process.env.API_URL}/api/files/user/upload`, {
       method: "POST",
       body: formData,
       credentials: "include",
@@ -148,7 +156,7 @@ function AssignmentDetails() {
             {submissionFiles.length > 0 && (
               <ul className={style.filelist}>
                 {submissionFiles.map((file) => (
-                  <SubmissionFile
+                  <FileEntry
                     file={file.name}
                     onDelete={() => {
                       setSubmissionFiles((submissionFiles) =>

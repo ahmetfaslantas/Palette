@@ -41,16 +41,18 @@ function AddCourse() {
       <Navbar />
       <div className={style.page}>
         <Title title="Add Course" />
-        <form onSubmit={onSubmit}>
-          <label className={style.operationlabel}>
+        <form onSubmit={onSubmit} className={style.courseform}>
+          <label className={style.operationlabel + " " + style.title}>
             <p>Add a New Course</p>
           </label>
           <input
+            className={style.textbox}
             type="text"
             placeholder="Course Name"
             ref={courseName}
           />
           <input
+            className={style.textbox}
             type="text"
             placeholder="Course Description"
             ref={courseDescription}
