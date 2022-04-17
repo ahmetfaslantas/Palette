@@ -40,7 +40,6 @@ function Assignments() {
   return (
     <div className={style.main}>
       <Navbar />
-
       <div className={style.page}>
         <div className={style.controls}>
           <Title title="Assignments" />

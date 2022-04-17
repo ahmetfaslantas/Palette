@@ -49,7 +49,7 @@ Assignment.propTypes = {
     dueDate: PropTypes.string.isRequired,
     files: PropTypes.arrayOf(PropTypes.string),
     _id: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
 };
 
 export default Assignment;
