@@ -1,0 +1,46 @@
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.page {
+  margin-left: 35px;
+  width: 90vw;
+}
+
+.textbox {
+  width: 200px;
+  height: 30px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  margin: 7px;
+}
+
+.studentform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 5px;
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.submit {
+  width: 250px;
+  height: 30px;
+  margin: 8px;
+  background-color: #4caf50;
+  border-color: transparent;
+  border-radius: 13px;
+  color: white;
+  font-size: large;
+}
+
+.submit:hover {
+  cursor: pointer;
+}

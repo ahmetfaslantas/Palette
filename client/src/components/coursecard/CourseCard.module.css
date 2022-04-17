@@ -7,6 +7,10 @@
   margin: 7px;
 }
 
+.coursecard:hover {
+  cursor: pointer;
+}
+
 .coursecardheader {
   width: 200px;
   height: 100px;
