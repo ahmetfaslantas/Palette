@@ -59,6 +59,7 @@ describe("Assignment operations", () => {
                 description: "Test Description",
                 dueDate: new Date(),
                 files: [],
+                maxPoints: 100,
             });
 
         expect(response.status).toBe(200);
@@ -97,6 +98,7 @@ describe("Assignment operations", () => {
         expect(assignment.description).toBe("Test Description");
         expect(assignment.dueDate).toBeDefined();
         expect(assignment.files.length).toBe(0);
+        expect(assignment.maxPoints).toBe(100);
     });
 
     it("Should upload a file to the users storage", async () => {
