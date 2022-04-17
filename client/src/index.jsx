@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "@pages/auth/login/Login.jsx";
 import Signup from "@pages/auth/signup/Signup.jsx";
 import Dashboard from "@pages/dashboard/Dashboard.jsx";
+import Course from "@pages/course/Course.jsx";
 import Assignments from "@pages/assignments/Assignments.jsx";
 import Announcements from "@pages/announcements/Announcements.jsx";
 import NotFound from "@pages/notfound/NotFound.jsx";
@@ -23,6 +24,7 @@ ReactDOM.render(
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/course/:courseId" element={<Course />} />
         <Route exact path="/newcourse" element={<AddCourse />} />
         <Route path="/course/:courseId/assignments" element={<Assignments />} />
         <Route path="/course/:courseId/announcements" element={<Announcements />} />

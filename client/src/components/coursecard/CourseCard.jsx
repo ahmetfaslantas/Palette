@@ -36,7 +36,9 @@ function CourseCard(props) {
   };
 
   return (
-    <li className={style.coursecard}>
+    <li className={style.coursecard} onClick={() => {
+      navigate(`/course/${props.course._id}`);
+    }}>
       <div className={style.coursecardheader} style={cardColorStyle}></div>
       <p className={style.coursename}>{props.course.name}</p>
       <p className={style.coursesemester}>{getSemester()}</p>
