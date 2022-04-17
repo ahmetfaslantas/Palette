@@ -1,7 +1,6 @@
 module.exports = {
     "env": {
         "commonjs": true,
-        "es2021": true,
         "node": true,
         "jest": true
     },
@@ -33,5 +32,9 @@ module.exports = {
             }
         ],
         "no-console": "error"
-    }
+    },
+    "ignorePatterns": [
+        "node_modules/",
+        "client/"
+    ]
 };

@@ -8,8 +8,8 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "lint": "eslint . --ext .js,.jsx",
-    "lint:fix": "eslint . --ext .js,.jsx --fix",
+    "lint": "concurrently \"eslint . --ext .js,.jsx\" \"cd client && npm run lint\"",
+    "lint:fix": "eslint . --ext .js,.jsx --fix && cd client && npm run lint:fix",
     "start": "node src/index.js",
     "start-watch": "nodemon src/index.js",
     "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\"",

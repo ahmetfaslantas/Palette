@@ -1,50 +1,50 @@
 .main {
-	display: flex;
-	margin: 0px;
+  display: flex;
+  margin: 0;
 }
 
 .page {
-	display: flex;
-	flex-direction: column;
-	margin-left: 35px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 35px;
 }
 
 .noannouncements {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 80vh;
-	width: 95vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  width: 95vw;
 }
 
 .noannouncementslogo {
-	width: 70px;
+  width: 70px;
 }
 
 .announcementcontainer {
-	list-style: none;
+  list-style: none;
 }
 
 .controls {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .addannouncement {
-	color: white;
-	background-color: lightskyblue;
-	border-width: 1px;
-	border-radius: 5px;
-	border-color: skyblue;
-	border-style: solid;
-	width: 140px;
-	height: 30px;
+  color: white;
+  background-color: lightskyblue;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: skyblue;
+  border-style: solid;
+  width: 140px;
+  height: 30px;
 }
 
 .addannouncement:hover {
-	cursor: pointer;
+  cursor: pointer;
 }

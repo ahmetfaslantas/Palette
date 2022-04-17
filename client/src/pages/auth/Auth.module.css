@@ -16,7 +16,7 @@
   width: 300px;
   height: fit-content;
   background-color: #fff;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,16 +83,16 @@
   display: none;
 }
 
+.typecard:hover {
+  cursor: pointer;
+}
+
 .typeinput:checked + .typecard {
   background-color: #4caf50;
 }
 
 .typeinput:not(:checked) + .typecard {
-  background-color: rgb(100, 100, 100);
-}
-
-.typecard:hover {
-  cursor: pointer;
+  background-color: rgb(100 100 100);
 }
 
 .logo {

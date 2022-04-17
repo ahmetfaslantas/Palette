@@ -32,15 +32,15 @@
 }
 
 .name {
-  margin: 0px;
+  margin: 0;
   font-weight: bold;
 }
 
 .description {
-  margin: 0px;
+  margin: 0;
 }
 
 .duedate {
-  margin: 0px;
+  margin: 0;
   font-size: small;
 }
