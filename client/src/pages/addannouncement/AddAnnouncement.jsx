@@ -46,7 +46,7 @@ function AddAnnouncement() {
       return;
     }
 
-    navigate(`/courses/${courseId}/announcements/`);
+    navigate(`/course/${courseId}/announcements/`);
   };
 
   return (
