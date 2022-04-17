@@ -6,7 +6,7 @@
     padding: 3px;
 }
 
-.announcement:last-child {
+.announcemententry:last-child {
     border-bottom: 0.1px solid #d3d3d3;
 }
 

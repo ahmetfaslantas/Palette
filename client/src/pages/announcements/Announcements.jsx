@@ -63,7 +63,7 @@ function Announcements() {
         </div>
         {announcements.length === 0 ? (
           <div className={style.noannouncements}>
-            <img src={AnnouncementLogo} alt="Announcement Logo" />
+            <img src={AnnouncementLogo} alt="Announcement Logo" className={style.noannouncementslogo} />
             <p>No announcements yet!</p>
           </div>
         ) : (
