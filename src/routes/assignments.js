@@ -88,7 +88,8 @@ router.get(
     "/:id/assignment/:assignmentId",
     [authVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
-        let course = res.locals.course;
+        const course = res.locals.course;
+        const user = res.locals.user;
 
         if (
             !course.assignments.find(
@@ -112,7 +113,7 @@ router.get(
             files: assignment.files,
             maxPoints: assignment.maxPoints,
             submission: assignment.submissions.filter(
-                (submission) => submission.userId.toString() === req.user._id
+                (submission) => submission.studentId.toString() === user._id
             ),
         };
 
