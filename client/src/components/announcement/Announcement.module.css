@@ -29,6 +29,8 @@
 .announcementdetails {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .title {

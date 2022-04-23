@@ -74,6 +74,7 @@ describe("Announcements operations", () => {
         expect(announcement.title).toBe("Test Announcement");
         expect(announcement.content).toBe("Test Content");
         expect(announcement.date).toBeDefined();
+        expect(announcement.publisher).toBeDefined();
     });
 
     it("Should get an announcement", async () => {
@@ -91,5 +92,6 @@ describe("Announcements operations", () => {
         expect(announcement.content).toBe("Test Content");
         expect(announcement.date).toBeDefined();
         expect(announcement.files.length).toBe(0);
+        expect(announcement.publisher).toBeDefined();
     });
 });
