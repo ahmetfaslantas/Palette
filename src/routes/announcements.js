@@ -5,6 +5,7 @@ const {
     instructorVerify,
     userEnrolledVerify,
 } = require("../middleware/courseverify");
+const { Instructor } = require("../models/user");
 const logger = require("../logger");
 
 const router = express.Router();
@@ -25,7 +26,9 @@ router.post(
             title: title,
             content: content,
             files: files,
+            publisher: res.locals.userId,
         });
+
         await course.save();
 
         res.status(200).send({ message: "Announcement created" });
@@ -48,7 +51,7 @@ router.delete(
     async (req, res) => {
         logger.info(
             `Deleting announcement ${req.body.announcementId} ` +
-                `for course ${req.params.id}`
+            `for course ${req.params.id}`
         );
 
         let course = res.locals.course;
@@ -66,6 +69,7 @@ router.delete(
             (announcement) =>
                 announcement._id.toString() !== req.body.announcementId
         );
+
         await course.save();
 
         res.status(200).send({ message: "Announcement removed" });
@@ -87,10 +91,20 @@ router.get(
             return res.status(400).send({ error: "Announcement not found" });
         }
 
-        const announcement = course.announcements.find(
+        let announcement = course.announcements.find(
             (announcement) =>
                 announcement._id.toString() === req.params.announcementId
         );
+
+        const publisher = await Instructor.findById(announcement.publisher);
+
+        announcement = {
+            _id: announcement._id,
+            title: announcement.title,
+            content: announcement.content,
+            files: announcement.files,
+            publisher: publisher.name,
+        };
 
         res.send(announcement);
     }
