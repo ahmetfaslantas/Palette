@@ -1,0 +1,14 @@
+.main {
+  display: flex;
+  margin: 0;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  margin-left: 35px;
+}
+
+.page > * {
+  margin-left: 35px;
+}

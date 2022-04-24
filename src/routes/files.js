@@ -4,7 +4,8 @@ const fs = require("fs");
 const { authVerify } = require("../middleware/authverify");
 const {
     courseExistsVerify,
-    instructorVerify
+    instructorVerify,
+    userEnrolledVerify
 } = require("../middleware/courseverify");
 const logger = require("../logger");
 
@@ -109,5 +110,54 @@ router.post(
         });
     }
 );
+
+router.get(
+    "/course/:id",
+    [authVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        logger.info(`Getting files for course ${req.params.id}`);
+
+        const path = `${process.env.UPLOAD_ROOT}/uploads/courses/${req.params.id}`;
+        const files = getFileStructure(path);
+
+        res.status(200).send(files);
+    }
+);
+
+const getFileStructure = (path) => {
+    let result = [];
+
+    if (!fs.existsSync(path)) {
+        return result;
+    }
+
+    let list = fs.readdirSync(path);
+
+    list.forEach((file) => {
+        const currentPath = `${path}/${file}`;
+        const stat = fs.statSync(currentPath);
+
+        if (stat.isFile()) {
+            result.push({
+                name: file,
+                size: stat.size,
+                creationDate: stat.birthtime,
+                url: `${path}/${file}`,
+                id: file,
+            });
+        } else {
+            result.push({
+                name: file,
+            });
+            if (!result[result.length - 1].children) {
+                result[result.length - 1].children = [];
+            }
+            result[result.length - 1].children = getFileStructure(`${path}/${file}`);
+        }
+    });
+
+    return result;
+};
+
 
 module.exports = router;

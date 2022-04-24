@@ -53,9 +53,13 @@ function AssignmentDetails() {
           redirect: "follow",
         }
       );
-      let json = await result.json();
 
-      console.log(json);
+      if (result.status !== 200) {
+        toast.current.show("Error loading assignment");
+        return;
+      }
+
+      let json = await result.json();
 
       setAssignment(json);
     }
