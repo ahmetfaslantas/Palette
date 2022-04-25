@@ -144,14 +144,14 @@ const getFileStructure = (path) => {
                 creationDate: stat.birthtime,
                 url: `${path}/${file}`,
                 id: file,
+                type: "file",
             });
         } else {
             result.push({
                 name: file,
+                type: "folder",
             });
-            if (!result[result.length - 1].children) {
-                result[result.length - 1].children = [];
-            }
+
             result[result.length - 1].children = getFileStructure(`${path}/${file}`);
         }
     });

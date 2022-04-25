@@ -1,20 +1,23 @@
 import PropTypes from "prop-types";
+import Download from "@assets/download.svg";
+import style from "./Node.module.css";
 
 function Node(props) {
   const { item, level, toggleBranch } = props;
 
   return ( 
-    <div style={{paddingLeft: `${level * 16}px`}}>
+    <div className={style.entry} style={{paddingLeft: `${level * 16}px`}}>
       {
-        item.children && item.children.length > 0 ? (
-          <details onClick={toggleBranch}>
+        item.type === "folder" ? (
+          <details className={style.expandable} onClick={toggleBranch}>
             <summary>
               {item.name}
             </summary>
           </details>
         ) : (
-          <span>
+          <span className={style.nonexpandable}>
             {item.name}
+            <img className={style.download} src={Download} alt="file" />
           </span>
         )
       }

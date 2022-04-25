@@ -4,6 +4,7 @@ import Title from "@components/title/Title.jsx";
 import Toast from "@components/toast/Toast.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import Tree from "@components/tree/Tree.jsx";
+import File from "@assets/file.svg";
 import style from "./CourseFiles.module.css";
 
 function CourseFiles() {
@@ -43,9 +44,14 @@ function CourseFiles() {
       <div className={style.page}>
         <Title title="Course Files" />
         {files.length > 0 ? (
-          <Tree data={files} />
+          <div className={style.files}>
+            <Tree data={files} />
+          </div>
         ) : (
-          <div className={style.empty}>No files found</div>
+          <div className={style.empty}>
+            <img className={style.logo} src={File} alt="File" />
+            <p>No files found</p>
+          </div>
         )}
       </div>
       <Toast ref={toast} />
