@@ -1,11 +1,12 @@
 const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
+const path = require("path");
 const { authVerify } = require("../middleware/authverify");
 const {
     courseExistsVerify,
     instructorVerify,
-    userEnrolledVerify
+    userEnrolledVerify,
 } = require("../middleware/courseverify");
 const logger = require("../logger");
 
@@ -117,24 +118,49 @@ router.get(
     async (req, res) => {
         logger.info(`Getting files for course ${req.params.id}`);
 
-        const path = `${process.env.UPLOAD_ROOT}/uploads/courses/${req.params.id}`;
-        const files = getFileStructure(path);
+        const files = getFileStructure(".", req.params.id);
 
         res.status(200).send(files);
     }
 );
 
-const getFileStructure = (path) => {
+router.get(
+    "/course/:id/*",
+    [authVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        const filePath = req.params["0"];
+
+        logger.info(`Getting file ${filePath} for course ${req.params.id}`);
+
+        const fullPath = path.join(process.env.UPLOAD_ROOT,
+            "uploads", "courses", req.params.id, filePath);
+
+        if (!fs.existsSync(fullPath)) {
+            res.status(404).send({
+                message: "File not found",
+            });
+            
+            return;
+        }
+
+        res.status(200).download(fullPath);
+    }
+);
+
+const getFileStructure = (path, courseId) => {
     let result = [];
 
-    if (!fs.existsSync(path)) {
+    if (!fs.existsSync(
+        `${process.env.UPLOAD_ROOT}/uploads/courses/${courseId}/${path}`)) {
         return result;
     }
 
-    let list = fs.readdirSync(path);
+    let list = fs.readdirSync(
+        `${process.env.UPLOAD_ROOT}/uploads/courses/${courseId}/${path}`);
 
     list.forEach((file) => {
-        const currentPath = `${path}/${file}`;
+        const currentPath = `${process.env.UPLOAD_ROOT}/uploads/` +
+                            `courses/${courseId}/${path}/${file}`;
         const stat = fs.statSync(currentPath);
 
         if (stat.isFile()) {
@@ -142,7 +168,7 @@ const getFileStructure = (path) => {
                 name: file,
                 size: stat.size,
                 creationDate: stat.birthtime,
-                url: `${path}/${file}`,
+                path: `${path}/${file}`,
                 id: file,
                 type: "file",
             });
@@ -152,12 +178,12 @@ const getFileStructure = (path) => {
                 type: "folder",
             });
 
-            result[result.length - 1].children = getFileStructure(`${path}/${file}`);
+            const index = result.length - 1;
+            result[index].children = getFileStructure(`${path}/${file}`, courseId);
         }
     });
 
     return result;
 };
-
 
 module.exports = router;

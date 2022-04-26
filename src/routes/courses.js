@@ -90,6 +90,7 @@ router.post(
 
         course.students.push(student);
         student.courses.push(course);
+        
         await course.save();
         await student.save();
 

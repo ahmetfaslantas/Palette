@@ -46,6 +46,7 @@ describe("File operations", () => {
 
         fs.mkdirSync(
             `./files/uploads/courses/${courseId}/testdir`, { recursive: true });
+        
         fs.writeFileSync(
             `./files/uploads/courses/${courseId}/test.txt`,
             "Test file"
@@ -77,5 +78,37 @@ describe("File operations", () => {
 
         expect(response.body[1].children[0].name).toBe("test.txt");
         expect(response.body[1].children[0].size).toBe(9);
+    });
+
+    it("Should get file from course", async () => {
+        const response = await request(app)
+            .get(`/api/files/course/${courseId}/test.txt`)
+            .set("Cookie", token)
+            .responseType("blob")
+            .send();
+
+        expect(response.status).toBe(200);
+        expect(response.body.toString()).toBe("Test file");
+    });
+
+    it("Should get file from course in subdirectory", async () => {
+        const response = await request(app)
+            .get(`/api/files/course/${courseId}/testdir/test.txt`)
+            .set("Cookie", token)
+            .responseType("blob")
+            .send();
+
+        expect(response.status).toBe(200);
+        expect(response.body.toString()).toBe("Test file");
+    });
+    
+    it("Should return 404 if file not found", async () => {
+        const response = await request(app)
+            .get(`/api/files/course/${courseId}/testdir/test2.txt`)
+            .set("Cookie", token)
+            .responseType("blob")
+            .send();
+
+        expect(response.status).toBe(404);
     });
 });
