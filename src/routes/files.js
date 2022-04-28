@@ -1,10 +1,12 @@
 const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
+const path = require("path");
 const { authVerify } = require("../middleware/authverify");
 const {
     courseExistsVerify,
-    instructorVerify
+    instructorVerify,
+    userEnrolledVerify,
 } = require("../middleware/courseverify");
 const logger = require("../logger");
 
@@ -109,5 +111,79 @@ router.post(
         });
     }
 );
+
+router.get(
+    "/course/:id",
+    [authVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        logger.info(`Getting files for course ${req.params.id}`);
+
+        const files = getFileStructure(".", req.params.id);
+
+        res.status(200).send(files);
+    }
+);
+
+router.get(
+    "/course/:id/*",
+    [authVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        const filePath = req.params["0"];
+
+        logger.info(`Getting file ${filePath} for course ${req.params.id}`);
+
+        const fullPath = path.join(process.env.UPLOAD_ROOT,
+            "uploads", "courses", req.params.id, filePath);
+
+        if (!fs.existsSync(fullPath)) {
+            res.status(404).send({
+                message: "File not found",
+            });
+            
+            return;
+        }
+
+        res.status(200).download(fullPath);
+    }
+);
+
+const getFileStructure = (path, courseId) => {
+    let result = [];
+
+    if (!fs.existsSync(
+        `${process.env.UPLOAD_ROOT}/uploads/courses/${courseId}/${path}`)) {
+        return result;
+    }
+
+    let list = fs.readdirSync(
+        `${process.env.UPLOAD_ROOT}/uploads/courses/${courseId}/${path}`);
+
+    list.forEach((file) => {
+        const currentPath = `${process.env.UPLOAD_ROOT}/uploads/` +
+                            `courses/${courseId}/${path}/${file}`;
+        const stat = fs.statSync(currentPath);
+
+        if (stat.isFile()) {
+            result.push({
+                name: file,
+                size: stat.size,
+                creationDate: stat.birthtime,
+                path: `${path}/${file}`,
+                id: file,
+                type: "file",
+            });
+        } else {
+            result.push({
+                name: file,
+                type: "folder",
+            });
+
+            const index = result.length - 1;
+            result[index].children = getFileStructure(`${path}/${file}`, courseId);
+        }
+    });
+
+    return result;
+};
 
 module.exports = router;

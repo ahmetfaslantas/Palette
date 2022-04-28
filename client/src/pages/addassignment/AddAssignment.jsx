@@ -63,7 +63,6 @@ function AddAssignment() {
     );
 
     if (uploadRes.status !== 200) {
-      console.log(uploadRes);
       toast.current.show("Error uploading files!");
       return;
     }

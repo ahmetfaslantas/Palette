@@ -1,19 +1,18 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import AssignmentLogo from "@assets/assignment.svg";
 import style from "./Assignment.module.css";
 
 function Assignment(props) {
-  const location = useLocation();
   const navigate = useNavigate();
   const { assignment } = props;
-  const course = location.pathname.split("/")[2];
+  const { courseId } = useParams();
 
   return (
     <li
       className={style.assignmententry}
       onClick={() => {
-        navigate(`/course/${course}/assignment/${assignment._id}`);
+        navigate(`/course/${courseId}/assignment/${assignment._id}`);
       }}
     >
       <div className={style.assignmentcontainer}>

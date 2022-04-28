@@ -1,0 +1,35 @@
+.main {
+  display: flex;
+  margin: 0;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  margin-left: 35px;
+}
+
+.page > * {
+  margin-left: 35px;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90vw;
+  height: 90vh;
+}
+
+.empty .logo {
+  width: 70px;
+}
+
+.files {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90vw;
+  height: 90vh;
+}

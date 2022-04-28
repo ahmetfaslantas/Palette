@@ -4,50 +4,71 @@ module.exports = {
     "browser": true,
     "es2021": true,
     "node": true,
-    "jest": true
+    "jest": true,
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
   ],
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": true
+      "jsx": true,
     },
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
   },
   "plugins": [
-    "react"
+    "react",
   ],
   "rules": {
     "indent": [
       "error",
-      2
+      2,
     ],
     "react/jsx-indent": [
       "error",
-      2
+      2,
     ],
     "linebreak-style": [
       "error",
-      "windows"
+      "windows",
     ],
     "quotes": [
       "error",
-      "double"
+      "double",
     ],
     "semi": [
       "error",
-      "always"
+      "always",
     ],
     "react/react-in-jsx-scope": [
-      "off"
-    ]
+      "off",
+    ],
+    "no-console": [
+      "error",
+    ],
+    "no-warning-comments": [
+      "warn",
+      {
+        "terms": [
+          "todo",
+          "fixme",
+        ],
+        "location": "anywhere",
+      },
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "functions": "never",
+      },
+    ],
   },
   "settings": {
     "react": {
-      "version": "999.999.999"
-    }
-  }
+      "version": "999.999.999",
+    },
+  },
 };

@@ -1,0 +1,10 @@
+.tree {
+  border: solid;
+  border-width: 1px;
+  border-color: #ccc;
+  border-radius: 8px;
+  width: 60vw;
+  height: 60vh;
+  padding: 10px;
+  overflow-y: scroll;
+}

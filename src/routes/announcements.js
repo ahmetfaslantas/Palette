@@ -102,6 +102,7 @@ router.get(
             _id: announcement._id,
             title: announcement.title,
             content: announcement.content,
+            date: announcement.date,
             files: announcement.files,
             publisher: publisher.name,
         };

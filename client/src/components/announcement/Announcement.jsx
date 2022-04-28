@@ -1,19 +1,18 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import AnnouncementLogo from "@assets/announcement.svg";
 import style from "./Announcement.module.css";
 
 function Announcement(props) {
-  const location = useLocation();
   const navigate = useNavigate();
   const { announcement } = props;
-  const course = location.pathname.split("/")[2];
-  
-  return ( 
+  const { courseId } = useParams();
+
+  return (
     <li
       className={style.announcemententry}
       onClick={() => {
-        navigate(`/course/${course}/announcement/${announcement._id}`);
+        navigate(`/course/${courseId}/announcement/${announcement._id}`);
       }}
     >
       <div className={style.announcementcontainer}>
@@ -26,17 +25,14 @@ function Announcement(props) {
           <p className={style.title}>{announcement.title}</p>
           <p className={style.content}>{announcement.content}</p>
           <p className={style.date}>
-            {new Date(announcement.date).toLocaleDateString(
-              "en-US",
-              {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-              }
-            )}
+            {new Date(announcement.date).toLocaleDateString("en-US", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+            })}
           </p>
         </div>
       </div>
@@ -54,6 +50,5 @@ Announcement.propTypes = {
     files: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };
-
 
 export default Announcement;

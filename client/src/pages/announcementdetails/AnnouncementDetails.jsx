@@ -17,7 +17,6 @@ function AnnouncementDetails() {
   const { courseId, announcementId } = useParams();
 
   useEffect(() => {
-    console.log(style);
     async function getAnnouncement() {
       let result = await fetch(
         `${process.env.API_URL}/api/course/${courseId}/announcement/${announcementId}/`,

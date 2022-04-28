@@ -16,7 +16,7 @@ module.exports = () => {
     output: {
       path: path.join(__dirname, "build"),
       filename: "bundle.js",
-      publicPath: "/"
+      publicPath: "/",
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -35,7 +35,7 @@ module.exports = () => {
         "@components": path.resolve(__dirname, "src/components"),
         "@assets": path.resolve(__dirname, "src/assets"),
         "@pages": path.resolve(__dirname, "src/pages"),
-      }
+      },
     },
     module: {
       rules: [
@@ -45,9 +45,9 @@ module.exports = () => {
           use: {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/preset-env", ["@babel/preset-react", { "runtime": "automatic" }]]
-            }
-          }
+              presets: ["@babel/preset-env", ["@babel/preset-react", { "runtime": "automatic" }]],
+            },
+          },
         },
         {
           test: /\.css$/i,
@@ -57,19 +57,19 @@ module.exports = () => {
           test: /\.(jpe?g|png|gif|svg)$/i,
           loader: "file-loader",
           options: {
-            name: "./public/[name].[ext]"
-          }
-        }
-      ]
+            name: "./public/[name].[ext]",
+          },
+        },
+      ],
     },
     performance: {
       hints: false,
       maxEntrypointSize: 512000,
-      maxAssetSize: 512000
+      maxAssetSize: 512000,
     },
     mode: "development",
     devServer: {
       historyApiFallback: true,
-    }
+    },
   };
 };

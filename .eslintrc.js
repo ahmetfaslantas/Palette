@@ -2,39 +2,57 @@ module.exports = {
     "env": {
         "commonjs": true,
         "node": true,
-        "jest": true
+        "jest": true,
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
     },
     "rules": {
         "indent": [
             "error",
-            4
+            4,
         ],
         "linebreak-style": [
             "error",
-            "windows"
+            "windows",
         ],
         "quotes": [
             "error",
-            "double"
+            "double",
         ],
         "semi": [
             "error",
-            "always"
+            "always",
         ],
         "max-len": [
             "error",
             {
-                "code": 85
-            }
+                "code": 85,
+            },
         ],
-        "no-console": "error"
+        "no-console": "error",
+        "no-warning-comments": [
+            "warn",
+            {
+                "terms": [
+                    "todo",
+                    "fixme",
+                ],
+                "location": "anywhere",
+            },
+        ],
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "always-multiline",
+                "objects": "always-multiline",
+                "functions": "never",
+            },
+        ],
     },
     "ignorePatterns": [
         "node_modules/",
-        "client/"
-    ]
+        "client/",
+    ],
 };
