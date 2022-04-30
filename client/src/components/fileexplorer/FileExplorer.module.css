@@ -20,7 +20,7 @@ td {
 td:first-child {
   border-right: solid;
   border-width: 1px;
-  border-color: #000;
+  border-color: #ccc;
 }
 
 td:last-child {

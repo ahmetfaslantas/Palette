@@ -20,9 +20,9 @@ function Branch(props) {
       }, []);
     };
 
-    const shoulExpand = filter(item.children).length > 0;
+    const shouldExpand = filter(item.children).length > 0;
 
-    if (shoulExpand || item.id === openId) {
+    if (shouldExpand || item.id === openId) {
       setExpanded(true);
     } else {
       setExpanded(false);

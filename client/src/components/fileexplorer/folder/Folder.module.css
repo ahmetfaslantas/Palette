@@ -1,6 +1,16 @@
+.entry {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fileinput {
+  display: none;
+}
+
 details,
 summary {
   user-select: none;
+  cursor: pointer;
 }
 
 details > summary {

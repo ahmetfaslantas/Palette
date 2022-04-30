@@ -57,7 +57,15 @@ function FileExplorer(props) {
 }
 
 FileExplorer.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      children: PropTypes.arrayOf(PropTypes.object),
+      path: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default FileExplorer;

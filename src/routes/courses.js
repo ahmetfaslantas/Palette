@@ -8,6 +8,7 @@ const {
 } = require("../middleware/courseverify");
 const { Student, Instructor } = require("../models/user");
 const { Course } = require("../models/course");
+const fs = require("fs");
 const logger = require("../logger");
 
 const router = express.Router();
@@ -39,7 +40,12 @@ router.post("/newcourse", [authVerify, instructorVerify], async (req, res) => {
         description: description,
         instructors: [res.locals.userId],
     });
+
     await course.save();
+
+    fs.mkdirSync(`${process.env.UPLOAD_ROOT}/uploads/courses/${course._id}`, {
+        recursive: true,
+    });
 
     const user = await Instructor.findById(res.locals.userId);
     user.courses.push(course);
