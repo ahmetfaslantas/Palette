@@ -8,6 +8,7 @@ const {
     instructorVerify,
     userEnrolledVerify,
 } = require("../middleware/courseverify");
+const { nanoid } = require("nanoid");
 const logger = require("../logger");
 
 const router = express.Router();
@@ -169,13 +170,14 @@ const getFileStructure = (path, courseId) => {
                 size: stat.size,
                 creationDate: stat.birthtime,
                 path: `${path}/${file}`,
-                id: file,
+                id: nanoid(6),
                 type: "file",
             });
         } else {
             result.push({
                 name: file,
                 type: "folder",
+                id: nanoid(6),
             });
 
             const index = result.length - 1;

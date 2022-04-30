@@ -62,8 +62,9 @@ router.post("/login", async (req, res) => {
     );
 
     res.status(200)
-        .cookie("token", token)
-        .cookie("type", type === "student" ? "student" : "instructor")
+        .cookie("token", token, { expires: new Date(Date.now() + 3600000) })
+        .cookie("type", type === "student" ? "student" : "instructor",
+            { expires: new Date(Date.now() + 3600000) })
         .send({ message: "Logged in", redirect: "/" });
 });
 
