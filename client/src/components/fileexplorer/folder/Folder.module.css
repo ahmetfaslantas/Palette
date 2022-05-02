@@ -1,0 +1,40 @@
+.entry {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fileinput {
+  display: none;
+}
+
+details,
+summary {
+  user-select: none;
+  cursor: pointer;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::marker {
+  display: none;
+}
+
+span {
+  display: flex;
+  justify-content: space-between;
+}
+
+.download {
+  width: 20px;
+}
+
+.download:hover {
+  cursor: pointer;
+}
+
+.logo {
+  width: 20px;
+  margin-right: 5px;
+}

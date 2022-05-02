@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import style from "./CourseCard.module.css";
 import AnnouncementLogo from "@assets/announcement.svg";
 import AssignmentLogo from "@assets/assignment.svg";
-import FileLogo from "@assets/file.svg";
+import Folder from "@assets/folder.svg";
 import { useNavigate } from "react-router-dom";
 
 function CourseCard(props) {
@@ -60,7 +60,7 @@ function CourseCard(props) {
           }}
         />
         <img
-          src={FileLogo}
+          src={Folder}
           className={style.icon}
           alt="Files"
           onClick={() => {

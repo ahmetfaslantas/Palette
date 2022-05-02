@@ -8,6 +8,7 @@ const {
     instructorVerify,
     userEnrolledVerify,
 } = require("../middleware/courseverify");
+const { nanoid } = require("nanoid");
 const logger = require("../logger");
 
 const router = express.Router();
@@ -55,7 +56,7 @@ const courseUpload = multer({
         destination: (req, file, cb) => {
             let path =
                 `${process.env.UPLOAD_ROOT}/uploads/` +
-                `courses/${req.res.locals.course._id}/`;
+                `courses/${req.res.locals.course._id}/${req.params["0"]}`;
 
             if (!fs.existsSync(path)) {
                 fs.mkdirSync(path, { recursive: true });
@@ -101,7 +102,32 @@ router.post(
 );
 
 router.post(
-    "/course/:id/upload",
+    "/course/:id/newfolder/*",
+    [authVerify, courseExistsVerify, instructorVerify],
+    async (req, res) => {
+        logger.info(`Creating new folder for course ${req.params.id}`);
+        
+        let path = req.params["0"];
+        let courseId = req.res.locals.course._id;
+
+        let newPath = `${process.env.UPLOAD_ROOT}/uploads/` + 
+            `courses/${courseId}/${path}`;
+
+        if (fs.existsSync(newPath)) {
+            res.status(400).send({
+                message: "Folder already exists",
+            });
+        } else {
+            fs.mkdirSync(newPath);
+            res.status(200).send({
+                message: "Folder created",
+            });
+        }
+    }
+);
+
+router.post(
+    "/course/:id/upload/*",
     [authVerify, courseExistsVerify, instructorVerify, courseUpload.array("files")],
     async (req, res) => {
         logger.info(`Uploading files for course ${req.params.id}`);
@@ -118,7 +144,13 @@ router.get(
     async (req, res) => {
         logger.info(`Getting files for course ${req.params.id}`);
 
-        const files = getFileStructure(".", req.params.id);
+        const files = [{
+            name: res.locals.course.name,
+            type: "folder",
+            children: getFileStructure(".", req.params.id),
+            id: nanoid(6),
+            path: ".",
+        }];
 
         res.status(200).send(files);
     }
@@ -129,6 +161,13 @@ router.get(
     [authVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         const filePath = req.params["0"];
+
+        if (filePath.includes("..")) {
+            res.status(400).send({
+                message: "Invalid path",
+            });
+            return;
+        }
 
         logger.info(`Getting file ${filePath} for course ${req.params.id}`);
 
@@ -161,6 +200,7 @@ const getFileStructure = (path, courseId) => {
     list.forEach((file) => {
         const currentPath = `${process.env.UPLOAD_ROOT}/uploads/` +
                             `courses/${courseId}/${path}/${file}`;
+
         const stat = fs.statSync(currentPath);
 
         if (stat.isFile()) {
@@ -169,13 +209,15 @@ const getFileStructure = (path, courseId) => {
                 size: stat.size,
                 creationDate: stat.birthtime,
                 path: `${path}/${file}`,
-                id: file,
+                id: nanoid(6),
                 type: "file",
             });
         } else {
             result.push({
                 name: file,
                 type: "folder",
+                id: nanoid(6),
+                path: `${path}/${file}`,
             });
 
             const index = result.length - 1;
