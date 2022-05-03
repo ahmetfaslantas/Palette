@@ -64,21 +64,24 @@ router.get(
 
 router.delete(
     "/:id/student",
-    [authVerify, instructorVerify, courseExistsVerify, studentExistsVerify],
+    [authVerify, instructorVerify, courseExistsVerify, studentExistsVerify, 
+        userEnrolledVerify],
     async (req, res) => {
         logger.info(
-            `Removing student ${req.body.studentId} from course ${req.params.id}`
+            `Removing student ${req.body.email} from course ${req.params.id}`
         );
 
         let course = res.locals.course;
         let student = res.locals.student;
 
         course.students = course.students.filter(
-            (id) => id.toString() !== req.body.studentId
+            (id) => id.toString() !== student._id.toString()
         );
+
         student.courses = student.courses.filter(
             (id) => id.toString() !== req.params.id
         );
+
         await course.save();
         await student.save();
 
