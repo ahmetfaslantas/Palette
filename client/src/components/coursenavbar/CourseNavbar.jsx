@@ -9,7 +9,7 @@ function CourseNavbar() {
   const { courseId } = useParams();
   const navigate = useNavigate();
 
-  const courseName = localStorage.getItem(`coursename${courseId}`);
+  const courseName = localStorage.getItem(`${courseId}:name`);
 
   return (
     <div className={style.coursenavbar}>

@@ -12,7 +12,7 @@
 
 .controls {
   display: flex;
-  width: 90vw;
+  width: 80vw;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import Navbar from "@components/navbar/Navbar.jsx";
+import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import FileEntry from "@components/fileentry/FileEntry.jsx";
 import Title from "@components/title/Title.jsx";
 import Toast from "@components/toast/Toast.jsx";
@@ -113,6 +114,7 @@ function AssignmentDetails() {
   return (
     <div className={style.main}>
       <Navbar />
+      <CourseNavbar />
       <div className={style.page}>
         <Title title="Submission" />
         <div className={style.assignment}>

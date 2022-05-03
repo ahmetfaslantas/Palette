@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Toast from "@components/toast/Toast.jsx";
 import Title from "@components/title/Title.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
+import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import style from "./AddAnnouncement.module.css";
 
 // TODO: Add file upload functionality.
@@ -52,6 +53,7 @@ function AddAnnouncement() {
   return (
     <div className={style.main}>
       <Navbar />
+      <CourseNavbar />
       <div className={style.page}>
         <Title title="Add Announcement" />
         <form className={style.announcementform} onSubmit={onSubmit}>
