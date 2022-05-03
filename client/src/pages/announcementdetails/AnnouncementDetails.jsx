@@ -5,6 +5,7 @@ import Navbar from "@components/navbar/Navbar.jsx";
 import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import Title from "@components/title/Title.jsx";
 import Toast from "@components/toast/Toast.jsx";
+import Comment from "@components/comment/Comment.jsx";
 import style from "./AnnouncementDetails.module.css";
 
 function AnnouncementDetails() {
@@ -99,6 +100,16 @@ function AnnouncementDetails() {
             <textarea ref={comment} />
             <button onClick={submitComment}>Submit Comment</button>
           </div>
+          {announcement.comments.length > 0 && (
+            <div className={style.comments}>
+              <h3>Comments</h3>
+              <ul>
+                {announcement.comments.map((comment) => (
+                  <Comment comment={comment} key={comment._id} />
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
       <Toast ref={toast} />

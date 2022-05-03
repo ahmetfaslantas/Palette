@@ -5,7 +5,7 @@ const {
     instructorVerify,
     userEnrolledVerify,
 } = require("../middleware/courseverify");
-const { Instructor } = require("../models/user");
+const { Instructor, Student } = require("../models/user");
 const logger = require("../logger");
 
 const router = express.Router();
@@ -84,6 +84,11 @@ router.post(
             `Creating new comment for announcement ${req.params.announcementId}`
             + ` by user ${res.locals.userId}`);
 
+        if (req.body.content.length > 1000) {
+            res.status(400).send({ error: "Comment too long" });
+            return;
+        }
+
         let course = res.locals.course;
 
         let announcement = course.announcements.find(
@@ -127,6 +132,22 @@ router.get(
 
         const publisher = await Instructor.findById(announcement.publisher);
 
+        const comments = 
+            await Promise.all(announcement.comments.map(async (comment) => {
+                let publisher = await Student.findById(comment.publisher);
+
+                if (!publisher) {
+                    publisher = await Instructor.findById(comment.publisher);
+                }
+
+                return {
+                    _id: comment._id,
+                    content: comment.content,
+                    publisher: publisher.name,
+                    date: comment.date,
+                };
+            }));
+
         announcement = {
             _id: announcement._id,
             title: announcement.title,
@@ -134,7 +155,7 @@ router.get(
             date: announcement.date,
             files: announcement.files,
             publisher: publisher.name,
-            comments: announcement.comments,
+            comments: comments,
         };
 
         res.send(announcement);
