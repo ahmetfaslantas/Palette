@@ -76,6 +76,35 @@ router.delete(
     }
 );
 
+router.post(
+    "/:id/announcement/:announcementId/comment",
+    [authVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        logger.info(
+            `Creating new comment for announcement ${req.params.announcementId}`
+            + ` by user ${res.locals.userId}`);
+
+        let course = res.locals.course;
+
+        let announcement = course.announcements.find(
+            (announcement) =>
+                announcement._id.toString() === req.params.announcementId);
+
+        if (!announcement) {
+            return res.status(400).send({ error: "Announcement not found" });
+        }
+
+        announcement.comments.push({
+            content: req.body.content,
+            publisher: res.locals.userId,
+        });
+
+        await course.save();
+
+        res.status(200).send({ message: "Comment created" });
+    }
+);
+
 router.get(
     "/:id/announcement/:announcementId",
     [authVerify, courseExistsVerify, userEnrolledVerify],
@@ -105,6 +134,7 @@ router.get(
             date: announcement.date,
             files: announcement.files,
             publisher: publisher.name,
+            comments: announcement.comments,
         };
 
         res.send(announcement);

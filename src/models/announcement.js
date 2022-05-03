@@ -24,6 +24,23 @@ const announcementSchema = new Schema({
             type: String,
         },
     ],
+    comments: [
+        {
+            content: {
+                type: String,
+                required: true,
+            },
+            publisher: {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+                required: true,
+            },
+            date: {
+                type: Date,
+                default: Date.now,
+            },
+        },
+    ],
 });
 
 module.exports = { announcementSchema };
