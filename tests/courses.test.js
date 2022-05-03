@@ -93,54 +93,6 @@ describe("Course operations", () => {
         expect(course.creationDate).toBeDefined();
     });
 
-    it("Should invite a student to a course (instructor)", async () => {
-        const response = await request(app)
-            .post(`/api/course/${courseId}/student`)
-            .set("Cookie", instructorToken)
-            .send({
-                email: "test2",
-            });
-
-        expect(response.status).toBe(200);
-    });
-
-    it("Should not be able to add student to a non-existent course", async () => {
-        const response = await request(app)
-            .post("/api/course/624ff896dec980f6960e8e81/student")
-            .set("Cookie", instructorToken)
-            .send({
-                email: "test2",
-            });
-
-        expect(response.status).toBe(400);
-    });
-
-    it("Should not invite a student to a course (student)", async () => {
-        const response = await request(app)
-            .post(`/api/course/${courseId}/student`)
-            .set("Cookie", studentToken)
-            .send({
-                email: "test2",
-            });
-
-        expect(response.status).toBe(401);
-    });
-
-    it("Should get all students enrolled in a course", async () => {
-        const response = await request(app)
-            .get(`/api/course/${courseId}/student`)
-            .set("Cookie", instructorToken)
-            .send();
-
-        expect(response.status).toBe(200);
-        expect(response.body.length).toBe(1);
-
-        const student = response.body[0];
-
-        expect(student.email).toBe("test2");
-        expect(student.name).toBe("Test Student");
-    });
-
     it("Should delete a course (instructor)", async () => {
         const response = await request(app)
             .delete(`/api/course/${courseId}`)

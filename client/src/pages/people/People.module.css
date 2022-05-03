@@ -1,0 +1,68 @@
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.page {
+  margin-left: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  width: 90vw;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.addstudent {
+  color: white;
+  background-color: lightskyblue;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: skyblue;
+  border-style: solid;
+  width: 90px;
+  height: 30px;
+}
+
+.addstudent:hover {
+  cursor: pointer;
+}
+
+.people {
+  width: 40vw;
+}
+
+.student {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: solid;
+  border-width: 1px;
+  border-color: lightgray;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.instructor {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: solid;
+  border-width: 1px;
+  border-color: lightblue;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.student p,
+.instructor p {
+  margin: 8px 10px;
+}

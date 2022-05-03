@@ -39,7 +39,7 @@ function AddStudent() {
       return;
     }
 
-    navigate(`/course/${courseId}/`);
+    navigate(`/course/${courseId}/people`);
   };
 
   return (
