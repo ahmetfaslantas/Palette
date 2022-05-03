@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import useAuth from "@hooks/useAuth.jsx";
 import Toast from "@components/toast/Toast.jsx";
 import Title from "@components/title/Title.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
@@ -7,6 +8,7 @@ import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import style from "./AddStudent.module.css";
 
 function AddStudent() {
+  useAuth();
   const studentEmail = useRef();
   const toast = useRef();
 

@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import useAuth from "@hooks/useAuth.jsx";
 import Toast from "@components/toast/Toast.jsx";
 import Title from "@components/title/Title.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
@@ -8,6 +9,7 @@ import style from "./AddAnnouncement.module.css";
 
 // TODO: Add file upload functionality.
 function AddAnnouncement() {
+  useAuth();
   const announcementTitle = useRef();
   const announcementContent = useRef();
   const toast = useRef();

@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import useAuth from "@hooks/useAuth.jsx";
 import Title from "@components/title/Title.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import Toast from "@components/toast/Toast.jsx";
-import Cookies from "js-cookie";
 import style from "./People.module.css";
 
 function People() {
@@ -13,7 +13,7 @@ function People() {
 
   const [students, setStudents] = useState([]);
   const [innstructors, setInstructors] = useState([]);
-  const [type, setType] = useState("");
+  const type = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,7 +56,6 @@ function People() {
     }
 
     getPeople();
-    setType(Cookies.get("type"));
   }, []);
 
   return ( 

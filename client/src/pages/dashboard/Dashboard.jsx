@@ -1,21 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useAuth from "@hooks/useAuth.jsx";
 import CourseCard from "@components/coursecard/CourseCard.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import Title from "@components/title/Title.jsx";
-import Cookies from "js-cookie";
 import style from "./Dashboard.module.css";
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
-  const [type, setType] = useState("");
+  const type = useAuth();
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (!Cookies.get("token") || !Cookies.get("type")) {
-      navigate("/login");
-    }
-
     async function getCourses() {
       let result = await fetch(`${process.env.API_URL}/api/course`, {
         method: "GET",
@@ -38,8 +34,7 @@ function Dashboard() {
       });
     }
     getCourses();
-    setType(Cookies.get("type"));
-  }, [navigate]);
+  }, []);
 
   return (
     <div className={style.main}>

@@ -1,6 +1,7 @@
 import { useRef, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useParams, useNavigate } from "react-router-dom";
+import useAuth from "@hooks/useAuth.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import Title from "@components/title/Title.jsx";
@@ -10,6 +11,7 @@ import style from "./AddAssignment.module.css";
 import FileUpload from "@assets/fileupload.svg";
 
 function AddAssignment() {
+  useAuth();
   const assignmentName = useRef();
   const assignmentDescription = useRef();
   const assignmentDueDate = useRef();

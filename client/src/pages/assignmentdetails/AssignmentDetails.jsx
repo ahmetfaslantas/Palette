@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
+import useAuth from "@hooks/useAuth.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import FileEntry from "@components/fileentry/FileEntry.jsx";
@@ -12,6 +13,7 @@ import style from "./AssignmentDetails.module.css";
 function AssignmentDetails() {
   const toast = useRef();
   const navigate = useNavigate();
+  useAuth();
 
   const [assignment, setAssignment] = useState({
     name: "",

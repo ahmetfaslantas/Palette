@@ -1,11 +1,13 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import useAuth from "@hooks/useAuth.jsx";
 import Title from "@components/title/Title.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import Toast from "@components/toast/Toast.jsx";
 import style from "./AddCourse.module.css";
 
 function AddCourse() {
+  useAuth();
   const courseName = useRef();
   const courseDescription = useRef();
   const toast = useRef();

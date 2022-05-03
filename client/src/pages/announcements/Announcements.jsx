@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import useAuth from "@hooks/useAuth.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import Title from "@components/title/Title.jsx";
@@ -11,7 +11,7 @@ import style from "./Announcements.module.css";
 
 function Announcements() {
   const [announcements, setAnnouncements] = useState([]);
-  const [type, setType] = useState("");
+  const type = useAuth();
   const toast = useRef();
 
   const { courseId } = useParams();
@@ -19,7 +19,6 @@ function Announcements() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setType(Cookies.get("type"));
     async function getAnnouncements() {
       let result = await fetch(
         `${process.env.API_URL}/api/course/${courseId}/announcement`,

@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import useAuth from "@hooks/useAuth.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import Title from "@components/title/Title.jsx";
 import Assignment from "@components/assignment/Assignment.jsx";
 import AssignmentLogo from "@assets/assignment.svg";
 import style from "./Assignments.module.css";
-import Cookies from "js-cookie";
 
 function Assignments() {
   const [assignments, setAssignments] = useState([]);
-  const [type, setType] = useState("");
-
+  const type = useAuth();
   const { courseId } = useParams();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +33,6 @@ function Assignments() {
     }
 
     getCourse();
-    setType(Cookies.get("type"));
   }, []);
 
   return (

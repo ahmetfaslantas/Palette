@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import useAuth from "@hooks/useAuth.jsx";
 import Title from "@components/title/Title.jsx";
 import Toast from "@components/toast/Toast.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
@@ -11,6 +12,8 @@ function CourseFiles() {
   const [files, setFiles] = useState([]);
   const { courseId } = useParams();
   const toast = useRef();
+
+  useAuth();
 
   useEffect(() => {
     async function getCourseFiles() {
