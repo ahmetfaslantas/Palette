@@ -25,17 +25,53 @@
   padding-right: 10px;
 }
 
-.announcementtitle {
+.announcement hr {
+  width: 100%;
+  border-top: 1px solid #ccc;
+}
+
+.announcement .title {
   margin-bottom: 5px;
   font-size: larger;
 }
 
-.announcementpublisher {
+.announcement .publisher {
   color: darkgray;
   font-weight: 100;
   margin: 0;
 }
 
-.announcementcontent {
+.announcement .content {
   word-wrap: break-word;
+}
+
+.announcement .commentcontrol {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.announcement .commentcontrol textarea {
+  width: 80%;
+  height: 30px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  border-color: #ccc;
+  resize: vertical;
+}
+
+.announcement .commentcontrol button {
+  width: 15%;
+  height: 30px;
+  background-color: #4caf50;
+  border-color: transparent;
+  border-radius: 13px;
+  color: white;
+  font-size: medium;
+}
+
+.announcement .commentcontrol button:hover {
+  cursor: pointer;
 }
