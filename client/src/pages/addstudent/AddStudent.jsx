@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Toast from "@components/toast/Toast.jsx";
 import Title from "@components/title/Title.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
+import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import style from "./AddStudent.module.css";
 
 function AddStudent() {
@@ -39,12 +40,13 @@ function AddStudent() {
       return;
     }
 
-    navigate(`/course/${courseId}/`);
+    navigate(`/course/${courseId}/people`);
   };
 
   return (
     <div className={style.main}>
       <Navbar />
+      <CourseNavbar />
       <div className={style.page}>
         <Title title="Add Student" />
         <form className={style.studentform} onSubmit={onSubmit}>

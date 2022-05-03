@@ -2,6 +2,7 @@ import { useRef, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@components/navbar/Navbar.jsx";
+import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import Title from "@components/title/Title.jsx";
 import Toast from "@components/toast/Toast.jsx";
 import FileEntry from "@components/fileentry/FileEntry.jsx";
@@ -98,6 +99,7 @@ function AddAssignment() {
   return ( 
     <div className={style.main}>
       <Navbar />
+      <CourseNavbar />
       <div className={style.page}>
         <Title title="Add Assignment" />
         <form onSubmit={onSubmit} className={style.assignmentform}>

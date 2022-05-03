@@ -24,13 +24,13 @@ exports.courseExistsVerify = async (req, res, next) => {
 };
 
 exports.studentExistsVerify = async (req, res, next) => {
-    const student = await Student.findById(req.body.studentId);
+    const student = await Student.find({email: req.body.email});
 
     if (!student) {
         return res.status(400).send({ error: "Student not found" });
     }
 
-    res.locals.student = student;
+    res.locals.student = student[0];
 
     next();
 };

@@ -9,6 +9,7 @@ const courseRoutes = require("./routes/courses");
 const assignmentRoutes = require("./routes/assignments");
 const announcementRoutes = require("./routes/announcements");
 const filesRoutes = require("./routes/files");
+const peopleRoutes = require("./routes/people");
 
 const logger = require("./logger");
 
@@ -35,6 +36,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/course", assignmentRoutes);
 app.use("/api/course", announcementRoutes);
+app.use("/api/course", peopleRoutes);
 app.use("/api/files", filesRoutes);
 
 module.exports = app;

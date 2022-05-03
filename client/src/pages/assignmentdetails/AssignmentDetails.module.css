@@ -16,7 +16,7 @@
 .assignment {
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 80vw;
 }
 
 .assignmentheader {

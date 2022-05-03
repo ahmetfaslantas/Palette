@@ -27,8 +27,15 @@ function Dashboard() {
       });
 
       let json = await result.json();
-
+      
       setCourses(json);
+
+      json.forEach((course) => {
+        localStorage.setItem(
+          `${course._id}:name`,
+          course.name
+        );
+      });
     }
     getCourses();
     setType(Cookies.get("type"));

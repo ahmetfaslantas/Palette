@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import Navbar from "@components/navbar/Navbar.jsx";
+import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import Title from "@components/title/Title.jsx";
 import Announcement from "@components/announcement/Announcement.jsx";
 import Toast from "@components/toast/Toast.jsx";
@@ -47,6 +48,7 @@ function Announcements() {
   return ( 
     <div className={style.main}>
       <Navbar />
+      <CourseNavbar />
       <div className={style.page}>
         <div className={style.controls}>
           <Title title="Announcements" />

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@components/navbar/Navbar.jsx";
+import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import Title from "@components/title/Title.jsx";
 import Assignment from "@components/assignment/Assignment.jsx";
 import AssignmentLogo from "@assets/assignment.svg";
@@ -40,6 +41,7 @@ function Assignments() {
   return (
     <div className={style.main}>
       <Navbar />
+      <CourseNavbar />
       <div className={style.page}>
         <div className={style.controls}>
           <Title title="Assignments" />
