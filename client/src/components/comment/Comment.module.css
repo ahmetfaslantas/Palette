@@ -1,0 +1,29 @@
+.comment {
+  list-style: none;
+  border: solid;
+  border-width: 1px;
+  border-color: #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.comment + .comment {
+  margin-top: 10px;
+}
+
+.comment .content {
+  word-wrap: break-word;
+}
+
+.comment .publisher {
+  color: #444;
+  font-weight: 700;
+  margin: 0;
+}
+
+.comment .date {
+  color: darkgray;
+  font-weight: 100;
+  margin: 0;
+  font-size: medium;
+}

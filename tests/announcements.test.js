@@ -77,6 +77,17 @@ describe("Announcements operations", () => {
         expect(announcement.publisher).toBeDefined();
     });
 
+    it("Should post a comment", async () => {
+        const response = await request(app)
+            .post(`/api/course/${courseId}/announcement/${announcementId}/comment`)
+            .set("Cookie", token)
+            .send({
+                content: "Test Comment",
+            });
+
+        expect(response.status).toBe(200);
+    });
+
     it("Should get an announcement", async () => {
         const response = await request(app)
             .get(`/api/course/${courseId}/announcement/${announcementId}`)
@@ -93,5 +104,6 @@ describe("Announcements operations", () => {
         expect(announcement.date).toBeDefined();
         expect(announcement.files.length).toBe(0);
         expect(announcement.publisher).toBeDefined();
+        expect(announcement.comments.length).toBe(1);
     });
 });

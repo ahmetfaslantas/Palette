@@ -5,7 +5,7 @@ const {
     instructorVerify,
     userEnrolledVerify,
 } = require("../middleware/courseverify");
-const { Instructor } = require("../models/user");
+const { Instructor, Student } = require("../models/user");
 const logger = require("../logger");
 
 const router = express.Router();
@@ -76,6 +76,40 @@ router.delete(
     }
 );
 
+router.post(
+    "/:id/announcement/:announcementId/comment",
+    [authVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        logger.info(
+            `Creating new comment for announcement ${req.params.announcementId}`
+            + ` by user ${res.locals.userId}`);
+
+        if (req.body.content.length > 1000) {
+            res.status(400).send({ error: "Comment too long" });
+            return;
+        }
+
+        let course = res.locals.course;
+
+        let announcement = course.announcements.find(
+            (announcement) =>
+                announcement._id.toString() === req.params.announcementId);
+
+        if (!announcement) {
+            return res.status(400).send({ error: "Announcement not found" });
+        }
+
+        announcement.comments.push({
+            content: req.body.content,
+            publisher: res.locals.userId,
+        });
+
+        await course.save();
+
+        res.status(200).send({ message: "Comment created" });
+    }
+);
+
 router.get(
     "/:id/announcement/:announcementId",
     [authVerify, courseExistsVerify, userEnrolledVerify],
@@ -98,6 +132,22 @@ router.get(
 
         const publisher = await Instructor.findById(announcement.publisher);
 
+        const comments = 
+            await Promise.all(announcement.comments.map(async (comment) => {
+                let publisher = await Student.findById(comment.publisher);
+
+                if (!publisher) {
+                    publisher = await Instructor.findById(comment.publisher);
+                }
+
+                return {
+                    _id: comment._id,
+                    content: comment.content,
+                    publisher: publisher.name,
+                    date: comment.date,
+                };
+            }));
+
         announcement = {
             _id: announcement._id,
             title: announcement.title,
@@ -105,6 +155,7 @@ router.get(
             date: announcement.date,
             files: announcement.files,
             publisher: publisher.name,
+            comments: comments,
         };
 
         res.send(announcement);
