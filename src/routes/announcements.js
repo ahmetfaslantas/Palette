@@ -115,20 +115,15 @@ router.get(
     [authVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         let course = res.locals.course;
-
-        if (
-            !course.announcements.find(
-                (announcement) =>
-                    announcement._id.toString() === req.params.announcementId
-            )
-        ) {
-            return res.status(400).send({ error: "Announcement not found" });
-        }
-
+        
         let announcement = course.announcements.find(
             (announcement) =>
                 announcement._id.toString() === req.params.announcementId
         );
+
+        if (!announcement) {
+            return res.status(400).send({ error: "Announcement not found" });
+        }
 
         const publisher = await Instructor.findById(announcement.publisher);
 
