@@ -3,6 +3,7 @@ const { authVerify } = require("../middleware/authverify");
 const {
     courseExistsVerify,
     instructorVerify,
+    userEnrolledVerify,
 } = require("../middleware/courseverify");
 const { Student, Instructor } = require("../models/user");
 const { Course } = require("../models/course");
@@ -52,13 +53,53 @@ router.post("/newcourse", [authVerify, instructorVerify], async (req, res) => {
     res.status(200).send({ message: "Course created" });
 });
 
+router.get(
+    "/:id",
+    [authVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        logger.info(`Getting course summary for id ${req.params.id}`);
+
+        const course = res.locals.course;
+
+        const nearAssignments = await course.assignments.filter(
+            (assignment) => assignment.dueDate < Date.now() + 86400000 * 7 &&
+                assignment.dueDate > Date.now()
+        );
+
+        const doneAssignments = nearAssignments.filter(
+            (assignment) => assignment.submissions.find(
+                (submission) => submission.studentId === res.locals.userId
+            ) !== undefined
+        );
+
+        const upcomingAssignments = await course.assignments.filter(
+            (assignment) => assignment.submissions.find(
+                (submission) => submission.studentId === res.locals.userId
+            ) === undefined
+        );
+
+        const newAnnouncements = await course.announcements.filter(
+            (announcement) => announcement.date < Date.now() + 86400000 * 7
+                && announcement.date > Date.now()
+        );
+
+        const result = {
+            doneAssignments: doneAssignments,
+            upcomingAssignments: upcomingAssignments,
+            newAnnouncements: newAnnouncements,
+        };
+
+        res.status(200).send(result);
+    }
+);
+
 router.delete(
     "/:id",
     [authVerify, instructorVerify, courseExistsVerify],
     async (req, res) => {
         logger.info(`Deleting course ${req.params.id}`);
 
-        let course = res.locals.course;
+        const course = res.locals.course;
 
         await course.remove();
 
