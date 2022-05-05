@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post(
     "/:id/announcement",
-    [authVerify, instructorVerify, courseExistsVerify],
+    [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         const { title, content, files } = req.body;
 
@@ -47,7 +47,7 @@ router.get(
 
 router.delete(
     "/:id/announcement",
-    [authVerify, instructorVerify, courseExistsVerify],
+    [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         logger.info(
             `Deleting announcement ${req.body.announcementId} ` +

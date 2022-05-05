@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post(
     "/:id/assignment",
-    [authVerify, instructorVerify, courseExistsVerify],
+    [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         const { name, description, dueDate, files, maxPoints } = req.body;
 
@@ -57,7 +57,7 @@ router.get(
 
 router.delete(
     "/:id/assignment",
-    [authVerify, instructorVerify, courseExistsVerify],
+    [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         let course = res.locals.course;
 

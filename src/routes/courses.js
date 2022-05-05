@@ -3,6 +3,7 @@ const { authVerify } = require("../middleware/authverify");
 const {
     courseExistsVerify,
     instructorVerify,
+    userEnrolledVerify,
 } = require("../middleware/courseverify");
 const { Student, Instructor } = require("../models/user");
 const { Course } = require("../models/course");
@@ -54,7 +55,7 @@ router.post("/newcourse", [authVerify, instructorVerify], async (req, res) => {
 
 router.delete(
     "/:id",
-    [authVerify, instructorVerify, courseExistsVerify],
+    [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         logger.info(`Deleting course ${req.params.id}`);
 

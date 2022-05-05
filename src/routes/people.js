@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post(
     "/:id/student",
-    [authVerify, instructorVerify, courseExistsVerify],
+    [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         const { email } = req.body;
 

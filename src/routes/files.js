@@ -103,7 +103,7 @@ router.post(
 
 router.post(
     "/course/:id/newfolder/*",
-    [authVerify, courseExistsVerify, instructorVerify],
+    [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         logger.info(`Creating new folder for course ${req.params.id}`);
         
@@ -128,7 +128,8 @@ router.post(
 
 router.post(
     "/course/:id/upload/*",
-    [authVerify, courseExistsVerify, instructorVerify, courseUpload.array("files")],
+    [authVerify, instructorVerify, courseExistsVerify, 
+        userEnrolledVerify, courseUpload.array("files")],
     async (req, res) => {
         logger.info(`Uploading files for course ${req.params.id}`);
         res.status(200).send({
