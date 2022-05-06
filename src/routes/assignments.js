@@ -91,19 +91,14 @@ router.get(
         const course = res.locals.course;
         const user = res.locals.user;
 
-        if (
-            !course.assignments.find(
-                (assignment) =>
-                    assignment._id.toString() === req.params.assignmentId
-            )
-        ) {
-            return res.status(400).send({ error: "Assignment not found" });
-        }
-
         let assignment = course.assignments.find(
             (assignment) =>
                 assignment._id.toString() === req.params.assignmentId
         );
+        
+        if (!assignment) {
+            return res.status(400).send({ error: "Assignment not found" });
+        }
 
         assignment = {
             _id: assignment._id,
@@ -148,6 +143,7 @@ router.post(
         });
 
         let course = res.locals.course;
+        
         let assignment = course.assignments.find(
             (assignment) =>
                 assignment._id.toString() === req.params.assignmentId

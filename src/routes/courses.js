@@ -66,21 +66,40 @@ router.get(
                 assignment.dueDate > Date.now()
         );
 
-        const doneAssignments = nearAssignments.filter(
+        let doneAssignments = nearAssignments.filter(
             (assignment) => assignment.submissions.find(
-                (submission) => submission.studentId === res.locals.userId
+                (submission) => submission.studentId.toString() === res.locals.userId
             ) !== undefined
         );
 
-        const upcomingAssignments = await course.assignments.filter(
+        doneAssignments = doneAssignments.map((assignment) => {
+            return {
+                _id: assignment._id,
+                name: assignment.name,
+                description: assignment.description,
+                dueDate: assignment.dueDate,
+                maxPoints: assignment.maxPoints,
+            };
+        });
+
+        let upcomingAssignments = await nearAssignments.filter(
             (assignment) => assignment.submissions.find(
-                (submission) => submission.studentId === res.locals.userId
+                (submission) => submission.studentId.toString() === res.locals.userId
             ) === undefined
         );
 
+        upcomingAssignments = upcomingAssignments.map((assignment) => {
+            return {
+                _id: assignment._id,
+                name: assignment.name,
+                description: assignment.description,
+                dueDate: assignment.dueDate,
+                maxPoints: assignment.maxPoints,
+            };
+        });
+
         const newAnnouncements = await course.announcements.filter(
             (announcement) => announcement.date < Date.now() + 86400000 * 7
-                && announcement.date > Date.now()
         );
 
         const result = {

@@ -1,9 +1,56 @@
 .main {
   display: flex;
-  flex-direction: row;
+  margin: 0;
 }
 
 .page {
+  display: flex;
+  flex-direction: column;
   width: 80vw;
   margin-left: 35px;
+}
+
+.page > * {
+  margin-left: 35px;
+}
+
+.summary {
+  border: solid;
+  border-width: 1px;
+  border-color: #ccc;
+  border-radius: 5px;
+  width: 40vw;
+  height: min-content;
+}
+
+.summary + .summary {
+  margin-top: 20px;
+}
+
+.summary .icon {
+  width: 20px;
+  vertical-align: bottom;
+  padding-right: 5px;
+}
+
+.summary td {
+  vertical-align: middle;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.summary td + td {
+  border-left: 1px solid #ccc;
+}
+
+.summary td:first-child {
+  border: none;
+}
+
+.summary td:last-child {
+  display: table-cell;
+}
+
+.summary th {
+  border-bottom: 1px solid #ccc;
 }
