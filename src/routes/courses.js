@@ -53,13 +53,72 @@ router.post("/newcourse", [authVerify, instructorVerify], async (req, res) => {
     res.status(200).send({ message: "Course created" });
 });
 
+router.get(
+    "/:id",
+    [authVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        logger.info(`Getting course summary for id ${req.params.id}`);
+
+        const course = res.locals.course;
+
+        const nearAssignments = await course.assignments.filter(
+            (assignment) => assignment.dueDate < Date.now() + 86400000 * 7 &&
+                assignment.dueDate > Date.now()
+        );
+
+        let doneAssignments = nearAssignments.filter(
+            (assignment) => assignment.submissions.find(
+                (submission) => submission.studentId.toString() === res.locals.userId
+            ) !== undefined
+        );
+
+        doneAssignments = doneAssignments.map((assignment) => {
+            return {
+                _id: assignment._id,
+                name: assignment.name,
+                description: assignment.description,
+                dueDate: assignment.dueDate,
+                maxPoints: assignment.maxPoints,
+            };
+        });
+
+        let upcomingAssignments = await nearAssignments.filter(
+            (assignment) => assignment.submissions.find(
+                (submission) => submission.studentId.toString() === res.locals.userId
+            ) === undefined
+        );
+
+        upcomingAssignments = upcomingAssignments.map((assignment) => {
+            return {
+                _id: assignment._id,
+                name: assignment.name,
+                description: assignment.description,
+                dueDate: assignment.dueDate,
+                maxPoints: assignment.maxPoints,
+            };
+        });
+
+        const newAnnouncements = await course.announcements.filter(
+            (announcement) => announcement.date < Date.now() + 86400000 * 7
+        );
+
+        const result = {
+            doneAssignments: doneAssignments,
+            upcomingAssignments: upcomingAssignments,
+            newAnnouncements: newAnnouncements,
+        };
+
+        res.status(200).send(result);
+    }
+);
+
 router.delete(
     "/:id",
     [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         logger.info(`Deleting course ${req.params.id}`);
 
-        let course = res.locals.course;
+        const course = res.locals.course;
 
         await course.remove();
 
