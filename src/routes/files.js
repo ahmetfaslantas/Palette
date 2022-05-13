@@ -101,6 +101,37 @@ router.post(
     }
 );
 
+router.get(
+    "/user/:userId/*",
+    [authVerify, instructorVerify],
+    async (req, res) => {
+        const filePath = req.params["0"];
+
+        if (filePath.includes("..")) {
+            res.status(400).send({
+                message: "Invalid path",
+            });
+            return;
+        }
+
+        logger.info(`Getting file ${filePath} for user ${req.params.userId}`);
+
+        const fullPath = path.join(process.env.UPLOAD_ROOT,
+            "uploads", "students", req.params.userId, filePath);
+
+        if (!fs.existsSync(fullPath)) {
+            res.status(404).send({
+                message: "File not found",
+            });
+            
+            return;
+        }
+
+        res.status(200).download(fullPath);
+    }
+);
+
+
 router.post(
     "/course/:id/newfolder/*",
     [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
