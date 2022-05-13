@@ -204,4 +204,50 @@ router.get(
     }
 );
 
+router.post(
+    "/:id/assignment/:assignmentId/grade",
+    [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        logger.info(
+            `Grading assignment ${req.params.assignmentId} for course ` +
+                `${req.params.id} by user ${res.locals.userId}`
+        );
+
+        const course = res.locals.course;
+
+        let assignment = course.assignments.find(
+            (assignment) =>
+                assignment._id.toString() === req.params.assignmentId
+        );
+
+        if (!assignment) {
+            return res.status(400).send({ error: "Assignment not found" });
+        }
+
+        const { grades } = req.body;
+
+        if (!grades) {
+            return res.status(400).send({ error: "No grade provided" });
+        }
+
+        if (Object.keys(grades).length !== assignment.submissions.length) {
+            return res.status(400).send({ error: "Incorrect number of grades" });
+        }
+
+        for (const studentId in grades) {
+            if (grades[studentId] < 0 || grades[studentId] > assignment.maxPoints) {
+                return res.status(400).send({ error: "Invalid grade" });
+            }
+        }
+
+        assignment.submissions.forEach((submission) => {
+            submission.grade = grades[submission.studentId];
+        });
+
+        await course.save();
+
+        res.status(200).send({ message: "Grades updated" });
+    }
+);
+
 module.exports = router;
