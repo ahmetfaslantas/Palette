@@ -13,7 +13,7 @@ import style from "./AssignmentDetails.module.css";
 function AssignmentDetails() {
   const toast = useRef();
   const navigate = useNavigate();
-  useAuth();
+  const type = useAuth();
 
   const [assignment, setAssignment] = useState({
     name: "",
@@ -118,7 +118,19 @@ function AssignmentDetails() {
       <Navbar />
       <CourseNavbar />
       <div className={style.page}>
-        <Title title="Submission" />
+        <div className={style.controls}>
+          <Title title="Submission" />
+          {type === "instructor" && (
+            <button
+              className={style.submit}
+              onClick={() => {
+                navigate(`/course/${courseId}/assignment/${assignmentId}/grade`);
+              }}
+            >
+              Grade
+            </button>
+          )}
+        </div>
         <div className={style.assignment}>
           <div className={style.assignmentheader}>
             <p className={style.title}>{assignment.name}</p>

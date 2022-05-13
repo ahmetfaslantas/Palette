@@ -13,6 +13,14 @@
   margin-left: 35px;
 }
 
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
 .assignment {
   display: flex;
   flex-direction: column;

@@ -1,0 +1,40 @@
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.page {
+  margin-left: 35px;
+  width: 100%;
+}
+
+.page > * {
+  margin-left: 35px;
+}
+
+.submissions {
+  border: solid 1px #ccc;
+  border-radius: 5px;
+  width: 90%;
+}
+
+.grading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.submit {
+  width: 200px;
+  height: 30px;
+  margin: 8px;
+  background-color: #4caf50;
+  border-color: transparent;
+  border-radius: 13px;
+  color: white;
+  font-size: large;
+}
+
+.submit:hover {
+  cursor: pointer;
+}

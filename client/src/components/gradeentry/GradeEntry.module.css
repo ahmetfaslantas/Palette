@@ -1,0 +1,28 @@
+.entry {
+  display: flex;
+  width: 100%;
+  list-style: none;
+  justify-content: space-between;
+}
+
+.entry > * {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.entry + .entry {
+  border-top: solid 1px #ccc;
+}
+
+.entry img {
+  width: 20px;
+}
+
+.entry input[type="number"] {
+  width: 200px;
+  height: 35px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  margin: 7px;
+}

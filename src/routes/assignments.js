@@ -7,6 +7,7 @@ const {
     userEnrolledVerify,
 } = require("../middleware/courseverify");
 const logger = require("../logger");
+const { Student, Instructor } = require("../models/user");
 
 const router = express.Router();
 
@@ -157,6 +158,49 @@ router.post(
         await course.save();
 
         res.status(200).send({ message: "Assignment submitted" });
+    }
+);
+
+router.get(
+    "/:id/assignment/:assignmentId/submissions",
+    [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        logger.info(
+            `Getting submissions for assignment ${req.params.assignmentId} ` +
+            `for course ${req.params.id}`
+        );
+
+        const course = res.locals.course;
+
+        let assignment = course.assignments.find(
+            (assignment) =>
+                assignment._id.toString() === req.params.assignmentId
+        );
+
+        if (!assignment) {
+            return res.status(400).send({ error: "Assignment not found" });
+        }
+
+        const submissions = await Promise.all(assignment.submissions.map(
+            async (submission) => {
+                let submitter = await Student.findById(submission.studentId);
+
+                if (!submitter) {
+                    submitter = await Instructor.findById(submission.studentId);
+                }
+
+                return {
+                    _id: submission._id,
+                    studentId: submission.studentId,
+                    files: submission.files,
+                    submitter: submitter.name,
+                };
+            }));
+
+        res.status(200).send({
+            submissions: submissions,
+            maxPoints: assignment.maxPoints,
+        });
     }
 );
 
