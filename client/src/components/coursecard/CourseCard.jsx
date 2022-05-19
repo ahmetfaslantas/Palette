@@ -6,6 +6,7 @@ import Folder from "@assets/folder.svg";
 import { useNavigate } from "react-router-dom";
 
 function CourseCard(props) {
+  const { _id } = props.course;
   let navigate = useNavigate();
 
   const getSemester = () => {
@@ -21,7 +22,7 @@ function CourseCard(props) {
     let s = randomInt(42, 98);
     let l = randomInt(40, 90);
     let color = `hsl(${h}, ${s}%, ${l}%)`;
-    localStorage.setItem(`color:${props.course._id}`, color);
+    localStorage.setItem(`color:${_id}`, color);
     return color;
   };
 
@@ -31,16 +32,27 @@ function CourseCard(props) {
 
   const cardColorStyle = {
     backgroundColor:
-      localStorage.getItem(`color:${props.course._id}`) ||
+      localStorage.getItem(`color:${_id}`) ||
       generateCourseColor(),
   };
 
   return (
     <li className={style.coursecard}>
-      <div className={style.coursecardheader} style={cardColorStyle} onClick={() => {
-        navigate(`/course/${props.course._id}`);
-      }}></div>
-      <p className={style.coursename}>{props.course.name}</p>
+      <div
+        className={style.coursecardheader}
+        style={cardColorStyle}
+        onClick={() => {
+          navigate(`/course/${_id}`);
+        }}
+      ></div>
+      <p
+        className={style.coursename}
+        onClick={() => {
+          navigate(`/course/${_id}`);
+        }}
+      >
+        {props.course.name}
+      </p>
       <p className={style.coursesemester}>{getSemester()}</p>
       <div className={style.buttoncontainer}>
         <img
@@ -48,7 +60,7 @@ function CourseCard(props) {
           className={style.icon}
           alt="Announcements"
           onClick={() => {
-            navigate(`/course/${props.course._id}/announcements`);
+            navigate(`/course/${_id}/announcements`);
           }}
         />
         <img
@@ -56,7 +68,7 @@ function CourseCard(props) {
           className={style.icon}
           alt="Assignments"
           onClick={() => {
-            navigate(`/course/${props.course._id}/assignments`);
+            navigate(`/course/${_id}/assignments`);
           }}
         />
         <img
@@ -64,7 +76,7 @@ function CourseCard(props) {
           className={style.icon}
           alt="Files"
           onClick={() => {
-            navigate(`/course/${props.course._id}/files`);
+            navigate(`/course/${_id}/files`);
           }}
         />
       </div>
