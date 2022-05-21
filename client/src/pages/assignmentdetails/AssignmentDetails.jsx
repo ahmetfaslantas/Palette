@@ -19,12 +19,12 @@ function AssignmentDetails() {
 
   const { courseId, assignmentId } = useParams();
 
-  const { data: assignment, isLoading, isError } = useFetch(
-    `/api/course/${courseId}/assignment/${assignmentId}`,
-    {
-      method: "GET",
-    }
-  );
+  const {
+    data: assignment,
+    isLoading,
+    isError,
+    fetchData: fetchAssignment,
+  } = useFetch(`/api/course/${courseId}/assignment/${assignmentId}`);
 
   const [submissionFiles, setSubmissionFiles] = useState([]);
 
@@ -40,6 +40,10 @@ function AssignmentDetails() {
   });
 
   useEffect(() => {
+    fetchAssignment();
+  }, []);
+
+  useEffect(() => {
     if (isError) {
       toast.current.show("Error fetching assignment details");
     }
@@ -51,12 +55,15 @@ function AssignmentDetails() {
       formData.append("files", file);
     });
 
-    const uploadRes = await fetch(`${process.env.API_URL}/api/files/user/upload`, {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-      redirect: "follow",
-    });
+    const uploadRes = await fetch(
+      `${process.env.API_URL}/api/files/user/upload`,
+      {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+        redirect: "follow",
+      }
+    );
 
     if (uploadRes.status !== 200) {
       toast.current.show("Error uploading files!");
@@ -99,77 +106,78 @@ function AssignmentDetails() {
             <button
               className={style.submit}
               onClick={() => {
-                navigate(`/course/${courseId}/assignment/${assignmentId}/grade`);
+                navigate(
+                  `/course/${courseId}/assignment/${assignmentId}/grade`
+                );
               }}
             >
               Grade
             </button>
           )}
         </div>
-        {
-          isLoading ? (
-            <Spinner />
-          ) : (
-            <div className={style.assignment}>
-              <div className={style.assignmentheader}>
-                <p className={style.title}>{assignment.name}</p>
-                <p className={style.maxpoints}>
-                  {assignment.maxPoints} Possible Points
-                </p>
-                <button
-                  style={
-                    submissionFiles.length > 0
-                      ? { backgroundColor: "#5f9cc2" }
-                      : { backgroundColor: "lightgrey" }
-                  }
-                  className={style.submit}
-                  onClick={submitAssignment}
-                >
-                  Submit
-                </button>
-              </div>
-              <div className={style.assignmentbody}>
-                <p className={style.description}>{assignment.description}</p>
-                <p className={style.duedate}>
-                  Due Date:{" "}
-                  {new Date(assignment.dueDate).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                  })}
-                </p>
-              </div>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className={style.assignment}>
+            <div className={style.assignmentheader}>
+              <p className={style.title}>{assignment.name}</p>
+              <p className={style.maxpoints}>
+                {assignment.maxPoints} Possible Points
+              </p>
+              <button
+                style={
+                  submissionFiles.length > 0
+                    ? { backgroundColor: "#5f9cc2" }
+                    : { backgroundColor: "lightgrey" }
+                }
+                className={style.submit}
+                onClick={submitAssignment}
+              >
+                Submit
+              </button>
+            </div>
+            <div className={style.assignmentbody}>
+              <p className={style.description}>{assignment.description}</p>
+              <p className={style.duedate}>
+                Due Date:{" "}
+                {new Date(assignment.dueDate).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
+              </p>
+            </div>
 
-              <div className={style.upload}>
-                <div {...getRootProps()} className={style.files}>
-                  <img src={FileUpload} alt="File Upload" />
-                  <input {...getInputProps()} />
-                  {isDragActive ? (
-                    <p>Drop the files here ...</p>
-                  ) : (
-                    <p>Drag &apos;n&apos; drop some files here.</p>
-                  )}
-                </div>
-                {submissionFiles.length > 0 && (
-                  <ul className={style.filelist}>
-                    {submissionFiles.map((file) => (
-                      <FileEntry
-                        file={file.name}
-                        onDelete={() => {
-                          setSubmissionFiles((submissionFiles) =>
-                            submissionFiles.filter((f) => f.name !== file.name)
-                          );
-                        }}
-                        key={file.name}
-                      />
-                    ))}
-                  </ul>
+            <div className={style.upload}>
+              <div {...getRootProps()} className={style.files}>
+                <img src={FileUpload} alt="File Upload" />
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                  <p>Drop the files here ...</p>
+                ) : (
+                  <p>Drag &apos;n&apos; drop some files here.</p>
                 )}
               </div>
+              {submissionFiles.length > 0 && (
+                <ul className={style.filelist}>
+                  {submissionFiles.map((file) => (
+                    <FileEntry
+                      file={file.name}
+                      onDelete={() => {
+                        setSubmissionFiles((submissionFiles) =>
+                          submissionFiles.filter((f) => f.name !== file.name)
+                        );
+                      }}
+                      key={file.name}
+                    />
+                  ))}
+                </ul>
+              )}
             </div>
-          )}
+          </div>
+        )}
       </div>
       <Toast ref={toast} />
     </div>

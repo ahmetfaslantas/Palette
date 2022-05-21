@@ -15,14 +15,18 @@ function AnnouncementDetails() {
   const comment = useRef();
   const toast = useRef();
   const { courseId, announcementId } = useParams();
-  const {data: announcement, isLoading, isError} = useFetch(
-    `/api/course/${courseId}/announcement/${announcementId}`,
-    {
-      method: "GET",
-    }
-  );
+  const {
+    data: announcement,
+    isLoading,
+    isError,
+    fetchData: fetchAnnouncement,
+  } = useFetch(`/api/course/${courseId}/announcement/${announcementId}`);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchAnnouncement();
+  }, []);
 
   useEffect(() => {
     if (isError) {
@@ -70,36 +74,33 @@ function AnnouncementDetails() {
       <CourseNavbar />
       <div className={style.page}>
         <Title title="Announcement Details" />
-        {
-          isLoading ? (
-            <Spinner />
-          ) : (
-            <div className={style.announcement}>
-              <h3 className={style.title}>{announcement.title}</h3>
-              <p className={style.publisher}>{announcement.publisher}</p>
-              <p className={style.content}>{announcement.content}</p>
-              <hr />
-              <div className={style.commentcontrol}>
-                <textarea ref={comment} />
-                <button onClick={submitComment}>Submit Comment</button>
-              </div>
-              {announcement.comments.length > 0 && (
-                <div className={style.comments}>
-                  <h3>Comments</h3>
-                  <ul>
-                    {announcement.comments.map((comment) => (
-                      <Comment comment={comment} key={comment._id} />
-                    ))}
-                  </ul>
-                </div>
-              )}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className={style.announcement}>
+            <h3 className={style.title}>{announcement.title}</h3>
+            <p className={style.publisher}>{announcement.publisher}</p>
+            <p className={style.content}>{announcement.content}</p>
+            <hr />
+            <div className={style.commentcontrol}>
+              <textarea ref={comment} />
+              <button onClick={submitComment}>Submit Comment</button>
             </div>
-          )
-        }
+            {announcement.comments.length > 0 && (
+              <div className={style.comments}>
+                <h3>Comments</h3>
+                <ul>
+                  {announcement.comments.map((comment) => (
+                    <Comment comment={comment} key={comment._id} />
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <Toast ref={toast} />
     </div>
-
   );
 }
 

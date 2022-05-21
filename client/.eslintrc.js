@@ -65,6 +65,12 @@ module.exports = {
         "functions": "never",
       },
     ],
+    "max-len": [
+      "error",
+      {
+        "code": 110,
+      },
+    ],
   },
   "settings": {
     "react": {

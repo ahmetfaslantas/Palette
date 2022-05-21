@@ -14,14 +14,18 @@ import style from "./Course.module.css";
 function Course() {
   useAuth();
   const { courseId } = useParams();
-  const { data: course, isLoading, isError } = useFetch(
-    `/api/course/${courseId}`,
-    {
-      method: "GET",
-    }
-  );
+  const {
+    data: course,
+    isLoading,
+    isError,
+    fetchData: fetchCourse,
+  } = useFetch(`/api/course/${courseId}`);
   const toast = useRef();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchCourse();
+  }, []);
 
   useEffect(() => {
     if (isError) {
@@ -35,89 +39,98 @@ function Course() {
       <CourseNavbar />
       <div className={style.page}>
         <Title title="Course" />
-        {
-          isLoading ? (
-            <Spinner />
-          ) : (
-            <div>     
-              <table className={style.summary}>
-                <thead>
-                  <tr>
-                    <th colSpan={3}>Upcoming Assignments</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {course.doneAssignments.map((assignment) => (
-                    <tr key={assignment._id} onClick={() => {
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div>
+            <table className={style.summary}>
+              <thead>
+                <tr>
+                  <th colSpan={3}>Upcoming Assignments</th>
+                </tr>
+              </thead>
+              <tbody>
+                {course.doneAssignments.map((assignment) => (
+                  <tr
+                    key={assignment._id}
+                    onClick={() => {
                       navigate(`/course//assignment/${assignment._id}`);
-                    }}>
-                      <td>
-                        <img className={style.icon} src={Done} alt="Done" />
-                        {assignment.name}
-                      </td>
-                      <td>{
-                        new Date(assignment.dueDate).toLocaleDateString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "numeric",
-                            hour: "numeric",
-                            minute: "numeric",
-                          }
-                        )
-                      }</td>
-                      <td>{assignment.maxPoints}</td>
-                    </tr>
-                  ))}
-                  {course.upcomingAssignments.map((assignment) => (
-                    <tr key={assignment._id} onClick={() => {
-                      navigate(`/course//assignment/${assignment._id}`);
-                    }}>
-                      <td>
-                        <img className={style.icon} src={Clock} alt="Clock" />
-                        {assignment.name}
-                      </td>
-                      <td>{
-                        new Date(assignment.dueDate).toLocaleDateString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "numeric",
-                            hour: "numeric",
-                            minute: "numeric",
-                          }
-                        )
-                      }</td>
-                      <td>{assignment.maxPoints}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <table className={style.summary}>
-                <thead>
-                  <tr>
-                    <th colSpan={2}>New Announcements</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {course.newAnnouncements.map((announcement) => (
-                    <tr key={announcement._id} onClick={() => {
-                      navigate(`/course//announcement/${announcement._id}`);
-                    }}>
-                      <td>{announcement.title}</td>
-                      <td>{
-                        new Date(announcement.date).toLocaleDateString("en-US", {
+                    }}
+                  >
+                    <td>
+                      <img className={style.icon} src={Done} alt="Done" />
+                      {assignment.name}
+                    </td>
+                    <td>
+                      {new Date(assignment.dueDate).toLocaleDateString(
+                        "en-US",
+                        {
                           month: "short",
                           day: "numeric",
                           hour: "numeric",
                           minute: "numeric",
-                        })}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                        }
+                      )}
+                    </td>
+                    <td>{assignment.maxPoints}</td>
+                  </tr>
+                ))}
+                {course.upcomingAssignments.map((assignment) => (
+                  <tr
+                    key={assignment._id}
+                    onClick={() => {
+                      navigate(`/course//assignment/${assignment._id}`);
+                    }}
+                  >
+                    <td>
+                      <img className={style.icon} src={Clock} alt="Clock" />
+                      {assignment.name}
+                    </td>
+                    <td>
+                      {new Date(assignment.dueDate).toLocaleDateString(
+                        "en-US",
+                        {
+                          month: "short",
+                          day: "numeric",
+                          hour: "numeric",
+                          minute: "numeric",
+                        }
+                      )}
+                    </td>
+                    <td>{assignment.maxPoints}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <table className={style.summary}>
+              <thead>
+                <tr>
+                  <th colSpan={2}>New Announcements</th>
+                </tr>
+              </thead>
+              <tbody>
+                {course.newAnnouncements.map((announcement) => (
+                  <tr
+                    key={announcement._id}
+                    onClick={() => {
+                      navigate(`/course//announcement/${announcement._id}`);
+                    }}
+                  >
+                    <td>{announcement.title}</td>
+                    <td>
+                      {new Date(announcement.date).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
       <Toast ref={toast} />
     </div>

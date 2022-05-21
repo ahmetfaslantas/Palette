@@ -15,13 +15,17 @@ function Assignments() {
   const type = useAuth();
   const toast = useRef();
   const { courseId } = useParams();
-  const { data: assignments, isLoading, isError } = useFetch(
-    `/api/course/${courseId}/assignment`,
-    {
-      method: "GET",
-    }
-  );
+  const {
+    data: assignments,
+    isLoading,
+    isError,
+    fetchData: fetchAssignments,
+  } = useFetch(`/api/course/${courseId}/assignment`);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
 
   useEffect(() => {
     if (isError) {
@@ -49,23 +53,21 @@ function Assignments() {
         </div>
         {isLoading ? (
           <Spinner />
+        ) : assignments.length === 0 ? (
+          <div className={style.noassignments}>
+            <img
+              className={style.noassignmentslogo}
+              src={AssignmentLogo}
+              alt="No Assignments"
+            />
+            <p>No assignments yet!</p>
+          </div>
         ) : (
-          assignments.length === 0 ? (
-            <div className={style.noassignments}>
-              <img
-                className={style.noassignmentslogo}
-                src={AssignmentLogo}
-                alt="No Assignments"
-              />
-              <p>No assignments yet!</p>
-            </div>
-          ) : (
-            <ul className={style.assignmentcontainer}>
-              {assignments.map((assignment) => (
-                <Assignment assignment={assignment} key={assignment._id} />
-              ))}
-            </ul>
-          )
+          <ul className={style.assignmentcontainer}>
+            {assignments.map((assignment) => (
+              <Assignment assignment={assignment} key={assignment._id} />
+            ))}
+          </ul>
         )}
       </div>
       <Toast ref={toast} />

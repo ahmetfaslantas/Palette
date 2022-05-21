@@ -17,14 +17,18 @@ function Announcements() {
 
   const { courseId } = useParams();
 
-  const { data: announcements, isLoading, isError } = useFetch(
-    `/api/course/${courseId}/announcement`,
-    {
-      method: "GET",
-    }
-  );
+  const {
+    data: announcements,
+    isLoading,
+    isError,
+    fetchData: fetchAnnouncements,
+  } = useFetch(`/api/course/${courseId}/announcement`);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchAnnouncements();
+  }, []);
 
   useEffect(() => {
     if (isError) {
@@ -32,7 +36,7 @@ function Announcements() {
     }
   }, [isError]);
 
-  return ( 
+  return (
     <div className={style.main}>
       <Navbar />
       <CourseNavbar />
@@ -52,27 +56,28 @@ function Announcements() {
         </div>
         {isLoading ? (
           <Spinner />
+        ) : announcements.length === 0 ? (
+          <div className={style.noannouncements}>
+            <img
+              src={AnnouncementLogo}
+              alt="Announcement Logo"
+              className={style.noannouncementslogo}
+            />
+            <p>No announcements yet!</p>
+          </div>
         ) : (
-          announcements.length === 0 ? (
-            <div className={style.noannouncements}>
-              <img src={AnnouncementLogo} alt="Announcement Logo" className={style.noannouncementslogo} />
-              <p>No announcements yet!</p>
-            </div>
-          ) : (
-            <ul className={style.announcementcontainer}>
-              {announcements.map((announcement) => (
-                <Announcement
-                  key={announcement._id}
-                  announcement={announcement}
-                />
-              ))}
-            </ul>
-          ))
-        }
-        
+          <ul className={style.announcementcontainer}>
+            {announcements.map((announcement) => (
+              <Announcement
+                key={announcement._id}
+                announcement={announcement}
+              />
+            ))}
+          </ul>
+        )}
       </div>
       <Toast ref={toast} />
-    </div>                  
+    </div>
   );
 }
 

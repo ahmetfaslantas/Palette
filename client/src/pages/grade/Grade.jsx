@@ -17,16 +17,18 @@ function Grade() {
     data: assignment,
     isLoading,
     isError,
+    fetchData: fetchAssignment,
   } = useFetch(
-    `/api/course/${courseId}/assignment/${assignmentId}/submissions`,
-    {
-      method: "GET",
-    }
+    `/api/course/${courseId}/assignment/${assignmentId}/submissions`
   );
 
   const toast = useRef();
   const navigate = useNavigate();
   let grades = {};
+
+  useEffect(() => {
+    fetchAssignment();
+  }, []);
 
   useEffect(() => {
     if (isError) {
@@ -85,8 +87,7 @@ function Grade() {
                   maxPoints={assignment.maxPoints}
                   setGrade={setGrade}
                 />
-              )
-              )}
+              ))}
             </div>
             <button className={style.submit} onClick={submitGrades}>
               Submit Grades

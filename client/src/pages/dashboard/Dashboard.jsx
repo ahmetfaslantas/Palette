@@ -12,13 +12,17 @@ import style from "./Dashboard.module.css";
 function Dashboard() {
   const type = useAuth();
   const toast = useRef();
-  const { data: courses, isLoading, isError } = useFetch(
-    "/api/course",
-    {
-      method: "GET",
-    }
-  );
+  const {
+    data: courses,
+    isLoading,
+    isError,
+    fetchData: fetchCourses,
+  } = useFetch("/api/course");
   let navigate = useNavigate();
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
 
   useEffect(() => {
     if (isError) {
@@ -43,16 +47,15 @@ function Dashboard() {
             </button>
           )}
         </div>
-        {
-          isLoading ? (
-            <Spinner />
-          ) : (
-            <ul className={style.coursecontainer}>
-              {courses.map((course) => (
-                <CourseCard course={course} key={course._id} />
-              ))}
-            </ul>
-          )}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <ul className={style.coursecontainer}>
+            {courses.map((course) => (
+              <CourseCard course={course} key={course._id} />
+            ))}
+          </ul>
+        )}
       </div>
       <Toast ref={toast} />
     </div>

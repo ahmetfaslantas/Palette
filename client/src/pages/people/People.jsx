@@ -13,22 +13,27 @@ function People() {
   const { courseId } = useParams();
   const toast = useRef();
 
-  const { data: students, isLoading: isLoadingStudents, isError: isErrorStudents } = useFetch(
-    `/api/course/${courseId}/student`,
-    {
-      method: "GET",
-    }
-  );
+  const {
+    data: students,
+    isLoading: isLoadingStudents,
+    isError: isErrorStudents,
+    fetchData: fetchStudents,
+  } = useFetch(`/api/course/${courseId}/student`);
 
-  const { data: instructors, isLoading: isLoadingInstructors, isError: isErrorInstructors } = useFetch(
-    `/api/course/${courseId}/instructor`,
-    {
-      method: "GET",
-    }
-  );
+  const {
+    data: instructors,
+    isLoading: isLoadingInstructors,
+    isError: isErrorInstructors,
+    fetchData: fetchInstructors,
+  } = useFetch(`/api/course/${courseId}/instructor`);
 
   const type = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchStudents();
+    fetchInstructors();
+  }, []);
 
   useEffect(() => {
     if (isErrorInstructors || isErrorStudents) {
@@ -36,7 +41,7 @@ function People() {
     }
   }, [isErrorInstructors, isErrorStudents]);
 
-  return ( 
+  return (
     <div className={style.main}>
       <Navbar />
       <CourseNavbar />
@@ -54,25 +59,24 @@ function People() {
             </button>
           )}
         </div>
-        {
-          isLoadingStudents || isLoadingInstructors ? (
-            <Spinner />
-          ) : ( 
-            <div className={style.people}>
-              {instructors.map((instructor) => (
-                <div className={style.instructor} key={instructor._id}>
-                  <p>{instructor.name}</p>
-                  <p>Instructor</p>
-                </div>
-              ))}
-              {students.map((student) => (
-                <div className={style.student} key={student._id}>
-                  <p>{student.name}</p>
-                  <p>Student</p>
-                </div>
-              ))}
-            </div>
-          )}
+        {isLoadingStudents || isLoadingInstructors ? (
+          <Spinner />
+        ) : (
+          <div className={style.people}>
+            {instructors.map((instructor) => (
+              <div className={style.instructor} key={instructor._id}>
+                <p>{instructor.name}</p>
+                <p>Instructor</p>
+              </div>
+            ))}
+            {students.map((student) => (
+              <div className={style.student} key={student._id}>
+                <p>{student.name}</p>
+                <p>Student</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <Toast ref={toast} />
     </div>

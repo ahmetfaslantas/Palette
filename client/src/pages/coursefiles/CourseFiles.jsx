@@ -1,45 +1,36 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import useAuth from "@hooks/useAuth.jsx";
+import useFetch from "@hooks/useFetch.jsx";
 import Title from "@components/title/Title.jsx";
 import Toast from "@components/toast/Toast.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import FileExplorer from "@components/fileexplorer/FileExplorer.jsx";
+import Spinner from "@components/spinner/Spinner.jsx";
 import style from "./CourseFiles.module.css";
 
 function CourseFiles() {
-  const [files, setFiles] = useState([]);
+  useAuth();
   const { courseId } = useParams();
   const toast = useRef();
 
-  useAuth();
+  const {
+    data: files,
+    isLoading,
+    isError,
+    fetchData: fetchFiles,
+  } = useFetch(`/api/files/course/${courseId}`);
 
   useEffect(() => {
-    async function getCourseFiles() {
-      const response = await fetch(
-        `${process.env.API_URL}/api/files/course/${courseId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-
-      if (response.status !== 200) {
-        toast.current.show("Error loading files");
-        return;
-      }
-
-      const files = await response.json();
-
-      setFiles(files);
-    }
-
-    getCourseFiles();
+    fetchFiles();
   }, []);
+
+  useEffect(() => {
+    if (isError) {
+      toast.current.show("Error fetching files");
+    }
+  }, [isError]);
 
   return (
     <div className={style.main}>
@@ -47,10 +38,13 @@ function CourseFiles() {
       <CourseNavbar />
       <div className={style.page}>
         <Title title="Course Files" />
-        <div className={style.files}>
-          <FileExplorer data={files} />
-        </div>
-
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className={style.files}>
+            <FileExplorer data={files} />
+          </div>
+        )}
       </div>
       <Toast ref={toast} />
     </div>
