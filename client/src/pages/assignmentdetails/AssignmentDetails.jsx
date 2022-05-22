@@ -21,10 +21,21 @@ function AssignmentDetails() {
 
   const {
     data: assignment,
-    isLoading,
+    done,
     isError,
     fetchData: fetchAssignment,
   } = useFetch(`/api/course/${courseId}/assignment/${assignmentId}`);
+
+  const {
+    done: submissionDone,
+    isError: submissionError,
+    fetchData: submitSubmission,
+  } = useFetch(
+    `/api/course/${courseId}/assignment/${assignmentId}/submit`,
+    {
+      method: "POST",
+    }
+  );
 
   const [submissionFiles, setSubmissionFiles] = useState([]);
 
@@ -72,28 +83,22 @@ function AssignmentDetails() {
 
     const uploadJson = await uploadRes.json();
 
-    const submitRes = await fetch(
-      `${process.env.API_URL}/api/course/${courseId}/assignment/${assignmentId}/submit`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        redirect: "follow",
-        body: JSON.stringify({
-          files: uploadJson.files,
-        }),
-      }
-    );
-
-    if (submitRes.status !== 200) {
-      toast.current.show("Error submitting assignment!");
-      return;
-    }
-
-    navigate(0);
+    submitSubmission({
+      files: uploadJson.files,
+    });
   };
+
+  useEffect(() => {
+    if (submissionDone) {
+      navigate(0);
+    }
+  }, [submissionDone]);
+
+  useEffect(() => {
+    if (submissionError) {
+      toast.current.show("Error submitting assignment");
+    }
+  }, [submissionError]);
 
   return (
     <div className={style.main}>
@@ -115,9 +120,7 @@ function AssignmentDetails() {
             </button>
           )}
         </div>
-        {isLoading ? (
-          <Spinner />
-        ) : (
+        {done ? (
           <div className={style.assignment}>
             <div className={style.assignmentheader}>
               <p className={style.title}>{assignment.name}</p>
@@ -149,7 +152,7 @@ function AssignmentDetails() {
                 })}
               </p>
             </div>
-
+        
             <div className={style.upload}>
               <div {...getRootProps()} className={style.files}>
                 <img src={FileUpload} alt="File Upload" />
@@ -177,6 +180,8 @@ function AssignmentDetails() {
               )}
             </div>
           </div>
+        ) : (
+          <Spinner />
         )}
       </div>
       <Toast ref={toast} />

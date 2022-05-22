@@ -1,9 +1,11 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "@hooks/useAuth.jsx";
+import useFetch from "@hooks/useFetch.jsx";
 import Title from "@components/title/Title.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import Toast from "@components/toast/Toast.jsx";
+import Spinner from "@components/spinner/Spinner.jsx";
 import style from "./AddCourse.module.css";
 
 function AddCourse() {
@@ -11,6 +13,15 @@ function AddCourse() {
   const courseName = useRef();
   const courseDescription = useRef();
   const toast = useRef();
+
+  const {
+    data: result,
+    isLoading,
+    isError,
+    fetchData: submitCourse,
+  } = useFetch("/api/course/newcourse", {
+    method: "POST",
+  });
 
   const navigate = useNavigate();
 
@@ -22,21 +33,23 @@ function AddCourse() {
       return;
     }
 
-    await fetch(`${process.env.API_URL}/api/course/newcourse`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: courseName.current.value,
-        description: courseDescription.current.value,
-      }),
-      credentials: "include",
-      redirect: "follow",
+    submitCourse({
+      name: courseName.current.value,
+      description: courseDescription.current.value,
     });
-
-    navigate("/dashboard");
   };
+
+  useEffect(() => {
+    if (isError) {
+      toast.current.show("Error submitting course");
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (result) {
+      navigate("/dashboard");
+    }
+  }, [result]);
 
   return (
     <div className={style.main}>
@@ -62,6 +75,7 @@ function AddCourse() {
           <button className={style.submit} type="submit">
             Create Course
           </button>
+          {isLoading && <Spinner />}
         </form>
       </div>
       <Toast ref={toast} />

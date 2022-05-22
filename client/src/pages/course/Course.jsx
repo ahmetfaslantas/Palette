@@ -16,7 +16,7 @@ function Course() {
   const { courseId } = useParams();
   const {
     data: course,
-    isLoading,
+    done,
     isError,
     fetchData: fetchCourse,
   } = useFetch(`/api/course/${courseId}`);
@@ -39,9 +39,7 @@ function Course() {
       <CourseNavbar />
       <div className={style.page}>
         <Title title="Course" />
-        {isLoading ? (
-          <Spinner />
-        ) : (
+        {done ? (
           <div>
             <table className={style.summary}>
               <thead>
@@ -54,7 +52,7 @@ function Course() {
                   <tr
                     key={assignment._id}
                     onClick={() => {
-                      navigate(`/course//assignment/${assignment._id}`);
+                      navigate(`/course/${courseId}/assignment/${assignment._id}`);
                     }}
                   >
                     <td>
@@ -79,7 +77,7 @@ function Course() {
                   <tr
                     key={assignment._id}
                     onClick={() => {
-                      navigate(`/course//assignment/${assignment._id}`);
+                      navigate(`/course/${courseId}/assignment/${assignment._id}`);
                     }}
                   >
                     <td>
@@ -113,7 +111,7 @@ function Course() {
                   <tr
                     key={announcement._id}
                     onClick={() => {
-                      navigate(`/course//announcement/${announcement._id}`);
+                      navigate(`/course/${courseId}/announcement/${announcement._id}`);
                     }}
                   >
                     <td>{announcement.title}</td>
@@ -130,6 +128,8 @@ function Course() {
               </tbody>
             </table>
           </div>
+        ) : (
+          <Spinner />
         )}
       </div>
       <Toast ref={toast} />

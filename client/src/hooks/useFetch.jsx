@@ -13,6 +13,7 @@ function reducer(state, action) {
       ...state,
       isLoading: false,
       isError: false,
+      done: true,
       data: action.payload,
     };
   case "FETCH_FAILURE":
@@ -33,19 +34,20 @@ function useFetch(
   }
 ) {
   const [state, dispatch] = useReducer(reducer, {
-    isLoading: true,
+    isLoading: false,
     data: null,
     isError: null,
+    done: false,
   });
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (body) => {
     dispatch({ type: "FETCH_INIT" });
     const response = await fetch(`${process.env.API_URL}${url}`, {
       method: options.method,
       headers: {
         "Content-Type": "application/json",
       },
-      body: options.body ? JSON.stringify(options.body) : null,
+      body: body ? JSON.stringify(body) : null,
       credentials: "include",
     });
     const data = await response.json();

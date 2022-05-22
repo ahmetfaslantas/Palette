@@ -19,7 +19,7 @@ function Announcements() {
 
   const {
     data: announcements,
-    isLoading,
+    done,
     isError,
     fetchData: fetchAnnouncements,
   } = useFetch(`/api/course/${courseId}/announcement`);
@@ -54,26 +54,28 @@ function Announcements() {
             </button>
           )}
         </div>
-        {isLoading ? (
-          <Spinner />
-        ) : announcements.length === 0 ? (
-          <div className={style.noannouncements}>
-            <img
-              src={AnnouncementLogo}
-              alt="Announcement Logo"
-              className={style.noannouncementslogo}
-            />
-            <p>No announcements yet!</p>
-          </div>
-        ) : (
-          <ul className={style.announcementcontainer}>
-            {announcements.map((announcement) => (
-              <Announcement
-                key={announcement._id}
-                announcement={announcement}
+        {done ? (
+          announcements.length === 0 ? (
+            <div className={style.noannouncements}>
+              <img
+                src={AnnouncementLogo}
+                alt="Announcement Logo"
+                className={style.noannouncementslogo}
               />
-            ))}
-          </ul>
+              <p>No announcements yet!</p>
+            </div>
+          ) : (
+            <ul className={style.announcementcontainer}>
+              {announcements.map((announcement) => (
+                <Announcement
+                  key={announcement._id}
+                  announcement={announcement}
+                />
+              ))}
+            </ul>
+          )
+        ) : (
+          <Spinner />
         )}
       </div>
       <Toast ref={toast} />

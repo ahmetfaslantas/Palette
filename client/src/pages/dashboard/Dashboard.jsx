@@ -14,15 +14,27 @@ function Dashboard() {
   const toast = useRef();
   const {
     data: courses,
-    isLoading,
+    done,
     isError,
     fetchData: fetchCourses,
   } = useFetch("/api/course");
-  let navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCourses();
   }, []);
+
+  useEffect(() => {
+    if (courses) {
+      courses.forEach((course) => {
+        localStorage.setItem(
+          `${course._id}:name`,
+          course.name
+        );
+      });
+    }
+  }, [courses]);
 
   useEffect(() => {
     if (isError) {
@@ -47,14 +59,14 @@ function Dashboard() {
             </button>
           )}
         </div>
-        {isLoading ? (
-          <Spinner />
-        ) : (
+        {done ? (
           <ul className={style.coursecontainer}>
             {courses.map((course) => (
               <CourseCard course={course} key={course._id} />
             ))}
           </ul>
+        ) : (
+          <Spinner />
         )}
       </div>
       <Toast ref={toast} />

@@ -15,12 +15,20 @@ function Grade() {
   const { courseId, assignmentId } = useParams();
   const {
     data: assignment,
-    isLoading,
+    done,
     isError,
     fetchData: fetchAssignment,
   } = useFetch(
     `/api/course/${courseId}/assignment/${assignmentId}/submissions`
   );
+
+  const {
+    done: gradesDone,
+    isError: gradesError,
+    fetchData: submitGrade,
+  } = useFetch(`/api/course/${courseId}/assignment/${assignmentId}/grade`, {
+    method: "POST",
+  });
 
   const toast = useRef();
   const navigate = useNavigate();
@@ -44,26 +52,20 @@ function Grade() {
       }
     }
 
-    const result = await fetch(
-      `${process.env.API_URL}/api/course/${courseId}/assignment/${assignmentId}/grade`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        redirect: "follow",
-        body: JSON.stringify({ grades }),
-      }
-    );
-
-    if (result.status !== 200) {
-      toast.current.show("Failed to submit grades");
-      return;
-    }
-
-    navigate(`/course/${courseId}/assignment/${assignmentId}`);
+    submitGrade({ grades });
   };
+
+  useEffect(() => {
+    if (gradesDone) {
+      navigate(`/course/${courseId}/assignment/${assignmentId}`);
+    }
+  }, [gradesDone]);
+
+  useEffect(() => {
+    if (gradesError) {
+      toast.current.show("Error submitting grades");
+    }
+  }, [gradesError]);
 
   const setGrade = (id, grade) => {
     grades[id] = grade;
@@ -75,9 +77,7 @@ function Grade() {
       <CourseNavbar />
       <div className={style.page}>
         <Title title="Grade" />
-        {isLoading ? (
-          <Spinner />
-        ) : (
+        {done ? (
           <div className={style.grading}>
             <div className={style.submissions}>
               {assignment.submissions.map((submission) => (
@@ -93,6 +93,8 @@ function Grade() {
               Submit Grades
             </button>
           </div>
+        ) : (
+          <Spinner />
         )}
       </div>
       <Toast ref={toast} />

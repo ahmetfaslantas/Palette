@@ -1,22 +1,34 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import useFetch from "@hooks/useFetch.jsx";
 import Cookies from "js-cookie";
 import Toast from "@components/toast/Toast.jsx";
-import style from "../Auth.module.css";
+import Spinner from "@components/spinner/Spinner.jsx";
 import Palette from "@assets/palette.svg";
+import style from "../Auth.module.css";
 
 function Login() {
   const email = useRef();
   const password = useRef();
   const isInstructor = useRef();
   const toast = useRef();
+
+  const {
+    data: user,
+    isError,
+    isLoading,
+    fetchData: login,
+  } = useFetch("/api/auth/login", {
+    method: "POST",
+  });
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (Cookies.get("token")) {
       navigate("/");
     }
-  }, [navigate]);
+  }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -26,29 +38,24 @@ function Login() {
       return;
     }
 
-    let result = await fetch(`${process.env.API_URL}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email.current.value,
-        password: password.current.value,
-        type: isInstructor.current.checked ? "instructor" : "student",
-      }),
-      credentials: "include",
-      redirect: "follow",
+    login({
+      email: email.current.value,
+      password: password.current.value,
+      type: isInstructor.current.checked ? "instructor" : "student",
     });
-
-    if (result.status !== 200) {
-      toast.current.show("Invalid email or password!");
-      return;
-    }
-
-    let json = await result.json();
-
-    if (json.redirect) navigate(json.redirect);
   };
+
+  useEffect(() => {
+    if (isError) {
+      toast.current.show("Error logging in");
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
   return (
     <div className={style.main}>
@@ -103,6 +110,7 @@ function Login() {
           >
             Don&apos;t have an account? Sign up!
           </a>
+          {isLoading && <Spinner />}
         </form>
       </div>
       <Toast ref={toast} />

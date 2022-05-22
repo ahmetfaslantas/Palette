@@ -17,7 +17,7 @@ function Assignments() {
   const { courseId } = useParams();
   const {
     data: assignments,
-    isLoading,
+    done,
     isError,
     fetchData: fetchAssignments,
   } = useFetch(`/api/course/${courseId}/assignment`);
@@ -51,23 +51,25 @@ function Assignments() {
             </button>
           )}
         </div>
-        {isLoading ? (
-          <Spinner />
-        ) : assignments.length === 0 ? (
-          <div className={style.noassignments}>
-            <img
-              className={style.noassignmentslogo}
-              src={AssignmentLogo}
-              alt="No Assignments"
-            />
-            <p>No assignments yet!</p>
-          </div>
+        {done ? (
+          assignments.length === 0 ? (
+            <div className={style.noassignments}>
+              <img
+                className={style.noassignmentslogo}
+                src={AssignmentLogo}
+                alt="No Assignments"
+              />
+              <p>No assignments yet!</p>
+            </div>
+          ) : (
+            <ul className={style.assignmentcontainer}>
+              {assignments.map((assignment) => (
+                <Assignment assignment={assignment} key={assignment._id} />
+              ))}
+            </ul>
+          )
         ) : (
-          <ul className={style.assignmentcontainer}>
-            {assignments.map((assignment) => (
-              <Assignment assignment={assignment} key={assignment._id} />
-            ))}
-          </ul>
+          <Spinner />
         )}
       </div>
       <Toast ref={toast} />

@@ -1,17 +1,20 @@
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useParams, useNavigate } from "react-router-dom";
 import useAuth from "@hooks/useAuth.jsx";
+import useFetch from "@hooks/useFetch.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import CourseNavbar from "@components/coursenavbar/CourseNavbar.jsx";
 import Title from "@components/title/Title.jsx";
 import Toast from "@components/toast/Toast.jsx";
 import FileEntry from "@components/fileentry/FileEntry.jsx";
-import style from "./AddAssignment.module.css";
+import Spinner from "@components/spinner/Spinner.jsx";
 import FileUpload from "@assets/fileupload.svg";
+import style from "./AddAssignment.module.css";
 
 function AddAssignment() {
   useAuth();
+  const { courseId } = useParams();
   const assignmentName = useRef();
   const assignmentDescription = useRef();
   const assignmentDueDate = useRef();
@@ -20,9 +23,16 @@ function AddAssignment() {
 
   const navigate = useNavigate();
 
-  const { courseId } = useParams();
-
   const [assignmentFiles, setAssignmentFiles] = useState([]);
+
+  const {
+    data: result,
+    isLoading,
+    isError,
+    fetchData: submitAssignment,
+  } = useFetch(`/api/course/${courseId}/assignment`, {
+    method: "POST",
+  });
 
   const onDrop = useCallback((acceptedFiles) => {
     setAssignmentFiles((assignmentFiles) => [
@@ -72,31 +82,26 @@ function AddAssignment() {
 
     const uploadJson = await uploadRes.json();
 
-    const newAssignmentRes = await fetch(
-      `${process.env.API_URL}/api/course/${courseId}/assignment`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: assignmentName.current.value,
-          description: assignmentDescription.current.value,
-          dueDate: assignmentDueDate.current.value,
-          maxPoints: assignmentMaxPoints.current.value,
-          files: uploadJson.files,
-        }),
-        credentials: "include",
-        redirect: "follow",
-      });
-
-    if (newAssignmentRes.status !== 200) {
-      toast.current.show("Something went wrong!");
-      return;
-    }
-
-    navigate(`/course/${courseId}/assignments`);
+    submitAssignment({
+      name: assignmentName.current.value,
+      description: assignmentDescription.current.value,
+      dueDate: assignmentDueDate.current.value,
+      maxPoints: assignmentMaxPoints.current.value,
+      files: uploadJson.files,
+    });
   };
+
+  useEffect(() => {
+    if (isError) {
+      toast.current.show("Error creating assignment!");
+    }
+  }, [result]);
+
+  useEffect(() => {
+    if (result) {
+      navigate(`/course/${courseId}/assignments`);
+    }
+  }, [result]);
 
   return ( 
     <div className={style.main}>
@@ -163,6 +168,7 @@ function AddAssignment() {
           <button className={style.submit} type="submit">
             Create Assignment
           </button>
+          {isLoading && <Spinner />}
         </form>
       </div>
       <Toast ref={toast} />

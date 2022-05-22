@@ -15,12 +15,22 @@ function AnnouncementDetails() {
   const comment = useRef();
   const toast = useRef();
   const { courseId, announcementId } = useParams();
+
   const {
     data: announcement,
-    isLoading,
+    done,
     isError,
     fetchData: fetchAnnouncement,
   } = useFetch(`/api/course/${courseId}/announcement/${announcementId}`);
+
+  const {
+    data: comments,
+    isError: commentsIsError,
+    fetchData: fetchSubmitComment,
+    isLoading: isSubmitCommentLoading,
+  } = useFetch(`/api/course/${courseId}/announcement/${announcementId}/comment`, {
+    method: "POST",
+  });
 
   const navigate = useNavigate();
 
@@ -45,28 +55,22 @@ function AnnouncementDetails() {
       return;
     }
 
-    let result = await fetch(
-      `${process.env.API_URL}/api/course/${courseId}/announcement/${announcementId}/comment`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        redirect: "follow",
-        body: JSON.stringify({
-          content: comment.current.value,
-        }),
-      }
-    );
-
-    if (result.status !== 200) {
-      toast.current.show("Error submitting comment");
-      return;
-    }
-
-    navigate(0);
+    fetchSubmitComment({
+      content: comment.current.value,
+    });
   };
+
+  useEffect(() => {
+    if (commentsIsError) {
+      toast.current.show("Error submitting comment");
+    }
+  }, [commentsIsError]);
+
+  useEffect(() => {
+    if (comments) {
+      navigate(0);
+    }
+  }, [comments]);
 
   return (
     <div className={style.main}>
@@ -74,9 +78,7 @@ function AnnouncementDetails() {
       <CourseNavbar />
       <div className={style.page}>
         <Title title="Announcement Details" />
-        {isLoading ? (
-          <Spinner />
-        ) : (
+        {done ? (
           <div className={style.announcement}>
             <h3 className={style.title}>{announcement.title}</h3>
             <p className={style.publisher}>{announcement.publisher}</p>
@@ -86,6 +88,7 @@ function AnnouncementDetails() {
               <textarea ref={comment} />
               <button onClick={submitComment}>Submit Comment</button>
             </div>
+            {isSubmitCommentLoading && <Spinner />}
             {announcement.comments.length > 0 && (
               <div className={style.comments}>
                 <h3>Comments</h3>
@@ -97,6 +100,8 @@ function AnnouncementDetails() {
               </div>
             )}
           </div>
+        ) : (
+          <Spinner />
         )}
       </div>
       <Toast ref={toast} />

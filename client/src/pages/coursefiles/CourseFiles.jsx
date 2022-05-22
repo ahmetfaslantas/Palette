@@ -17,7 +17,7 @@ function CourseFiles() {
 
   const {
     data: files,
-    isLoading,
+    done,
     isError,
     fetchData: fetchFiles,
   } = useFetch(`/api/files/course/${courseId}`);
@@ -38,12 +38,12 @@ function CourseFiles() {
       <CourseNavbar />
       <div className={style.page}>
         <Title title="Course Files" />
-        {isLoading ? (
-          <Spinner />
-        ) : (
+        {done ? (
           <div className={style.files}>
             <FileExplorer data={files} />
           </div>
+        ) : (
+          <Spinner />
         )}
       </div>
       <Toast ref={toast} />

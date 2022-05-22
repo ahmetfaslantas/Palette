@@ -15,14 +15,14 @@ function People() {
 
   const {
     data: students,
-    isLoading: isLoadingStudents,
+    done: doneStudents,
     isError: isErrorStudents,
     fetchData: fetchStudents,
   } = useFetch(`/api/course/${courseId}/student`);
 
   const {
     data: instructors,
-    isLoading: isLoadingInstructors,
+    done: doneInstructors,
     isError: isErrorInstructors,
     fetchData: fetchInstructors,
   } = useFetch(`/api/course/${courseId}/instructor`);
@@ -59,9 +59,7 @@ function People() {
             </button>
           )}
         </div>
-        {isLoadingStudents || isLoadingInstructors ? (
-          <Spinner />
-        ) : (
+        {doneInstructors && doneStudents ? (
           <div className={style.people}>
             {instructors.map((instructor) => (
               <div className={style.instructor} key={instructor._id}>
@@ -76,6 +74,8 @@ function People() {
               </div>
             ))}
           </div>
+        ) : (
+          <Spinner />
         )}
       </div>
       <Toast ref={toast} />
