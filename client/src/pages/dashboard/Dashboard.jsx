@@ -1,40 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "@hooks/useAuth.jsx";
+import useFetch from "@hooks/useFetch.jsx";
 import CourseCard from "@components/coursecard/CourseCard.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import Title from "@components/title/Title.jsx";
+import Toast from "@components/toast/Toast.jsx";
+import Spinner from "@components/spinner/Spinner.jsx";
 import style from "./Dashboard.module.css";
 
 function Dashboard() {
-  const [courses, setCourses] = useState([]);
   const type = useAuth();
-  let navigate = useNavigate();
+  const toast = useRef();
+  const {
+    data: courses,
+    done,
+    isError,
+    fetchData: fetchCourses,
+  } = useFetch("/api/course");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    async function getCourses() {
-      let result = await fetch(`${process.env.API_URL}/api/course`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        redirect: "follow",
-      });
+    fetchCourses();
+  }, []);
 
-      let json = await result.json();
-      
-      setCourses(json);
-
-      json.forEach((course) => {
+  useEffect(() => {
+    if (courses) {
+      courses.forEach((course) => {
         localStorage.setItem(
           `${course._id}:name`,
           course.name
         );
       });
     }
-    getCourses();
-  }, []);
+  }, [courses]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.current.show("Error fetching courses");
+    }
+  }, [isError]);
 
   return (
     <div className={style.main}>
@@ -53,12 +59,17 @@ function Dashboard() {
             </button>
           )}
         </div>
-        <ul className={style.coursecontainer}>
-          {courses.map((course) => (
-            <CourseCard course={course} key={course._id} />
-          ))}
-        </ul>
+        {done ? (
+          <ul className={style.coursecontainer}>
+            {courses.map((course) => (
+              <CourseCard course={course} key={course._id} />
+            ))}
+          </ul>
+        ) : (
+          <Spinner />
+        )}
       </div>
+      <Toast ref={toast} />
     </div>
   );
 }

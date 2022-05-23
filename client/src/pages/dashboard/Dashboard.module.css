@@ -7,11 +7,12 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, 214px);
   gap: 4px;
-  width: 90vw;
+  width: 100%;
 }
 
 .page {
   margin-left: 35px;
+  width: 93vw;
 }
 
 .controls {

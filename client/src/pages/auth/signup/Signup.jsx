@@ -1,8 +1,10 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useFetch from "@hooks/useFetch.jsx";
 import Toast from "@components/toast/Toast.jsx";
-import style from "../Auth.module.css";
+import Spinner from "@components/spinner/Spinner.jsx";
 import Palette from "@assets/palette.svg";
+import style from "../Auth.module.css";
 
 function Signup() {
   const name = useRef();
@@ -11,6 +13,16 @@ function Signup() {
   const passwordRepeat = useRef();
   const isInstructor = useRef();
   const toast = useRef();
+
+  const {
+    data: user,
+    isError,
+    isLoading,
+    fetchData: signup,
+  } = useFetch("/api/auth/signup", {
+    method: "POST",
+  });
+
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
@@ -31,30 +43,25 @@ function Signup() {
       return;
     }
 
-    let result = await fetch(`${process.env.API_URL}/api/auth/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name.current.value,
-        email: email.current.value,
-        password: password.current.value,
-        type: isInstructor.current.checked ? "instructor" : "student",
-      }),
-      credentials: "include",
-      redirect: "follow",
+    signup({
+      name: name.current.value,
+      email: email.current.value,
+      password: password.current.value,
+      type: isInstructor.current.checked ? "instructor" : "student",
     });
-
-    if (result.status !== 200) {
-      toast.current.show("User with this email already exists!");
-      return;
-    }
-
-    let json = await result.json();
-
-    if (json.redirect) navigate(json.redirect);
   };
+
+  useEffect(() => {
+    if (isError) {
+      toast.current.show("Error signing up");
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   return (
     <div className={style.main}>
@@ -119,6 +126,7 @@ function Signup() {
           >
             Already have an account? Login!
           </a>
+          {isLoading && <Spinner />}
         </form>
       </div>
       <Toast ref={toast} />

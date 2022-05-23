@@ -24,6 +24,9 @@ module.exports = {
     "indent": [
       "error",
       2,
+      {
+        "SwitchCase": 1,
+      },
     ],
     "react/jsx-indent": [
       "error",
@@ -63,6 +66,12 @@ module.exports = {
         "arrays": "always-multiline",
         "objects": "always-multiline",
         "functions": "never",
+      },
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 110,
       },
     ],
   },
