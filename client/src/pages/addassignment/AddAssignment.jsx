@@ -98,7 +98,7 @@ function AddAssignment() {
     navigate(`/course/${courseId}/assignments`);
   };
 
-  return ( 
+  return (
     <div className={style.main}>
       <Navbar />
       <CourseNavbar />

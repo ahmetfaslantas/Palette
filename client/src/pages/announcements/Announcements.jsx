@@ -44,7 +44,7 @@ function Announcements() {
     getAnnouncements();
   }, []);
 
-  return ( 
+  return (
     <div className={style.main}>
       <Navbar />
       <CourseNavbar />
@@ -79,7 +79,7 @@ function Announcements() {
         )}
       </div>
       <Toast ref={toast} />
-    </div>                  
+    </div>
   );
 }
 

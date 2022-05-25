@@ -1,4 +1,5 @@
 {
     "title": "Test Announcement",
-    "content": "This is a test announcement"
+    "content": "This is a test announcement",
+    "comment": "This is a test comment"
 }

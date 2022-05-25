@@ -4,7 +4,6 @@ module.exports = {
     "browser": true,
     "es2021": true,
     "node": true,
-    "jest": true,
   },
   "extends": [
     "eslint:recommended",
@@ -65,6 +64,9 @@ module.exports = {
         "objects": "always-multiline",
         "functions": "never",
       },
+    ],
+    "no-trailing-spaces": [
+      "error",
     ],
   },
   "settings": {

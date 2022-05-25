@@ -23,7 +23,7 @@ function Dashboard() {
       });
 
       let json = await result.json();
-      
+
       setCourses(json);
 
       json.forEach((course) => {

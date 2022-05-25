@@ -58,7 +58,7 @@ function People() {
     getPeople();
   }, []);
 
-  return ( 
+  return (
     <div className={style.main}>
       <Navbar />
       <CourseNavbar />

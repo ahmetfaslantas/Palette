@@ -98,13 +98,13 @@ describe("Course operations", () => {
             .get(`/api/course/${courseId}`)
             .set("Cookie", studentToken)
             .send();
-        
+
         expect(response.status).toBe(200);
         expect(response.body.doneAssignments).toStrictEqual([]);
         expect(response.body.upcomingAssignments).toStrictEqual([]);
         expect(response.body.newAnnouncements).toStrictEqual([]);
     });
-    
+
     it("Should not delete a course (student)", async () => {
         const response = await request(app)
             .delete(`/api/course/${courseId}`)
@@ -113,7 +113,7 @@ describe("Course operations", () => {
 
         expect(response.status).toBe(401);
     });
-    
+
     it("Should delete a course (instructor)", async () => {
         const response = await request(app)
             .delete(`/api/course/${courseId}`)

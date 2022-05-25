@@ -78,7 +78,7 @@ describe("File operations", () => {
 
         fs.mkdirSync(
             `./files/uploads/courses/${courseId}/testdir`, { recursive: true });
-        
+
         fs.writeFileSync(
             `./files/uploads/courses/${courseId}/test.txt`,
             "Test file"
@@ -91,7 +91,7 @@ describe("File operations", () => {
 
         fs.mkdirSync(
             `./files/uploads/courses/${courseId2}/testdir`, { recursive: true });
-        
+
         fs.writeFileSync(
             `./files/uploads/courses/${courseId2}/test.txt`,
             "Test file"
@@ -141,7 +141,7 @@ describe("File operations", () => {
         expect(response.status).toBe(200);
         expect(response.body.toString()).toBe("Test file");
     });
-    
+
     it("Should return 404 if file not found", async () => {
         const response = await request(app)
             .get(`/api/files/course/${courseId}/testdir/test2.txt`)

@@ -1,5 +1,7 @@
 describe("Announcement operations", () => {
   before(function() {
+    cy.task("db:drop");
+
     cy.fixture("course.json").then((course) => {
       this.course = course;
     });
@@ -34,7 +36,7 @@ describe("Announcement operations", () => {
     cy.loginAsInstructor();
 
     cy.url().should("include", "/dashboard");
-  
+
     cy.createCourse();
     cy.addStudentToCourse();
 
@@ -81,5 +83,31 @@ describe("Announcement operations", () => {
 
     cy.findByText(this.announcement.title).should("exist");
     cy.findByText(this.announcement.content).should("exist");
+  });
+
+  it("Should be able to post a comment as a student", function() {
+    cy.loginAsStudent();
+
+    cy.url().should("include", "/dashboard");
+
+    cy.get("[src=\"/./public/announcement.svg\"]").click();
+
+    cy.url().should("include", "/announcement");
+
+    cy.findByText(this.announcement.title).click();
+
+    cy.url().should("include", "/announcement");
+
+    cy.findByText(this.announcement.title).should("exist");
+    cy.findByText(this.announcement.content).should("exist");
+
+    cy.get("[placeholder=\"Comment\"]").type(this.announcement.comment);
+
+    cy.findByText("Submit Comment").click();
+
+    cy.url().should("include", "/announcement/");
+
+    cy.findByText(this.announcement.comment).should("exist");
+    cy.findByText(this.auth.student.name).should("exist");
   });
 });

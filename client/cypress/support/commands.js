@@ -1,4 +1,5 @@
 import "@testing-library/cypress/add-commands";
+import "cypress-file-upload";
 
 Cypress.Commands.add("signUpAsInstructor", function() {
   cy.visit("/signup");
@@ -43,12 +44,12 @@ Cypress.Commands.add("loginAsInstructor", function() {
 
 Cypress.Commands.add("loginAsStudent", function() {
   cy.visit("/login");
-  
+
   cy.get("[placeholder=\"Email\"]").type(this.auth.student.email);
   cy.get("[placeholder=\"Password\"]").type(this.auth.student.password);
-  
+
   cy.contains("Student").click();
-  
+
   cy.get("[type=\"submit\"]").click();
 });
 
@@ -78,4 +79,23 @@ Cypress.Commands.add("addStudentToCourse", function() {
 
   cy.url().should("include", "/people");
   cy.visit("/");
+});
+
+Cypress.Commands.add("createAssignment", function() {
+  cy.visit("/dashboard");
+
+  cy.get("[src=\"/./public/assignment.svg\"]").click();
+
+  cy.findByText("Add Assignment").click();
+
+  cy.get("[placeholder=\"Assignment Name\"]").type(this.assignment.title);
+  cy.get("[placeholder=\"Assignment Description\"]").type(this.assignment.description);
+  cy.get("[placeholder=\"Assignment Due Date\"]").type(this.assignment.dueDate);
+  cy.get("[placeholder=\"Max Points\"]").type(this.assignment.maxPoints);
+  cy.get("input[type=\"file\"]").attachFile({
+    filePath: "testfile.txt",
+    mimeType: "text/plain",
+  });
+
+  cy.findByText("Create Assignment").click();
 });

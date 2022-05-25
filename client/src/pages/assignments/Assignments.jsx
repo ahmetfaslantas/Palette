@@ -53,7 +53,7 @@ function Assignments() {
             </button>
           )}
         </div>
-          
+
         {assignments.length === 0 ? (
           <div className={style.noassignments}>
             <img

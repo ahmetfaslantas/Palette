@@ -97,7 +97,7 @@ function AnnouncementDetails() {
           <p className={style.content}>{announcement.content}</p>
           <hr />
           <div className={style.commentcontrol}>
-            <textarea ref={comment} />
+            <textarea ref={comment} placeholder="Comment" />
             <button onClick={submitComment}>Submit Comment</button>
           </div>
           {announcement.comments.length > 0 && (

@@ -51,6 +51,9 @@ module.exports = {
                 "functions": "never",
             },
         ],
+        "no-trailing-spaces": [
+            "error",
+        ],
     },
     "ignorePatterns": [
         "node_modules/",

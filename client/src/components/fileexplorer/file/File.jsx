@@ -26,7 +26,7 @@ function File(props) {
     const link = document.createElement("a");
     link.href = url;
     link.setAttribute("download", item.name);
-    
+
     document.body.appendChild(link);
     link.click();
 
@@ -34,7 +34,7 @@ function File(props) {
     link.remove();
   };
 
-  return ( 
+  return (
     <div className={style.file} onClick={
       () => downloadFile(item)
     }>

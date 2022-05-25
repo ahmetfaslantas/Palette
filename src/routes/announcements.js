@@ -115,7 +115,7 @@ router.get(
     [authVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         let course = res.locals.course;
-        
+
         let announcement = course.announcements.find(
             (announcement) =>
                 announcement._id.toString() === req.params.announcementId
@@ -127,7 +127,7 @@ router.get(
 
         const publisher = await Instructor.findById(announcement.publisher);
 
-        const comments = 
+        const comments =
             await Promise.all(announcement.comments.map(async (comment) => {
                 let publisher = await Student.findById(comment.publisher);
 

@@ -76,7 +76,7 @@ function Signup() {
             ref={email}
             className={style.textbox}
           />
-          <input 
+          <input
             type="password"
             placeholder="Password"
             ref={password}

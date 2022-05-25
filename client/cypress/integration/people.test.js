@@ -1,5 +1,7 @@
 describe("People operations", () => {
   before(function() {
+    cy.task("db:drop");
+
     cy.fixture("auth.json").then((auth) => {
       this.auth = auth;
     });
@@ -16,7 +18,7 @@ describe("People operations", () => {
     cy.fixture("course.json").then((course) => {
       this.course = course;
     });
-      
+
     cy.fixture("auth.json").then((auth) => {
       this.auth = auth;
     });
@@ -24,7 +26,7 @@ describe("People operations", () => {
 
   it("Should add a student to a course as an instructor.", function() {
     cy.loginAsInstructor();
-    
+
     cy.url().should("include", "/dashboard");
 
     cy.createCourse();

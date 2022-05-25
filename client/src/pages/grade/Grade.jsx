@@ -33,7 +33,7 @@ function Grade() {
         toast.current.show("Failed to get submissions");
         return;
       }
-      
+
       const res = await result.json();
 
       setSubmissions(res.submissions);

@@ -123,7 +123,7 @@ router.get(
             res.status(404).send({
                 message: "File not found",
             });
-            
+
             return;
         }
 
@@ -137,11 +137,11 @@ router.post(
     [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         logger.info(`Creating new folder for course ${req.params.id}`);
-        
+
         let path = req.params["0"];
         let courseId = req.res.locals.course._id;
 
-        let newPath = `${process.env.UPLOAD_ROOT}/uploads/` + 
+        let newPath = `${process.env.UPLOAD_ROOT}/uploads/` +
             `courses/${courseId}/${path}`;
 
         if (fs.existsSync(newPath)) {
@@ -159,7 +159,7 @@ router.post(
 
 router.post(
     "/course/:id/upload/*",
-    [authVerify, instructorVerify, courseExistsVerify, 
+    [authVerify, instructorVerify, courseExistsVerify,
         userEnrolledVerify, courseUpload.array("files")],
     async (req, res) => {
         logger.info(`Uploading files for course ${req.params.id}`);
@@ -210,7 +210,7 @@ router.get(
             res.status(404).send({
                 message: "File not found",
             });
-            
+
             return;
         }
 

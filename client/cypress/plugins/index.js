@@ -7,11 +7,10 @@ module.exports = async (on) => {
     useNewUrlParser: true,
   });
 
-  on("before:spec", async () => {
-    await mongoose.connection.db.dropDatabase();
-  });
-
-  on("before:run", async () => {
-    await mongoose.connection.db.dropDatabase();
+  on("task", {
+    async "db:drop"() {
+      await mongoose.connection.db.dropDatabase();
+      return null;
+    },
   });
 };
