@@ -10,8 +10,8 @@ describe("Grading operations", () => {
       this.auth = auth;
     });
 
-    cy.fixture("assingment.json").then((assingment) => {
-      this.assingment = assingment;
+    cy.fixture("assignment.json").then((assignment) => {
+      this.assignment = assignment;
     });
 
     cy.signUpAsInstructor();
@@ -20,8 +20,10 @@ describe("Grading operations", () => {
     cy.loginAsInstructor();
     cy.createCourse();
     cy.addStudentToCourse();
+    cy.createAssignment();
 
-    cy.createAssingment();
+    cy.loginAsStudent();
+    cy.submitAssignment();
   });
 
   beforeEach(function() {
@@ -33,8 +35,30 @@ describe("Grading operations", () => {
       this.auth = auth;
     });
 
-    cy.fixture("assingment.json").then((assingment) => {
-      this.assingment = assingment;
+    cy.fixture("assignment.json").then((assignment) => {
+      this.assignment = assignment;
     });
+  });
+
+  it("Should be able to grade a student.", function() {
+    cy.loginAsInstructor();
+
+    cy.url().should("include", "/dashboard");
+
+    cy.findByText("Test Course").click();
+    cy.url().should("include", "/course");
+
+    cy.findByText("Assignments").click();
+    cy.url().should("include", "/assignments");
+
+    cy.findByText("Test Assignment").click();
+    cy.url().should("include", "/assignment");
+
+    cy.findByText("Grade").click();
+    cy.url().should("include", "/grade");
+
+    cy.get("[placeholder=\"Grade\"]").type(this.assignment.submission.points);
+
+    cy.findByText("Submit Grades").click();
   });
 });

@@ -1,6 +1,17 @@
 describe("Course operations", () => {
   before(function() {
     cy.task("db:drop");
+
+    cy.fixture("course.json").then((course) => {
+      this.course = course;
+    });
+
+    cy.fixture("auth.json").then((auth) => {
+      this.auth = auth;
+    });
+
+    cy.signUpAsInstructor();
+    cy.signUpAsStudent();
   });
 
   beforeEach(function() {
@@ -14,7 +25,6 @@ describe("Course operations", () => {
   });
 
   it("Should create a course as an instructor.", function() {
-    cy.signUpAsInstructor();
     cy.loginAsInstructor();
 
     cy.url().should("include", "/dashboard");
@@ -34,7 +44,6 @@ describe("Course operations", () => {
   });
 
   it("Should not create a course as a student.", function() {
-    cy.signUpAsStudent();
     cy.loginAsStudent();
 
     cy.url().should("include", "/dashboard");

@@ -32,6 +32,7 @@ Cypress.Commands.add("signUpAsStudent", function() {
 });
 
 Cypress.Commands.add("loginAsInstructor", function() {
+  cy.clearCookies();
   cy.visit("/login");
 
   cy.get("[placeholder=\"Email\"]").type(this.auth.instructor.email);
@@ -40,9 +41,12 @@ Cypress.Commands.add("loginAsInstructor", function() {
   cy.contains("Instructor").click();
 
   cy.get("[type=\"submit\"]").click();
+
+  cy.url().should("include", "/dashboard");
 });
 
 Cypress.Commands.add("loginAsStudent", function() {
+  cy.clearCookies();
   cy.visit("/login");
 
   cy.get("[placeholder=\"Email\"]").type(this.auth.student.email);
@@ -51,6 +55,8 @@ Cypress.Commands.add("loginAsStudent", function() {
   cy.contains("Student").click();
 
   cy.get("[type=\"submit\"]").click();
+
+  cy.url().should("include", "/dashboard");
 });
 
 Cypress.Commands.add("createCourse", function() {
@@ -98,4 +104,23 @@ Cypress.Commands.add("createAssignment", function() {
   });
 
   cy.findByText("Create Assignment").click();
+});
+
+Cypress.Commands.add("submitAssignment", function() {
+  cy.visit("/dashboard");
+
+  cy.findByText("Test Course").click();
+
+  cy.findByText("Assignments").click();
+
+  cy.findByText("Test Assignment").click();
+
+  cy.get("input[type=\"file\"]").attachFile({
+    filePath: "testfile.txt",
+    mimeType: "text/plain",
+  });
+
+  cy.findByText("Submit").click();
+
+  cy.findByText("testfile.txt").should("not.exist");
 });
