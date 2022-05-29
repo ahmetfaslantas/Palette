@@ -47,7 +47,7 @@ function Login() {
 
   useEffect(() => {
     if (isError) {
-      toast.current.show("Error logging in");
+      toast.current.show("Invalid email or password!");
     }
   }, [isError]);
 

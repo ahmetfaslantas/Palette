@@ -4,11 +4,11 @@ module.exports = {
     "browser": true,
     "es2021": true,
     "node": true,
-    "jest": true,
   },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:cypress/recommended",
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -73,6 +73,9 @@ module.exports = {
       {
         "code": 110,
       },
+    ],
+    "no-trailing-spaces": [
+      "error",
     ],
   },
   "settings": {

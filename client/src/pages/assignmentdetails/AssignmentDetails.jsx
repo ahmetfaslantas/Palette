@@ -152,7 +152,6 @@ function AssignmentDetails() {
                 })}
               </p>
             </div>
-        
             <div className={style.upload}>
               <div {...getRootProps()} className={style.files}>
                 <img src={FileUpload} alt="File Upload" />

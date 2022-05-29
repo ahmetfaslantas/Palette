@@ -63,7 +63,7 @@ describe("People operations", () => {
 
         courseId = courseResponse.body[0]._id;
     });
-    
+
     it("Should invite a student to a course (instructor)", async () => {
         const response = await request(app)
             .post(`/api/course/${courseId}/student`)

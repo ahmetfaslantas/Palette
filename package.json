@@ -13,8 +13,12 @@
     "start": "node src/index.js",
     "start-watch": "nodemon src/index.js",
     "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\"",
-    "clean": "rm -rf node_modules client/node_modules client/build coverage logs files",
-    "test": "jest ./tests/ --forceExit --coverage --runInBand"
+    "clean": "rm -rf node_modules coverage logs files",
+    "test:unit": "jest ./tests/ --forceExit --coverage --runInBand",
+    "cypress": "cd client && npm run test",
+    "cypress:interactive": "cd client && npm run test:interactive",
+    "test:e2e": "start-server-and-test dev http-get://localhost:8081 cypress",
+    "test:e2e:interactive": "start-server-and-test dev http-get://localhost:8081 cypress:interactive"
   },
   "keywords": [
     "LMS"
@@ -39,10 +43,12 @@
   },
   "devDependencies": {
     "concurrently": "^7.0.0",
+    "cypress-file-upload": "^5.0.8",
     "eslint": "^8.10.0",
     "eslint-plugin-react": "^7.29.4",
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
+    "start-server-and-test": "^1.14.0",
     "supertest": "^6.2.2"
   }
 }

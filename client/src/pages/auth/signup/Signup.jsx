@@ -53,7 +53,7 @@ function Signup() {
 
   useEffect(() => {
     if (isError) {
-      toast.current.show("Error signing up");
+      toast.current.show("User with this email already exists!");
     }
   }, [isError]);
 
@@ -83,7 +83,7 @@ function Signup() {
             ref={email}
             className={style.textbox}
           />
-          <input 
+          <input
             type="password"
             placeholder="Password"
             ref={password}

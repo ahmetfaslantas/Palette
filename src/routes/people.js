@@ -64,7 +64,7 @@ router.get(
 
 router.delete(
     "/:id/student",
-    [authVerify, instructorVerify, courseExistsVerify, studentExistsVerify, 
+    [authVerify, instructorVerify, courseExistsVerify, studentExistsVerify,
         userEnrolledVerify],
     async (req, res) => {
         logger.info(

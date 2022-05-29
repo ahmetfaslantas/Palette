@@ -103,7 +103,7 @@ function AddAssignment() {
     }
   }, [result]);
 
-  return ( 
+  return (
     <div className={style.main}>
       <Navbar />
       <CourseNavbar />
