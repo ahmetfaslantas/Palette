@@ -17,8 +17,8 @@
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-dropzone": "^12.0.4",
-    "react-router-dom": "^6.2.2"
+    "react-dropzone": "^12.1.0",
+    "react-router-dom": "^6.3.0"
   },
   "scripts": {
     "start": "webpack serve",
@@ -52,26 +52,26 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
-    "@babel/plugin-transform-runtime": "^7.17.0",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
-    "@babel/runtime": "^7.17.2",
+    "@babel/core": "^7.18.2",
+    "@babel/plugin-transform-runtime": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "@babel/runtime": "^7.18.3",
     "@testing-library/cypress": "^8.0.2",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
-    "cypress": "^9.6.1",
-    "dotenv": "^16.0.0",
+    "cypress": "^9.7.0",
+    "dotenv": "^16.0.1",
     "eslint-plugin-cypress": "^2.12.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
-    "mongoose": "^6.3.3",
+    "mongoose": "^6.3.4",
     "style-loader": "^3.3.1",
-    "stylelint": "^14.7.1",
+    "stylelint": "^14.8.5",
     "stylelint-config-standard": "^25.0.0",
-    "webpack": "^5.70.0",
+    "webpack": "^5.72.1",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "^4.9.0"
   }
 }
