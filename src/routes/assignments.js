@@ -64,7 +64,7 @@ router.delete(
 
         logger.info(
             `Deleting assignment ${req.body.assignmentId} ` +
-                `for course ${req.params.id}`
+            `for course ${req.params.id}`
         );
 
         if (
@@ -123,7 +123,7 @@ router.post(
     async (req, res) => {
         logger.info(
             `Submitting assignment ${req.params.assignmentId} for course ` +
-                `${req.params.id} by user ${res.locals.userId}`
+            `${req.params.id} by user ${res.locals.userId}`
         );
 
         const { files } = req.body;
@@ -136,7 +136,7 @@ router.post(
             if (
                 !fs.existsSync(
                     `${process.env.UPLOAD_ROOT}/uploads/students/` +
-                        `${res.locals.userId}/${file}`
+                    `${res.locals.userId}/${file}`
                 )
             ) {
                 return res.status(400).send({ error: "File not found" });
@@ -204,13 +204,50 @@ router.get(
     }
 );
 
+router.get(
+    "/:id/assignment/:assignmentId/grade",
+    [authVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        logger.info(
+            `Getting grade information for assignment ${req.params.assignmentId} ` +
+            `for course ${req.params.id}`
+        );
+
+        const course = res.locals.course;
+
+        let assignment = course.assignments.find(
+            (assignment) =>
+                assignment._id.toString() === req.params.assignmentId
+        );
+
+        if (!assignment) {
+            return res.status(400).send({ error: "Assignment not found" });
+        }
+
+        const gradesAverage = assignment.submissions.reduce(
+            (acc, submission) => {
+                return acc + submission.grade;
+            }, 0) / assignment.submissions.length;
+
+        const selfGrade = assignment.submissions.find(
+            (submission) => submission.studentId.toString() === res.locals.userId
+        ).grade;
+
+        res.status(200).send({
+            average: gradesAverage,
+            self: selfGrade,
+            maxPoints: assignment.maxPoints,
+        });
+    }
+);
+
 router.post(
     "/:id/assignment/:assignmentId/grade",
     [authVerify, instructorVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {
         logger.info(
             `Grading assignment ${req.params.assignmentId} for course ` +
-                `${req.params.id} by user ${res.locals.userId}`
+            `${req.params.id} by user ${res.locals.userId}`
         );
 
         const course = res.locals.course;
