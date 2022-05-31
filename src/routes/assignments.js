@@ -86,6 +86,51 @@ router.delete(
 );
 
 router.get(
+    "/:id/grades",
+    [authVerify, courseExistsVerify, userEnrolledVerify],
+    async (req, res) => {
+        const course = res.locals.course;
+
+        const grades = [];
+
+        course.assignments.forEach((assignment) => {
+            let average = 0;
+            let max = 0;
+            let min = Infinity;
+            let self = 0;
+
+            assignment.submissions.forEach((submission) => {
+                average += submission.grade;
+
+                if (submission.grade < min) {
+                    min = submission.grade;
+                }
+
+                if (submission.grade > max) {
+                    max = submission.grade;
+                }
+
+                if (submission.studentId.toString() === res.locals.userId) {
+                    self = submission.grade;
+                }
+            });
+
+            average = average / assignment.submissions.length;
+
+            grades.push({
+                id: assignment._id,
+                average: average,
+                max: max,
+                min: min,
+                self: self,
+            });
+        });
+
+        res.status(200).send(grades);
+    }
+);
+
+router.get(
     "/:id/assignment/:assignmentId",
     [authVerify, courseExistsVerify, userEnrolledVerify],
     async (req, res) => {

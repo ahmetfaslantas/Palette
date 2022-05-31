@@ -182,4 +182,19 @@ describe("Assignment operations", () => {
         expect(response.body.self).toBe(100);
         expect(response.body.average).toBe(100);
     });
+
+    it("Should get all assignments' grade information", async () => {
+        const response = await request(app)
+            .get(`/api/course/${courseId}/grades`)
+            .set("Cookie", token)
+            .send();
+
+        expect(response.status).toBe(200);
+        expect(response.body.length).toBe(1);
+        expect(response.body[0].self).toBe(100);
+        expect(response.body[0].average).toBe(100);
+        expect(response.body[0].max).toBe(100);
+        expect(response.body[0].min).toBe(100);
+        expect(response.body[0].id).toBeDefined();
+    });
 });
