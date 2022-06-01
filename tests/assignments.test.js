@@ -10,6 +10,7 @@ describe("Assignment operations", () => {
     let token = "";
     let courseId = "";
     let assignmentId = "";
+    let userId = "";
 
     beforeAll(async () => {
         await Course.deleteMany({});
@@ -29,6 +30,7 @@ describe("Assignment operations", () => {
         });
 
         token = loginResponse.headers["set-cookie"];
+        userId = loginResponse.body.id;
 
         await request(app)
             .post("/api/course/newcourse")
@@ -144,5 +146,56 @@ describe("Assignment operations", () => {
             });
 
         expect(response.status).toBe(200);
+    });
+
+    it("Should get all submissions for an assignment", async () => {
+        const response = await request(app)
+            .get(`/api/course/${courseId}/assignment/${assignmentId}/submissions`)
+            .set("Cookie", token)
+            .send();
+
+        expect(response.status).toBe(200);
+        expect(response.body.submissions.length).toBe(1);
+        expect(response.body.submissions[0].files.length).toBe(1);
+        expect(response.body.maxPoints).toBe(100);
+    });
+
+    it("Should grade an assignment", async () => {
+        const grades = {};
+        grades[userId] = 100;
+
+        const response = await request(app)
+            .post(`/api/course/${courseId}/assignment/${assignmentId}/grade`)
+            .set("Cookie", token)
+            .send({ grades });
+
+        expect(response.status).toBe(200);
+    });
+
+    it("Should get grade information for an assignment", async () => {
+        const response = await request(app)
+            .get(`/api/course/${courseId}/assignment/${assignmentId}/grade`)
+            .set("Cookie", token)
+            .send();
+
+        expect(response.status).toBe(200);
+        expect(response.body.self).toBe(100);
+        expect(response.body.average).toBe(100);
+    });
+
+    it("Should get all assignments' grade information", async () => {
+        const response = await request(app)
+            .get(`/api/course/${courseId}/grades`)
+            .set("Cookie", token)
+            .send();
+
+        expect(response.status).toBe(200);
+        expect(response.body.length).toBe(1);
+        expect(response.body[0].self).toBe(100);
+        expect(response.body[0].average).toBe(100);
+        expect(response.body[0].max).toBe(100);
+        expect(response.body[0].min).toBe(100);
+        expect(response.body[0].id).toBeDefined();
+        expect(response.body[0].name).toBe("Test Assignment");
     });
 });

@@ -61,4 +61,25 @@ describe("Grading operations", () => {
 
     cy.findByText("Submit Grades").click();
   });
+
+  it("Should be able to see assignment grades in the gradebook.", function() {
+    cy.loginAsStudent();
+
+    cy.url().should("include", "/dashboard");
+
+    cy.findByText("Test Course").click();
+    cy.url().should("include", "/course");
+
+    cy.findByText("Grades").click();
+    cy.url().should("include", "/grades");
+
+    cy.findByText("Test Assignment").should("exist");
+    cy.findByText(`${this.assignment.submission.points} / ${this.assignment.maxPoints}`).should("exist");
+
+    cy.get("details").click();
+
+    cy.findByText(`Max: ${this.assignment.submission.points}`).should("exist");
+    cy.findByText(`Min: ${this.assignment.submission.points}`).should("exist");
+    cy.findByText(`Average: ${this.assignment.submission.points}`).should("exist");
+  });
 });

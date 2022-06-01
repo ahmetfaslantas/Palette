@@ -4,6 +4,7 @@ import AnnouncementLogo from "@assets/announcement.svg";
 import AssignmentsLogo from "@assets/assignment.svg";
 import PeopleLogo from "@assets/people.svg";
 import CourseLogo from "@assets/courses.svg";
+import GradeLogo from "@assets/grade.svg";
 import style from "./CourseNavbar.module.css";
 
 function CourseNavbar() {
@@ -35,6 +36,12 @@ function CourseNavbar() {
         }}>
           <img src={AssignmentsLogo} alt="Assignments" />
           <p>Assignments</p>
+        </li>
+        <li className={style.item} onClick={() => {
+          navigate(`/course/${courseId}/grades`);
+        }}>
+          <img src={GradeLogo} alt="Grades" />
+          <p>Grades</p>
         </li>
         <li className={style.item} onClick={() => {
           navigate(`/course/${courseId}/files`);

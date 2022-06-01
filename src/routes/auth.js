@@ -65,7 +65,7 @@ router.post("/login", async (req, res) => {
         .cookie("token", token, { expires: new Date(Date.now() + 3600000) })
         .cookie("type", type === "student" ? "student" : "instructor",
             { expires: new Date(Date.now() + 3600000) })
-        .send({ message: "Logged in", redirect: "/" });
+        .send({ message: "Logged in", redirect: "/", id: user._id });
 });
 
 module.exports = router;
