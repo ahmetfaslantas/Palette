@@ -1,0 +1,40 @@
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.page {
+  margin-left: 35px;
+  width: 100%;
+}
+
+.page > * {
+  margin-left: 35px;
+}
+
+.grade {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: solid;
+  border-width: 1px;
+  border-color: lightgray;
+  border-radius: 5px;
+  margin-top: 5px;
+  width: 75%;
+}
+
+.grade * {
+  margin: 5px;
+}
+
+.grade img {
+  width: 20px;
+}
+
+.grade .gradingdetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

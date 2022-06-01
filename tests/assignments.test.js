@@ -196,5 +196,6 @@ describe("Assignment operations", () => {
         expect(response.body[0].max).toBe(100);
         expect(response.body[0].min).toBe(100);
         expect(response.body[0].id).toBeDefined();
+        expect(response.body[0].name).toBe("Test Assignment");
     });
 });

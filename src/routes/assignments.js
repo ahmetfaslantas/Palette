@@ -119,10 +119,12 @@ router.get(
 
             grades.push({
                 id: assignment._id,
+                name: assignment.name,
                 average: average,
                 max: max,
                 min: min,
                 self: self,
+                maxPoints: assignment.maxPoints,
             });
         });
 

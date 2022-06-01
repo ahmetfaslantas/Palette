@@ -19,6 +19,7 @@ import AnnouncementDetails from "@pages/announcementdetails/AnnouncementDetails.
 import CourseFiles from "@pages/coursefiles/CourseFiles.jsx";
 import People from "@pages/people/People.jsx";
 import Grade from "@pages/grade/Grade.jsx";
+import Grades from "@pages/grades/Grades.jsx";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -40,6 +41,7 @@ ReactDOM.render(
         <Route path="/course/:courseId/newstudent" element={<AddStudent />} />
         <Route path="/course/:courseId/files" element={<CourseFiles />} />
         <Route path="/course/:courseId/people" element={<People />} />
+        <Route path="/course/:courseId/grades" element={<Grades />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
