@@ -93,3 +93,11 @@
 .submit:hover {
   cursor: pointer;
 }
+
+.assignmentfiles li {
+  text-decoration: underline;
+}
+
+.assignmentfiles li:hover {
+  cursor: pointer;
+}

@@ -1,6 +1,7 @@
 describe("File operations", () => {
   before(function() {
     cy.task("db:drop");
+    cy.task("deleteDownloadedFiles");
 
     cy.fixture("course.json").then((course) => {
       this.course = course;

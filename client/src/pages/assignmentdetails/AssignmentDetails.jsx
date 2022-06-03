@@ -88,6 +88,33 @@ function AssignmentDetails() {
     });
   };
 
+  const downloadAssignmentFile = async (item) => {
+    const result = await fetch(
+      `${process.env.API_URL}/api/files/course/${courseId}/${item}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        redirect: "follow",
+      }
+    );
+
+    const blob = await result.blob();
+
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", item);
+
+    document.body.appendChild(link);
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+    link.remove();
+  };
+
   useEffect(() => {
     if (submissionDone) {
       navigate(0);
@@ -151,6 +178,15 @@ function AssignmentDetails() {
                   minute: "numeric",
                 })}
               </p>
+              <ul className={style.assignmentfiles}>
+                {assignment.files.map((file) => (
+                  <li className={style.file} key={file} onClick={() => {
+                    downloadAssignmentFile(file);
+                  }}>
+                    {file}
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className={style.upload}>
               <div {...getRootProps()} className={style.files}>

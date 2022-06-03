@@ -1,6 +1,7 @@
 describe("Assignment operations", () => {
   before(function() {
     cy.task("db:drop");
+    cy.task("deleteDownloadedFiles");
 
     cy.fixture("course.json").then((course) => {
       this.course = course;
@@ -82,6 +83,14 @@ describe("Assignment operations", () => {
     cy.findByText(this.assignment.title).click();
 
     cy.url().should("include", "/assignment/");
+
+    cy.findByText("testfile.txt").should("exist");
+
+    cy.findByText("testfile.txt").click();
+
+    const downloadsFolder = Cypress.config("downloadsFolder");
+
+    cy.readFile(`${downloadsFolder}/testfile.txt`).should("equal", "This is a test file.");
 
     cy.findByText(this.assignment.description).should("exist");
   });
