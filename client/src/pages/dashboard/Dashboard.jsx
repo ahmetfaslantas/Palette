@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "@hooks/useAuth.jsx";
 import useFetch from "@hooks/useFetch.jsx";
 import CourseCard from "@components/coursecard/CourseCard.jsx";
+import UpcomingList from "@components/upcominglist/UpcomingList.jsx";
 import Navbar from "@components/navbar/Navbar.jsx";
 import Title from "@components/title/Title.jsx";
 import Toast from "@components/toast/Toast.jsx";
@@ -60,11 +61,14 @@ function Dashboard() {
           )}
         </div>
         {done ? (
-          <ul className={style.coursecontainer}>
-            {courses.map((course) => (
-              <CourseCard course={course} key={course._id} />
-            ))}
-          </ul>
+          <div className={style.dashboard}>
+            <ul className={style.coursecontainer}>
+              {courses.map((course) => (
+                <CourseCard course={course} key={course._id} />
+              ))}
+            </ul>
+            <UpcomingList courses={courses} />
+          </div>
         ) : (
           <Spinner />
         )}

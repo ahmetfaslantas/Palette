@@ -18,15 +18,47 @@ router.get("/", authVerify, async (req, res) => {
     const user = await SelectedType.findById(res.locals.userId);
 
     const courses = await Course.find({ _id: { $in: user.courses } }, [
-        "-announcements",
-        "-assignments",
         "-students",
         "-instructors",
         "-submissions",
         "-__v",
     ]);
 
-    res.send(courses);
+    let courseDetails = [];
+    courses.forEach((course) => {
+        const upcomingAssignments = course.assignments.filter(
+            (assignment) => assignment.dueDate < Date.now() + 86400000 * 7 &&
+                assignment.dueDate > Date.now()
+        );
+
+        const newAnnouncements = course.announcements.filter(
+            (announcement) => announcement.date < Date.now() + 86400000 * 7 &&
+                announcement.date > Date.now()
+        );
+
+        courseDetails.push({
+            _id: course._id,
+            name: course.name,
+            description: course.description,
+            creationDate: course.creationDate,
+            upcomingAssignments: upcomingAssignments.map((assignment) => {
+                return {
+                    _id: assignment._id,
+                    name: assignment.name,
+                    dueDate: assignment.dueDate,
+                };
+            }),
+            newAnnouncements: newAnnouncements.map((announcement) => {
+                return {
+                    _id: announcement._id,
+                    title: announcement.title,
+                    date: announcement.date,
+                };
+            }),
+        });
+    });
+
+    res.send(courseDetails);
 });
 
 router.post("/newcourse", [authVerify, instructorVerify], async (req, res) => {
@@ -61,7 +93,7 @@ router.get(
 
         const course = res.locals.course;
 
-        const nearAssignments = await course.assignments.filter(
+        const nearAssignments = course.assignments.filter(
             (assignment) => assignment.dueDate < Date.now() + 86400000 * 7 &&
                 assignment.dueDate > Date.now()
         );

@@ -91,6 +91,7 @@ describe("Course operations", () => {
         expect(course.name).toBe("Test Course");
         expect(course.description).toBe("Test Description");
         expect(course.creationDate).toBeDefined();
+        expect(course.upcomingAssignments).toStrictEqual([]);
     });
 
     it("Should get the summary for a course", async () => {

@@ -15,6 +15,11 @@
   width: 93vw;
 }
 
+.dashboard {
+  display: flex;
+  flex-direction: row;
+}
+
 .controls {
   display: flex;
   flex-direction: row;

@@ -1,0 +1,45 @@
+.upcomingcontainer {
+  border: 1px solid #e6e6e6;
+  margin: 0;
+  padding: 2px;
+  border-radius: 5px;
+  list-style-type: none;
+  height: min-content;
+  width: 20%;
+}
+
+.upcomingcontainer .upcomingtitle {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.upcomingentry {
+  display: flex;
+  flex-direction: row;
+}
+
+.upcomingentry:hover {
+  cursor: pointer;
+  background-color: #eee;
+}
+
+.upcomingentry img {
+  width: 20px;
+  padding: 5px;
+}
+
+.upcomingdetails {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.upcomingdetails p {
+  margin: 0 0 0 5px;
+}
+
+.upcomingdetails p + p {
+  font-size: smaller;
+  color: #444;
+}
